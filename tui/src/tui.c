@@ -60,7 +60,7 @@ int ini_curses (void) {
 
     /* Zero color pair is initialized by start_color () */
     if (can_change_color ()) {
-        init_color (COLOR_BLACK, 0, 0, 0);
+        assume_default_colors (250, 16);
         init_pair (1, 196, 16);
         init_pair (2, 112, 16);
         init_pair (3, 80, 16);
