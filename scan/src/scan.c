@@ -162,9 +162,7 @@ void copy_serv_list_to_array (void) {
 
     last_serv_list_item = 0;
     serv_items_array_len = serv_items_list_len;
-    if (serv_items_array) {
-        free (serv_items_array);
-    } serv_items_array = malloc (sizeof (struct serv_item) * serv_items_array_len);
+    serv_items_array = malloc (sizeof (struct serv_item) * serv_items_array_len);
     for (i = 0; i < serv_items_list_len; ++i) {
         if (!last_serv_list_item) {
             last_serv_list_item = &serv_items_list;

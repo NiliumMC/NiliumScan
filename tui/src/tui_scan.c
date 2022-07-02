@@ -184,9 +184,10 @@ void start_scan_button (void) {
 
             is_scanning = 1;
             scan_status = scan_status_scanning;
-            /* if (serv_items_array)
-                free (serv_items_array); */
-            for (i = 0; i < num_threads; ++i) {
+            if (serv_items_array) {
+                free (serv_items_array);
+                serv_items_array = 0;
+            } for (i = 0; i < num_threads; ++i) {
                 pthread_create (&scan_threads [i], 0, start_scan, (void *) &sargs);
                 pthread_detach (scan_threads [i]);
             }
