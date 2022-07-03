@@ -26,6 +26,7 @@
 #define STATUS_SCAN_STR "SCANNING"
 #define STATUS_END_STR "SCANNED"
 
+int check_current_textfield (void);
 void start_scan_button (void);
 int parse_ports (char *, unsigned short *, unsigned short *);
 void print_scan_status (const int, const int);
