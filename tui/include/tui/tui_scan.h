@@ -7,6 +7,8 @@
  *
  *****************************************************************************/
 
+#include <pthread.h>
+
 enum scan_status_enum {
     scan_status_idle,
     scan_status_error,
@@ -16,5 +18,6 @@ enum scan_status_enum {
 
 int act_scan (const MEVENT *, const int, const int, const int, const char *);
 
+extern pthread_t *scan_threads;
 extern int scan_status;
 

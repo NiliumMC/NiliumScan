@@ -11,7 +11,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <strings.h>
-#include <pthread.h>
 
 #include "tui/tui_utils.h"
 #include "tui/tui_scan.h"
@@ -53,11 +52,7 @@ int act_scan (const MEVENT *mouse_event, int ch, const int y, const int x, const
     static int y_pos, x_pos;
     int tmp_current;
 
-    if (scan_status == scan_status_scanning && !is_scanning) {
-        scan_status = scan_status_end;
-        copy_serv_list_to_array ();
-        free (scan_threads);
-    } if (ch == OK) {
+    if (ch == OK) {
         scan_current = 0;
     }
 

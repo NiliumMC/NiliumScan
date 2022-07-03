@@ -86,12 +86,16 @@ void show_menu (void) {
 
     while ((ch = getch ()) && is_open) {
         if (scan_status == scan_status_scanning) {
-            if (ch == KEY_RESIZE) {
+            if (scan_status == scan_status_scanning && !is_scanning) {
+                scan_status = scan_status_end;
+                copy_serv_list_to_array ();
+                free (scan_threads);
+            } if (ch == KEY_RESIZE) {
                 getmaxyx (stdscr, y, x);
             } if (y < MIN_LINES || x < MIN_COLS) {
                     print_min_size (MIN_LINES, MIN_COLS, y, x);
                     refresh ();
-                    goto _key_loop_end; /* TODO: Endless loop fix */
+                    goto _key_loop_end;
             }
 
             print_main_box (y, x);
