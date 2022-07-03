@@ -86,6 +86,14 @@ void show_menu (void) {
 
     while ((ch = getch ()) && is_open) {
         if (scan_status == scan_status_scanning) {
+            if (ch == KEY_RESIZE) {
+                getmaxyx (stdscr, y, x);
+            } if (y < MIN_LINES || x < MIN_COLS) {
+                    print_min_size (MIN_LINES, MIN_COLS, y, x);
+                    refresh ();
+                    goto _key_loop_end; /* TODO: Endless loop fix */
+            }
+
             print_main_box (y, x);
             acts_list [0].func (0, OK, y, x, acts_list [0].name);
             goto _key_loop_end;
@@ -98,7 +106,6 @@ void show_menu (void) {
             goto _key_loop_end;
 
         if (ch == KEY_RESIZE) {
-            /* clear (); */
             getmaxyx (stdscr, y, x);
             if (y < MIN_LINES || x < MIN_COLS) {
                 print_min_size (MIN_LINES, MIN_COLS, y, x);
