@@ -35,13 +35,11 @@ int act_quit (const MEVENT *mouse_event, const int ch, const int y, const int x,
         quit_current = 1;
     }
 
-    if (ch == KEY_UP || ch == KEY_DOWN || ch == KEY_LEFT || ch == KEY_RIGHT ||
-        ch == 'h' || ch == 'j' || ch == 'k' || ch == 'l' ||
-        ch == '\t' || ch == KEY_STAB || ch == KEY_BTAB) {
+    if (check_move_key ()) {
         find_next_item (ch, 0, &quit_current, quit_buttons, BUTTONS_COUNT, 0, 0);
     }
 
-    if (ch == '\n' || ch == KEY_ENTER) {
+    if (check_enter_key ()) {
         if (quit_current == 0) {
             is_open = 0;
             return 0;

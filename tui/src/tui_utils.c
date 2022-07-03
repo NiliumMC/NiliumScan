@@ -232,3 +232,13 @@ void cursor_to_textfield (const int current_item, const struct tui_textfield *te
     }
 }
 
+int check_move_key (const int ch) {
+    return ch == KEY_UP || ch == KEY_DOWN || ch == KEY_LEFT || ch == KEY_RIGHT ||
+           ch == 'h' || ch == 'j' || ch == 'k' || ch == 'l' ||
+           ch == '\t' || ch == KEY_STAB || ch == KEY_BTAB;
+}
+
+int check_enter_key (const int ch) {
+    return ch == '\n' || ch == KEY_ENTER;
+}
+

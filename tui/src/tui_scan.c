@@ -80,14 +80,12 @@ int act_scan (const MEVENT *mouse_event, int ch, const int y, const int x, const
         scan_status = scan_status_idle;
     }
 
-    if (ch == KEY_UP || ch == KEY_DOWN || ch == KEY_LEFT || ch == KEY_RIGHT ||
-        ch == 'h' || ch == 'j' || ch == 'k' || ch == 'l' ||
-        ch == '\t' || ch == KEY_STAB || ch == KEY_BTAB) {
+    if (check_move_key ()) {
         scan_current = find_next_item (ch, 0, &scan_current, scan_buttons, BUTTONS_COUNT, scan_textfields, TEXTFIELDS_COUNT);
         scan_status = scan_status_idle;
     }
 
-    if (ch == '\n' || ch == KEY_ENTER) {
+    if (check_enter_key ()) {
         if (scan_current == 0) {
             start_scan_button ();
         } else if (scan_current == 1) {
@@ -168,9 +166,6 @@ void start_scan_button (void) {
     if (check_textfields ()) {
         if (parse_ports (scan_textfields [1].buf, &port_fst, &port_lst) && (num_threads = atoi (scan_textfields [3].buf))) {
             scan_threads = malloc (sizeof (pthread_t) * num_threads);
-
-            /* char *tmp_ip_buf = malloc (scan_textfields [0].buf_size + 1);
-            strncpy (tmp_ip_buf, scan_textfields [0].buf, scan_textfields [0].buf_size); */
 
             sargs.ip = scan_textfields [0].buf;
             sargs.ip_len = scan_textfields [0].buf_size;
