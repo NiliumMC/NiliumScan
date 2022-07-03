@@ -173,8 +173,9 @@ void start_scan_button (void) {
     if (check_textfields ()) {
         if (parse_ports (scan_textfields [1].buf, &port_fst, &port_lst) && (num_threads = atoi (scan_textfields [3].buf))) {
             scan_threads = malloc (sizeof (pthread_t) * num_threads);
+
             char *tmp_ip_buf = malloc (scan_textfields [0].buf_size);
-            strcpy (tmp_ip_buf, scan_textfields [0].buf);
+            strncpy (tmp_ip_buf, scan_textfields [0].buf, scan_textfields [0].buf_size);
 
             sargs.ip = tmp_ip_buf;
             sargs.ip_len = scan_textfields [0].buf_size;

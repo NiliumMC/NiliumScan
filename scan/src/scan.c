@@ -202,7 +202,7 @@ void copy_serv_list_to_array (void) {
 
 void free_serv_item (struct serv_item *serv_item_ptr) {
     if (serv_item_ptr->ip) {
-        free (serv_item_ptr->ip);
+        // free (serv_item_ptr->ip);
         serv_item_ptr->ip = 0;
     }
 
