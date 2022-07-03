@@ -33,6 +33,7 @@ unsigned int serv_items_array_len;
 int get_serv (struct scan_args *, const unsigned short);
 char *copy_json_string (const char *, const unsigned int);
 void copy_serv_to_another (struct serv_item *, const struct serv_item *);
+void free_serv_item (struct serv_item *);
 
 /* TODO: Check if mutex is needed */
 void * start_scan (void * sargs) {
@@ -175,11 +176,14 @@ void copy_serv_list_to_array (void) {
         for (i = 0; i < serv_items_list_len - 1; ++i) {
             /* if (!last_serv_list_item) break; */
             tmp_item_ptr = last_serv_list_item->next;
+            free_serv_item (last_serv_list_item);
             free (last_serv_list_item);
             last_serv_list_item = tmp_item_ptr;
         }
     }
 
+    free_serv_item (&serv_items_list);
+    /*
     serv_items_list.ip = 0;
     serv_items_list.port = 0;
     if (serv_items_list.version) {
@@ -191,7 +195,28 @@ void copy_serv_list_to_array (void) {
     serv_items_list.online = 0;
     serv_items_list.slots = 0;
     serv_items_list.next = 0;
+    */
 
     serv_items_list_len = 0;
+}
+
+void free_serv_item (struct serv_item *serv_item_ptr) {
+    if (serv_item_ptr->ip) {
+        free (serv_item_ptr->ip);
+        serv_item_ptr->ip = 0;
+    }
+
+    serv_item_ptr->port = 0;
+    if (serv_item_ptr->version) {
+        free (serv_item_ptr->version);
+        serv_item_ptr->version = 0;
+    } if (serv_item_ptr->motd) {
+        free (serv_item_ptr->motd);
+        serv_item_ptr->motd = 0;
+    }
+
+    serv_item_ptr->online = 0;
+    serv_item_ptr->slots = 0;
+    serv_item_ptr->next = 0;
 }
 

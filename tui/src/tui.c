@@ -27,8 +27,8 @@
 #define ACTS_COUNT 2
 
 void print_main_box (const int, const int);
-void print_servers (const int);
-void print_server (const int, const int);
+void print_servers (const unsigned int);
+void print_server (const unsigned int, const unsigned int);
 
 int ltc_menu_pos_x; /* Left-Top corner of menu position by horizontal */
 
@@ -153,8 +153,8 @@ void print_main_box (const int y, const int x) {
     refresh ();
 }
 
-void print_servers (const int y) {
-    int i;
+void print_servers (const unsigned int y) {
+    unsigned int i;
 
     if (scan_status != scan_status_scanning && serv_items_array_len) {
         mvprintw (0, 0, "%d", serv_items_array_len);
@@ -164,7 +164,7 @@ void print_servers (const int y) {
     }
 }
 
-void print_server (const int y, const int i) {
+void print_server (const unsigned int y, const unsigned int i) {
     mvprintw (y, 2, "%s       %d %d/%d        %s                        %s",
               serv_items_array [i].ip,
               serv_items_array [i].port,

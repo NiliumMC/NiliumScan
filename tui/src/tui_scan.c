@@ -51,7 +51,6 @@ int check_textfields (void);
 
 int act_scan (const MEVENT *mouse_event, int ch, const int y, const int x, const char *name) {
     static int y_pos, x_pos;
-    unsigned int i;
     int tmp_current;
 
     if (scan_status == scan_status_scanning && !is_scanning) {
@@ -169,13 +168,15 @@ int check_current_textfield (void) {
 
 void start_scan_button (void) {
     unsigned short port_fst, port_lst, num_threads;
-    int i;
+    unsigned int i;
 
     if (check_textfields ()) {
         if (parse_ports (scan_textfields [1].buf, &port_fst, &port_lst) && (num_threads = atoi (scan_textfields [3].buf))) {
             scan_threads = malloc (sizeof (pthread_t) * num_threads);
+            char *tmp_ip_buf = malloc (scan_textfields [0].buf_size);
+            strcpy (tmp_ip_buf, scan_textfields [0].buf);
 
-            sargs.ip = scan_textfields [0].buf;
+            sargs.ip = tmp_ip_buf;
             sargs.ip_len = scan_textfields [0].buf_size;
             sargs.protocol = atoi (scan_textfields [2].buf);
             sargs.timeout = atoi (scan_textfields [4].buf);
@@ -185,7 +186,9 @@ void start_scan_button (void) {
             is_scanning = 1;
             scan_status = scan_status_scanning;
             if (serv_items_array) {
-                free (serv_items_array);
+                for (i = 0; i < serv_items_array_len; ++i) {
+                    free_serv_item (&serv_items_array [i]);
+                } free (serv_items_array);
                 serv_items_array = 0;
             } for (i = 0; i < num_threads; ++i) {
                 pthread_create (&scan_threads [i], 0, start_scan, (void *) &sargs);

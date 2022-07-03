@@ -129,6 +129,7 @@ int textfield_get_next (const struct tui_textfield *textfield, int direction) {
     } else if (direction == direct_right) {
         return textfield->right_id;
     }  /* `else {}` is optimized */
+    return -1;
 }
 
 int button_get_next (const struct tui_button *button, int direction) {
@@ -141,6 +142,7 @@ int button_get_next (const struct tui_button *button, int direction) {
     } else if (direction == direct_right) {
         return button->right_id;
     } /* `else {}` is optimized */
+    return -1;
 }
 
 int find_next_item (const int ch, const MEVENT *mouse_event, int *current_item, const struct tui_button *buttons, const int num_buttons, const struct tui_textfield *textfields, const int num_textfields) {

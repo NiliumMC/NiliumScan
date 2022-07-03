@@ -35,4 +35,5 @@ extern unsigned int serv_items_array_len;
 
 void * start_scan (void *);
 void copy_serv_list_to_array (void);
+void free_serv_item (struct serv_item *);
 
