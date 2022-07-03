@@ -25,6 +25,10 @@ struct scan_args {
     unsigned short port_lst;
 };
 
+void * start_scan (void *);
+void copy_serv_list_to_array (void);
+void free_serv_item (struct serv_item *);
+
 extern int is_scanning;
 extern struct serv_item serv_items_list;
 extern struct serv_item *last_serv_list_item;
@@ -32,8 +36,4 @@ extern unsigned int serv_items_list_len;
 
 extern struct serv_item *serv_items_array;
 extern unsigned int serv_items_array_len;
-
-void * start_scan (void *);
-void copy_serv_list_to_array (void);
-void free_serv_item (struct serv_item *);
 

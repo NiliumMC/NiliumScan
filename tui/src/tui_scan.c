@@ -26,6 +26,11 @@
 #define STATUS_SCAN_STR "SCANNING"
 #define STATUS_END_STR "SCANNED"
 
+void start_scan_button (void);
+int parse_ports (char *, unsigned short *, unsigned short *);
+void print_scan_status (const int, const int);
+int check_textfields (void);
+
 struct tui_button scan_buttons [BUTTONS_COUNT] = { { 0, 0, COLOR_PAIR (3), "Start Scan", 10, 0, 4, 0, 6, 1 },
                                                    { 0, 0, COLOR_PAIR (1), "Cancel", 6, 1, 4, 1, 0, 2 } };
 
@@ -42,12 +47,6 @@ struct scan_args sargs;
 
 int scan_current,
     scan_status;
-
-int check_current_textfield (void);
-void start_scan_button (void);
-int parse_ports (char *, unsigned short *, unsigned short *);
-void print_scan_status (const int, const int);
-int check_textfields (void);
 
 int act_scan (const MEVENT *mouse_event, int ch, const int y, const int x, const char *name) {
     static int y_pos, x_pos;
@@ -229,6 +228,7 @@ void print_scan_status (const int y, const int x) {
         addstr (STATUS_ERR_STR);
         attroff (COLOR_PAIR (1));
     } else if (scan_status == scan_status_scanning) {
+        /* TODO: Print Scanning Percentage */
         attron (COLOR_PAIR (3));
         addstr (STATUS_SCAN_STR);
         attroff (COLOR_PAIR (3));

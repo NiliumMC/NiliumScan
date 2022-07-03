@@ -42,9 +42,6 @@ struct tui_textfield {
               right_id;
 };
 
-extern struct serv_item *serv_items_array;
-extern unsigned int serv_items_array_len;
-
 void print_min_size (const int, const int, const int, const int);
 void print_clear_win_at (const int, const int, const int, const int, const char *);
 void print_tui_buttons (const int, const struct tui_button *, const int);
@@ -52,4 +49,7 @@ void print_tui_textfields (const int, const struct tui_textfield *, const int);
 int find_next_item (const int, const MEVENT *, int *, const struct tui_button *, const int, const struct tui_textfield *, const int);
 void enter_to_textfield (const int, const int, struct tui_textfield *, const int);
 void cursor_to_textfield (const int, const struct tui_textfield *, const int);
+
+extern struct serv_item *serv_items_array;
+extern unsigned int serv_items_array_len;
 

@@ -18,11 +18,11 @@
 
 #include "scan/scan_utils.h"
 
-const char request_packet [2] = { 0x01, 0x00 };
-const char handshake_packet_id = 0x00;
-
 int read_varint (const unsigned int);
 int write_varint (int, char *);
+
+const char request_packet [2] = { 0x01, 0x00 };
+const char handshake_packet_id = 0x00;
 
 int connection_init (const unsigned int sock, const char *ip, const unsigned short port, const int timeout) {
     struct timeval tv_timeout;

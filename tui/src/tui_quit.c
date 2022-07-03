@@ -17,11 +17,10 @@
 #define BUTTONS_COUNT 2
 
 int is_open = 1;
+int quit_current = 1;
 
 struct tui_button quit_buttons [BUTTONS_COUNT] = { { 0, 0, COLOR_PAIR (2), "Yes", 3, 0, 0, 0, 1, 1 },
                                                    { 0, 0, COLOR_PAIR (1), "No", 2, 1, 1, 1, 0, 0 } };
-
-int quit_current = 1;
 
 int act_quit (const MEVENT *mouse_event, const int ch, const int y, const int x, const char *name) {
     int y_pos, x_pos, tmp_current;

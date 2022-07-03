@@ -21,6 +21,11 @@
 #define STR_NULL "[NULL]"
 #define STR_NULL_LEN 7
 
+int get_serv (struct scan_args *, const unsigned short);
+char *copy_json_string (const char *, const unsigned int);
+void copy_serv_to_another (struct serv_item *, const struct serv_item *);
+void free_serv_item (struct serv_item *);
+
 int is_scanning;
 
 struct serv_item serv_items_list;
@@ -29,11 +34,6 @@ unsigned int serv_items_list_len;
 
 struct serv_item *serv_items_array;
 unsigned int serv_items_array_len;
-
-int get_serv (struct scan_args *, const unsigned short);
-char *copy_json_string (const char *, const unsigned int);
-void copy_serv_to_another (struct serv_item *, const struct serv_item *);
-void free_serv_item (struct serv_item *);
 
 /* TODO: Check if mutex is needed */
 void * start_scan (void * sargs) {

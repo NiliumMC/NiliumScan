@@ -7,7 +7,7 @@
  *
  *****************************************************************************/
 
-extern int is_open;
-
 int act_quit (const MEVENT *, const int, const int, const int, const char *);
+
+extern int is_open;
 

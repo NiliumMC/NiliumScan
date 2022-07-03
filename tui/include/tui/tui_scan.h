@@ -14,7 +14,7 @@ enum scan_status_enum {
     scan_status_end
 };
 
-extern int scan_status;
-
 int act_scan (const MEVENT *, const int, const int, const int, const char *);
+
+extern int scan_status;
 
