@@ -77,9 +77,9 @@ int get_serv (struct scan_args *sargs, const unsigned short port) {
         return 0;
     } json_tokener_free (tokener_ex);
 
-    this_serv_item = malloc (sizeof (struct serv_item));
-    bzero (this_serv_item, sizeof (struct serv_item));
     if (serv_items_list_len) {
+        this_serv_item = malloc (sizeof (struct serv_item));
+        bzero (this_serv_item, sizeof (struct serv_item));
         this_serv_item->ip = sargs->ip;
         this_serv_item->port = port;
 
@@ -164,10 +164,9 @@ void copy_serv_list_to_array (void) {
     last_serv_list_item = 0;
     serv_items_array_len = serv_items_list_len;
     serv_items_array = malloc (sizeof (struct serv_item) * serv_items_array_len);
+    last_serv_list_item = &serv_items_list;
     for (i = 0; i < serv_items_list_len; ++i) {
-        if (!last_serv_list_item) {
-            last_serv_list_item = &serv_items_list;
-        } copy_serv_to_another (&serv_items_array [i], last_serv_list_item);
+        copy_serv_to_another (&serv_items_array [i], last_serv_list_item);
         last_serv_list_item = last_serv_list_item->next;
     }
 
@@ -202,7 +201,8 @@ void copy_serv_list_to_array (void) {
 
 void free_serv_item (struct serv_item *serv_item_ptr) {
     if (serv_item_ptr->ip) {
-        // free (serv_item_ptr->ip);
+        if (serv_item_ptr->ip != serv_items_list.ip)
+            free (serv_item_ptr->ip);
         serv_item_ptr->ip = 0;
     }
 
