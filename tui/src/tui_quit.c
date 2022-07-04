@@ -48,7 +48,7 @@ int act_quit (const MEVENT *mouse_event, const int ch, const int y, const int x,
         }
     }
 
-    if (mouse_event && (mouse_event->bstate & BUTTON1_CLICKED || mouse_event->bstate & BUTTON3_CLICKED)) {
+    if (check_mouse_click (mouse_event)) {
         tmp_current = find_next_item (ch, mouse_event, &quit_current, quit_buttons, BUTTONS_COUNT, 0, 0);
 
         if (quit_current == tmp_current && tmp_current == 0) {
@@ -57,7 +57,7 @@ int act_quit (const MEVENT *mouse_event, const int ch, const int y, const int x,
         } if (quit_current == tmp_current && tmp_current == 1) {
             return 0;
         }
-    } if (mouse_event && (mouse_event->bstate & BUTTON1_DOUBLE_CLICKED || mouse_event->bstate & BUTTON3_DOUBLE_CLICKED)) {
+    } if (check_mouse_double_click (mouse_event)) {
         tmp_current = find_next_item (ch, mouse_event, &quit_current, quit_buttons, BUTTONS_COUNT, 0, 0);
 
         if (tmp_current >= 0) {

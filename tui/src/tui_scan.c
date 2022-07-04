@@ -94,7 +94,7 @@ int act_scan (const MEVENT *mouse_event, int ch, const int y, const int x, const
     }
 
 _check_mouse:
-    if (mouse_event && (mouse_event->bstate & BUTTON1_CLICKED || mouse_event->bstate & BUTTON3_CLICKED)) {
+    if (check_mouse_click (mouse_event)) {
         tmp_current = find_next_item (ch, mouse_event, &scan_current, scan_buttons, BUTTONS_COUNT, scan_textfields, TEXTFIELDS_COUNT);
         scan_status = scan_status_idle;
 
@@ -104,7 +104,7 @@ _check_mouse:
             curs_set (0);
             return 0;
         }
-    } if (mouse_event && (mouse_event->bstate & BUTTON1_DOUBLE_CLICKED || mouse_event->bstate & BUTTON3_DOUBLE_CLICKED)) {
+    } if (check_mouse_double_click (mouse_event)) {
         find_next_item (ch, mouse_event, &scan_current, scan_buttons, BUTTONS_COUNT, scan_textfields, TEXTFIELDS_COUNT);
         scan_status = scan_status_idle;
 

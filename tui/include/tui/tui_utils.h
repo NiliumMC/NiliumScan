@@ -51,6 +51,8 @@ void enter_to_textfield (const int, const int, struct tui_textfield *, const int
 void cursor_to_textfield (const int, const struct tui_textfield *, const int);
 int check_move_key (const int);
 int check_enter_key (const int);
+int check_mouse_click (const MEVENT *);
+int check_mouse_double_click (const MEVENT *);
 
 extern struct serv_item *serv_items_array;
 extern unsigned int serv_items_array_len;

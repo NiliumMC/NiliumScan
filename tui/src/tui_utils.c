@@ -244,3 +244,11 @@ int check_enter_key (const int ch) {
     return ch == '\n' || ch == KEY_ENTER;
 }
 
+int check_mouse_click (const MEVENT *mouse_event) {
+    return mouse_event && (mouse_event->bstate & BUTTON1_CLICKED || mouse_event->bstate & BUTTON3_CLICKED);
+}
+
+int check_mouse_double_click (const MEVENT *mouse_event) {
+    return mouse_event && (mouse_event->bstate & BUTTON1_DOUBLE_CLICKED || mouse_event->bstate & BUTTON3_DOUBLE_CLICKED);
+}
+
