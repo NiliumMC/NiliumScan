@@ -27,8 +27,8 @@
 #define ACTS_COUNT 2
 
 void print_main_box (const int, const int);
-void print_servers (const unsigned int, const int);
-void print_server (const unsigned int, const unsigned int, const char);
+void print_servers (const unsigned int, const unsigned int, const int);
+void print_server (const unsigned int, const unsigned int, const unsigned int, const char);
 
 int ltc_menu_pos_x; /* Left-Top corner of menu position by horizontal */
 
@@ -104,7 +104,7 @@ void show_menu (void) {
             }
 
             print_main_box (y, x);
-            print_servers (y - 2, OK);
+            print_servers (y - 2, x - 4, OK);
             acts_list [0].func (0, OK, y, x, acts_list [0].name);
             goto _key_loop_end;
         }
@@ -123,7 +123,7 @@ void show_menu (void) {
             }
 
             print_main_box (y, x);
-            print_servers (y - 2, OK);
+            print_servers (y - 2, x - 4, OK);
             for (i = 0; i < ACTS_COUNT; ++i)
                 if (acts_list [i].enabled)
                     acts_list [i].enabled = acts_list [i].func (0, ch, y, x, acts_list [i].name);
@@ -136,7 +136,7 @@ void show_menu (void) {
                 if (acts_list [i].enabled) {
                     if (!(acts_list [i].enabled = acts_list [i].func (ch == KEY_MOUSE ? &mouse_event : 0, ch, y, x, acts_list [i].name))) {
                         print_main_box (y, x);
-                        print_servers (y - 2, OK);
+                        print_servers (y - 2, x - 4, OK);
                     } goto _key_loop_end;
                 }
             } for (i = 0; i < ACTS_COUNT; ++i) {
@@ -146,7 +146,7 @@ void show_menu (void) {
                 }
             } if (check_move_key (ch)) {
                 print_main_box (y, x);
-                print_servers (y - 2, ch);
+                print_servers (y - 2, x - 4, ch);
             } if (check_enter_key (ch)) {
                 /* TODO: Handle This Type Of Keys */
             }
@@ -175,7 +175,7 @@ void print_main_box (const int y, const int x) {
     refresh ();
 }
 
-void print_servers (const unsigned int y, const int ch) {
+void print_servers (const unsigned int y, const unsigned int x, const int ch) {
     unsigned int i;
 
     if (ch == OK) {
@@ -199,15 +199,15 @@ _print_items:
         mvprintw (0, 0, "%d", serv_items_array_len);
         for (i = 0; items_shift + i < serv_items_array_len && i < y; ++i) {
             if (items_shift + i == current_serv_item) {
-                print_server (i + 1, items_shift + i, 1);
+                print_server (i + 1, x, items_shift + i, 1);
             } else {
-                print_server (i + 1, items_shift + i, 0);
+                print_server (i + 1, x, items_shift + i, 0);
             }
         }
     }
 }
 
-void print_server (const unsigned int y, const unsigned int i, const char is_highlighted) {
+void print_server (const unsigned int y, const unsigned int x, const unsigned int i, const char is_highlighted) {
     char *tmp_str;
 
     if (is_highlighted)
@@ -224,7 +224,7 @@ void print_server (const unsigned int y, const unsigned int i, const char is_hig
               tmp_str,
               params_list [3].len,
               serv_items_array [i].version,
-              params_list [4].len,
+              x - params_list [0].len - params_list [1].len - params_list [2].len - params_list [3].len - 4,
               serv_items_array [i].motd);
     free (tmp_str);
 

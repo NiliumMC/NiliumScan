@@ -30,6 +30,7 @@ And in the build folder you can see `tmcscan` binary.
 * Default Config
 * Scanning Servers from File
 * Servers Auth Type Check
+* Servers List Filters And Sort
 
 ### LICENSE
 TMCScan uses GNU GPL v3 license.  
