@@ -35,11 +35,11 @@ int act_quit (const MEVENT *mouse_event, const int ch, const int y, const int x,
         quit_current = 1;
     }
 
-    if (check_move_key ()) {
+    if (check_move_key (ch)) {
         find_next_item (ch, 0, &quit_current, quit_buttons, BUTTONS_COUNT, 0, 0);
     }
 
-    if (check_enter_key ()) {
+    if (check_enter_key (ch)) {
         if (quit_current == 0) {
             is_open = 0;
             return 0;

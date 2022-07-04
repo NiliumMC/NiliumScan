@@ -27,10 +27,13 @@
 #define ACTS_COUNT 2
 
 void print_main_box (const int, const int);
-void print_servers (const unsigned int);
-void print_server (const unsigned int, const unsigned int);
+void print_servers (const unsigned int, const int);
+void print_server (const unsigned int, const unsigned int, const char);
 
 int ltc_menu_pos_x; /* Left-Top corner of menu position by horizontal */
+
+unsigned int current_serv_item,
+             items_shift;
 
 const struct param params_list [PARAMS_COUNT] = { { "ip", 15, 'i' },
                                                   { "port", 5, 'p' },
@@ -106,6 +109,13 @@ void show_menu (void) {
         if (ch == ERR)
             goto _key_loop_end;
 
+        if (check_move_key (ch)) {
+            print_main_box (y, x);
+            print_servers (y - 2, ch);
+        } if (check_enter_key (ch)) {
+            /* TODO: Handle This Type Of Keys */
+        }
+
         if (ch == KEY_MOUSE && getmouse (&mouse_event) == ERR)
             goto _key_loop_end;
 
@@ -159,23 +169,47 @@ void print_main_box (const int y, const int x) {
     for (i = 0, x_pos = 2; i < ACTS_COUNT; x_pos += 2 + acts_list [i].len, ++i)
         print_act (y - 1, x, x_pos, &acts_list [i]);
 
-    print_servers (y + 1);
+    /* print_servers (y + 1, OK); */
 
     refresh ();
 }
 
-void print_servers (const unsigned int y) {
+void print_servers (const unsigned int y, const int ch) {
     unsigned int i;
 
+    if (ch == OK) {
+        goto _print_items;
+    } if (ch == 'j') {
+        if (current_serv_item + 1 < serv_items_array_len)
+            ++current_serv_item;
+
+        if (current_serv_item - items_shift == y)
+            ++items_shift;
+    } if (ch == 'k') {
+        if (current_serv_item)
+            --current_serv_item;
+
+        if (current_serv_item + 1 == items_shift)
+            --items_shift;
+    }
+
+_print_items:
     if (scan_status != scan_status_scanning && serv_items_array_len) {
         mvprintw (0, 0, "%d", serv_items_array_len);
-        for (i = 0; i < serv_items_array_len && i < y - 3; ++i) {
-            print_server (i + 1, i);
+        for (i = 0; items_shift + i < serv_items_array_len && i < y; ++i) {
+            if (items_shift + i == current_serv_item) {
+                print_server (i + 1, items_shift + i, 1);
+            } else {
+                print_server (i + 1, items_shift + i, 0);
+            }
         }
     }
 }
 
-void print_server (const unsigned int y, const unsigned int i) {
+void print_server (const unsigned int y, const unsigned int i, const char is_highlighted) {
+    if (is_highlighted)
+        attron (A_REVERSE);
+
     mvprintw (y, 2, "%s       %d %d/%d        %s                        %s",
               serv_items_array [i].ip,
               serv_items_array [i].port,
@@ -183,6 +217,9 @@ void print_server (const unsigned int y, const unsigned int i) {
               serv_items_array [i].slots,
               serv_items_array [i].version,
               serv_items_array [i].motd);
+
+    if (is_highlighted)
+        attroff (A_REVERSE);
 }
 
 void fin_curses (void) {

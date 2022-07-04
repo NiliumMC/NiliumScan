@@ -80,12 +80,12 @@ int act_scan (const MEVENT *mouse_event, int ch, const int y, const int x, const
         scan_status = scan_status_idle;
     }
 
-    if (check_move_key ()) {
+    if (check_move_key (ch)) {
         scan_current = find_next_item (ch, 0, &scan_current, scan_buttons, BUTTONS_COUNT, scan_textfields, TEXTFIELDS_COUNT);
         scan_status = scan_status_idle;
     }
 
-    if (check_enter_key ()) {
+    if (check_enter_key (ch)) {
         if (scan_current == 0) {
             start_scan_button ();
         } else if (scan_current == 1) {

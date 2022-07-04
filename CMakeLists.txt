@@ -10,7 +10,7 @@
 cmake_minimum_required (VERSION 3.10)
 
 project (tmcscan
-         VERSION 0.7
+         VERSION 0.8
          DESCRIPTION "TUI Minecraft Port Scanner"
          LANGUAGES C)
 
