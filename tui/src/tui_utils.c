@@ -60,7 +60,9 @@ void print_clear_win_at (const int y_pos, const int x_pos, const int height, con
     mvvline (y_pos + 1, x_pos + width - 1, ACS_VLINE, height - 2);
 
     mvaddch (y_pos, x_pos + 2, ACS_URCORNER);
+    attron (COLOR_PAIR (3));
     addstr (name);
+    attroff (COLOR_PAIR (3));
     addch (ACS_ULCORNER);
 }
 
