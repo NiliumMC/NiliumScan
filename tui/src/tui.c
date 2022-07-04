@@ -102,19 +102,13 @@ void show_menu (void) {
             }
 
             print_main_box (y, x);
+            print_servers (y - 2, OK);
             acts_list [0].func (0, OK, y, x, acts_list [0].name);
             goto _key_loop_end;
         }
 
         if (ch == ERR)
             goto _key_loop_end;
-
-        if (check_move_key (ch)) {
-            print_main_box (y, x);
-            print_servers (y - 2, ch);
-        } if (check_enter_key (ch)) {
-            /* TODO: Handle This Type Of Keys */
-        }
 
         if (ch == KEY_MOUSE && getmouse (&mouse_event) == ERR)
             goto _key_loop_end;
@@ -127,6 +121,7 @@ void show_menu (void) {
             }
 
             print_main_box (y, x);
+            print_servers (y - 2, OK);
             for (i = 0; i < ACTS_COUNT; ++i)
                 if (acts_list [i].enabled)
                     acts_list [i].enabled = acts_list [i].func (0, ch, y, x, acts_list [i].name);
@@ -137,15 +132,21 @@ void show_menu (void) {
                 continue;
             } for (i = 0; i < ACTS_COUNT; ++i) {
                 if (acts_list [i].enabled) {
-                    if (!(acts_list [i].enabled = acts_list [i].func (ch == KEY_MOUSE ? &mouse_event : 0, ch, y, x, acts_list [i].name)))
+                    if (!(acts_list [i].enabled = acts_list [i].func (ch == KEY_MOUSE ? &mouse_event : 0, ch, y, x, acts_list [i].name))) {
                         print_main_box (y, x);
-                    goto _key_loop_end;
+                        print_servers (y - 2, OK);
+                    } goto _key_loop_end;
                 }
             } for (i = 0; i < ACTS_COUNT; ++i) {
                 if (acts_list [i].bind == ch) {
                     acts_list [i].enabled = 1;
                     acts_list [i].func (0, OK, y, x, acts_list [i].name);
                 }
+            } if (check_move_key (ch)) {
+                print_main_box (y, x);
+                print_servers (y - 2, ch);
+            } if (check_enter_key (ch)) {
+                /* TODO: Handle This Type Of Keys */
             }
         }
 
@@ -168,8 +169,6 @@ void print_main_box (const int y, const int x) {
 
     for (i = 0, x_pos = 2; i < ACTS_COUNT; x_pos += 2 + acts_list [i].len, ++i)
         print_act (y - 1, x, x_pos, &acts_list [i]);
-
-    /* print_servers (y + 1, OK); */
 
     refresh ();
 }
