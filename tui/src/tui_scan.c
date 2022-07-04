@@ -105,14 +105,16 @@ _check_mouse:
             return 0;
         }
     } if (check_mouse_double_click (mouse_event)) {
-        find_next_item (ch, mouse_event, &scan_current, scan_buttons, BUTTONS_COUNT, scan_textfields, TEXTFIELDS_COUNT);
+        tmp_current = find_next_item (ch, mouse_event, &scan_current, scan_buttons, BUTTONS_COUNT, scan_textfields, TEXTFIELDS_COUNT);
         scan_status = scan_status_idle;
 
-        if (scan_current == 0) {
-            start_scan_button ();
-        } if (scan_current == 1) {
-            curs_set (0);
-            return 0;
+        if (tmp_current >= 0) {
+            if (scan_current == 0) {
+                start_scan_button ();
+            } if (scan_current == 1) {
+                curs_set (0);
+                return 0;
+            }
         }
     }
 
