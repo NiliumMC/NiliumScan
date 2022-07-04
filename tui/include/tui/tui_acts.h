@@ -9,7 +9,7 @@
 
 struct action {
     char *name;
-    size_t len;
+    int len;
     int (*func) (const MEVENT *, const int, const int, const int, const char *);
     char bind;
     int enabled;

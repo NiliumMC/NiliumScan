@@ -90,6 +90,8 @@ void show_menu (void) {
     while ((ch = getch ()) && is_open) {
         if (scan_status == scan_status_scanning) {
             if (scan_status == scan_status_scanning && !is_scanning) {
+                items_shift = 0;
+                current_serv_item = 0;
                 scan_status = scan_status_end;
                 copy_serv_list_to_array ();
                 free (scan_threads);
@@ -206,16 +208,25 @@ _print_items:
 }
 
 void print_server (const unsigned int y, const unsigned int i, const char is_highlighted) {
+    char *tmp_str;
+
     if (is_highlighted)
         attron (A_REVERSE);
 
-    mvprintw (y, 2, "%s       %d %d/%d        %s                        %s",
+    tmp_str = malloc (24);
+    sprintf (tmp_str, "%d/%d", serv_items_array [i].online, serv_items_array [i].slots);
+    mvprintw (y, 2, "%-*s %-*d %-*s %-*s %-*s",
+              params_list [0].len,
               serv_items_array [i].ip,
+              params_list [1].len,
               serv_items_array [i].port,
-              serv_items_array [i].online,
-              serv_items_array [i].slots,
+              params_list [2].len,
+              tmp_str,
+              params_list [3].len,
               serv_items_array [i].version,
+              params_list [4].len,
               serv_items_array [i].motd);
+    free (tmp_str);
 
     if (is_highlighted)
         attroff (A_REVERSE);
