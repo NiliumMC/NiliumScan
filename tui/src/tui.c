@@ -65,7 +65,6 @@ int ini_curses (void) {
     else
         return 0;
 
-    /* Zero color pair is initialized by start_color () */
     if (can_change_color ()) {
         assume_default_colors (231, 16);
         init_pair (1, 196, 16);
@@ -162,7 +161,7 @@ void show_menu (void) {
                     acts_list [i].enabled = 1;
                     acts_list [i].func (0, OK, y, x, acts_list [i].name);
                     goto _key_loop_end;
-                } else if ((i = check_mouse_pos_serv_list (y - 1, x - 3, &mouse_event)) >= 0) {
+                } else if ((i = check_mouse_pos_serv_list (y - 1, x - 2, &mouse_event)) >= 0) {
                     current_serv_item = i;
                     print_main_box (y, x);
                     print_servers (y - 2, x - 4, OK);
@@ -244,7 +243,7 @@ void print_server (const unsigned int y, const unsigned int x, const unsigned in
 
     tmp_str = malloc (24);
     sprintf (tmp_str, "%d/%d", serv_items_array [i].online, serv_items_array [i].slots);
-    mvprintw (y, 2, "%-*s %-*d %-*s %-*s %-*s",
+    mvprintw (y, 1, " %-*s %-*d %-*s %-*s %-*s",
               params_list [0].len,
               serv_items_array [i].ip,
               params_list [1].len,
@@ -253,7 +252,7 @@ void print_server (const unsigned int y, const unsigned int x, const unsigned in
               tmp_str,
               params_list [3].len,
               serv_items_array [i].version,
-              x - params_list [0].len - params_list [1].len - params_list [2].len - params_list [3].len - 4,
+              x - params_list [0].len - params_list [1].len - params_list [2].len - params_list [3].len - 3,
               serv_items_array [i].motd);
     free (tmp_str);
 
@@ -286,7 +285,7 @@ void fin_curses (void) {
 }
 
 int check_mouse_pos_serv_list (const int y, const int x, const MEVENT *mouse_event) {
-    if (items_shift + mouse_event->y - 1 < serv_items_array_len && mouse_event->y > 0 && mouse_event->y <= y && mouse_event->x > 1 && mouse_event->x <= x)
+    if (items_shift + mouse_event->y - 1 < serv_items_array_len && mouse_event->y > 0 && mouse_event->y <= y && mouse_event->x > 0 && mouse_event->x <= x)
         return items_shift + mouse_event->y - 1;
 
     return -1;
@@ -300,12 +299,16 @@ void print_current_item_num (const int y, const int x) {
         tmp_str = malloc (24);
         x_pos = sprintf (tmp_str, "%d/%d", current_serv_item + 1, serv_items_array_len);
         mvaddch (y - 1, x - x_pos - 3, ACS_LRCORNER);
+        attron (COLOR_PAIR (3));
         addstr (tmp_str);
+        attroff (COLOR_PAIR (3));
         addch (ACS_LLCORNER);
         free (tmp_str);
     } else {
         mvaddch (y - 1, x - 6, ACS_LRCORNER);
+        attron (COLOR_PAIR (1));
         addstr ("0/0");
+        attroff (COLOR_PAIR (1));
         addch (ACS_LLCORNER);
     }
 }
