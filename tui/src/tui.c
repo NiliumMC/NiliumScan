@@ -29,17 +29,20 @@
 void print_main_box (const int, const int);
 void print_servers (const unsigned int, const unsigned int, const int);
 void print_server (const unsigned int, const unsigned int, const unsigned int, const char);
+int check_mouse_pos_params (const MEVENT *);
+int check_mouse_pos_acts (const int, const MEVENT *);
+int check_mouse_pos_serv_list (const int, const int, const MEVENT *);
 
 int ltc_menu_pos_x; /* Left-Top corner of menu position by horizontal */
 
 unsigned int current_serv_item,
              items_shift;
 
-const struct param params_list [PARAMS_COUNT] = { { "ip", 15, 'i' },
-                                                  { "port", 5, 'p' },
-                                                  { "online", 10, 'o' },
-                                                  { "version", 27, 'v' },
-                                                  { "motd", 20 /* Limit ~59 */, 'm' } };
+const struct param params_list [PARAMS_COUNT] = { { "ip", 2, 15, 'i' },
+                                                  { "port", 4, 5, 'p' },
+                                                  { "online", 6, 10, 'o' },
+                                                  { "version", 7, 27, 'v' },
+                                                  { "motd", 4, 20, 'm' } };
 
 struct action acts_list [ACTS_COUNT] = { { "scan", 4, act_scan, 's', 0 },
                                          { "quit", 4, act_quit, 'q', 0 } };
@@ -78,8 +81,7 @@ int ini_curses (void) {
 
 void show_menu (void) {
     MEVENT mouse_event;
-    register int i, ch;
-    int y, x;
+    register int i, ch, y, x;
 
     getmaxyx (stdscr, y, x);
     if (y < MIN_LINES || x < MIN_COLS)
@@ -143,12 +145,35 @@ void show_menu (void) {
                 if (acts_list [i].bind == ch) {
                     acts_list [i].enabled = 1;
                     acts_list [i].func (0, OK, y, x, acts_list [i].name);
+                    goto _key_loop_end;
                 }
             } if (check_move_key (ch)) {
                 print_main_box (y, x);
                 print_servers (y - 2, x - 4, ch);
-            } if (check_enter_key (ch)) {
+            } else if (check_enter_key (ch)) {
                 /* TODO: Handle This Type Of Keys */
+            } else if (check_mouse_click (&mouse_event)) {
+                if ((i = check_mouse_pos_params (&mouse_event)) >= 0) {
+                    /* TODO: Sort */
+                } else if ((i = check_mouse_pos_acts (y - 1, &mouse_event)) >= 0) {
+                    acts_list [i].enabled = 1;
+                    acts_list [i].func (0, OK, y, x, acts_list [i].name);
+                    goto _key_loop_end;
+                } else if ((i = check_mouse_pos_serv_list (y - 1, x - 3, &mouse_event)) >= 0) {
+                    current_serv_item = i;
+                    print_main_box (y, x);
+                    print_servers (y - 2, x - 4, OK);
+                }
+            } else if ((i = check_mouse_double_click (&mouse_event)) >= 0) {
+                if (check_mouse_pos_params (&mouse_event) >= 0) {
+                    /* TODO: Sort */
+                } else if ((i = check_mouse_pos_acts (y - 1, &mouse_event)) >= 0) {
+                    acts_list [i].enabled = 1;
+                    acts_list [i].func (0, OK, y, x, acts_list [i].name);
+                    goto _key_loop_end;
+                } else {
+                    /* TODO: Server Action Dialog */
+                }
             }
         }
 
@@ -232,7 +257,34 @@ void print_server (const unsigned int y, const unsigned int x, const unsigned in
         attroff (A_REVERSE);
 }
 
+int check_mouse_pos_params (const MEVENT *mouse_event) {
+    register int i, pos;
+
+    for (i = 0, pos = 3; i < PARAMS_COUNT; pos += params_list [i].len + 1, ++i)
+        if (!mouse_event->y && mouse_event->x >= pos && mouse_event->x < pos + params_list [i].str_len)
+            return i;
+
+    return -1;
+}
+
+int check_mouse_pos_acts (const int y, const MEVENT *mouse_event) {
+    register int i, pos;
+
+    for (i = 0, pos = 3; i < ACTS_COUNT; pos += acts_list [i].len + 2, ++i)
+        if (mouse_event->y == y && mouse_event->x >= pos && mouse_event->x < pos + acts_list [i].len)
+            return i;
+
+    return -1;
+}
+
 void fin_curses (void) {
     endwin ();
+}
+
+int check_mouse_pos_serv_list (const int y, const int x, const MEVENT *mouse_event) {
+    if (items_shift + mouse_event->y - 1 < serv_items_array_len && mouse_event->y > 0 && mouse_event->y <= y && mouse_event->x > 1 && mouse_event->x <= x)
+        return items_shift + mouse_event->y - 1;
+
+    return -1;
 }
 

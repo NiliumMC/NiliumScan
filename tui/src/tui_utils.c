@@ -113,11 +113,11 @@ void print_tui_textfields (const int current_item, const struct tui_textfield *t
 }
 
 int check_mouse_pos_button (const struct tui_button *button, const int y_pos, const int x_pos) {
-    return y_pos == button->y_pos && (x_pos >= button->x_pos && x_pos <= button->x_pos + button->len + 1);
+    return y_pos == button->y_pos && x_pos >= button->x_pos && x_pos <= button->x_pos + button->len + 1;
 }
 
 int check_mouse_pos_textfield (const struct tui_textfield *textfield, const int y_pos, const int x_pos) {
-    return y_pos == textfield->y_pos && (x_pos >= textfield->x_pos && x_pos <= textfield->x_pos + textfield->len_name + textfield->len_buf + 3);
+    return y_pos == textfield->y_pos && x_pos >= textfield->x_pos && x_pos <= textfield->x_pos + textfield->len_name + textfield->len_buf + 3;
 }
 
 int textfield_get_next (const struct tui_textfield *textfield, int direction) {

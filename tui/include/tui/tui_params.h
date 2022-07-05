@@ -9,7 +9,8 @@
 
 struct param {
     char *name;
-    int len;
+    int str_len,
+        len;
     char bind;
 };
 
