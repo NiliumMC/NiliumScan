@@ -32,6 +32,7 @@ void print_server (const unsigned int, const unsigned int, const unsigned int, c
 int check_mouse_pos_params (const MEVENT *);
 int check_mouse_pos_acts (const int, const MEVENT *);
 int check_mouse_pos_serv_list (const int, const int, const MEVENT *);
+void print_current_item_num (const int, const int);
 
 int ltc_menu_pos_x; /* Left-Top corner of menu position by horizontal */
 
@@ -84,10 +85,12 @@ void show_menu (void) {
     register int i, ch, y, x;
 
     getmaxyx (stdscr, y, x);
-    if (y < MIN_LINES || x < MIN_COLS)
+    if (y < MIN_LINES || x < MIN_COLS) {
         print_min_size (MIN_LINES, MIN_COLS, y, x);
-    else
+    } else {
         print_main_box (y, x);
+        print_current_item_num (y, x);
+    }
 
     while ((ch = getch ()) && is_open) {
         if (scan_status == scan_status_scanning) {
@@ -221,12 +224,13 @@ void print_servers (const unsigned int y, const unsigned int x, const int ch) {
 
 _print_items:
     if (scan_status != scan_status_scanning && serv_items_array_len) {
-        mvprintw (0, 0, "%d", serv_items_array_len);
         for (i = 0; items_shift + i < serv_items_array_len && i < y; ++i) {
             if (items_shift + i == current_serv_item) {
                 print_server (i + 1, x, items_shift + i, 1);
+                print_current_item_num (y + 2, x + 4);
             } else {
                 print_server (i + 1, x, items_shift + i, 0);
+                print_current_item_num (y + 2, x + 4);
             }
         }
     }
@@ -286,5 +290,23 @@ int check_mouse_pos_serv_list (const int y, const int x, const MEVENT *mouse_eve
         return items_shift + mouse_event->y - 1;
 
     return -1;
+}
+
+void print_current_item_num (const int y, const int x) {
+    int x_pos;
+    char *tmp_str;
+
+    if (serv_items_array_len) {
+        tmp_str = malloc (24);
+        x_pos = sprintf (tmp_str, "%d/%d", current_serv_item + 1, serv_items_array_len);
+        mvaddch (y - 1, x - x_pos - 3, ACS_LRCORNER);
+        addstr (tmp_str);
+        addch (ACS_LLCORNER);
+        free (tmp_str);
+    } else {
+        mvaddch (y - 1, x - 6, ACS_LRCORNER);
+        addstr ("0/0");
+        addch (ACS_LLCORNER);
+    }
 }
 
