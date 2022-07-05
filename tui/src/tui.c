@@ -222,14 +222,13 @@ void print_servers (const unsigned int y, const unsigned int x, const int ch) {
     }
 
 _print_items:
+    print_current_item_num (y + 2, x + 4);
     if (scan_status != scan_status_scanning && serv_items_array_len) {
         for (i = 0; items_shift + i < serv_items_array_len && i < y; ++i) {
             if (items_shift + i == current_serv_item) {
                 print_server (i + 1, x, items_shift + i, 1);
-                print_current_item_num (y + 2, x + 4);
             } else {
                 print_server (i + 1, x, items_shift + i, 0);
-                print_current_item_num (y + 2, x + 4);
             }
         }
     }
