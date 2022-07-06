@@ -29,8 +29,6 @@
 void print_main_box (const int, const int);
 void print_servers (const unsigned int, const unsigned int, const int);
 void print_server (const unsigned int, const unsigned int, const unsigned int, const char);
-int check_mouse_pos_params (const MEVENT *);
-int check_mouse_pos_acts (const int, const MEVENT *);
 int check_mouse_pos_serv_list (const int, const int, const MEVENT *);
 void print_current_item_num (const int, const int);
 
@@ -149,15 +147,24 @@ void show_menu (void) {
                     acts_list [i].func (0, OK, y, x, acts_list [i].name);
                     goto _key_loop_end;
                 }
+            } for (i = 0; i < PARAMS_COUNT; ++i) {
+                if (params_list [i].bind == ch) {
+                    sort_servers (i);
+                    print_main_box (y, x);
+                    print_servers (y - 2, x - 4, OK);
+                    goto _key_loop_end;
+                }
             } if (check_move_key (ch)) {
                 print_main_box (y, x);
                 print_servers (y - 2, x - 4, ch);
             } else if (check_enter_key (ch)) {
                 /* TODO: Handle This Type Of Keys */
             } else if (check_mouse_click (&mouse_event)) {
-                if ((i = check_mouse_pos_params (&mouse_event)) >= 0) {
-                    /* TODO: Sort */
-                } else if ((i = check_mouse_pos_acts (y - 1, &mouse_event)) >= 0) {
+                if ((i = check_mouse_pos_params (&mouse_event, params_list, PARAMS_COUNT)) >= 0) {
+                    sort_servers (i);
+                    print_main_box (y, x);
+                    print_servers (y - 2, x - 4, OK);
+                } else if ((i = check_mouse_pos_acts (y - 1, &mouse_event, acts_list, ACTS_COUNT)) >= 0) {
                     acts_list [i].enabled = 1;
                     acts_list [i].func (0, OK, y, x, acts_list [i].name);
                     goto _key_loop_end;
@@ -167,9 +174,11 @@ void show_menu (void) {
                     print_servers (y - 2, x - 4, OK);
                 }
             } else if ((i = check_mouse_double_click (&mouse_event)) >= 0) {
-                if (check_mouse_pos_params (&mouse_event) >= 0) {
-                    /* TODO: Sort */
-                } else if ((i = check_mouse_pos_acts (y - 1, &mouse_event)) >= 0) {
+                if ((i = check_mouse_pos_params (&mouse_event, params_list, PARAMS_COUNT)) >= 0) {
+                    sort_servers (i);
+                    print_main_box (y, x);
+                    print_servers (y - 2, x - 4, OK);
+                } else if ((i = check_mouse_pos_acts (y - 1, &mouse_event, acts_list, ACTS_COUNT)) >= 0) {
                     acts_list [i].enabled = 1;
                     acts_list [i].func (0, OK, y, x, acts_list [i].name);
                     goto _key_loop_end;
@@ -196,7 +205,7 @@ void print_main_box (const int y, const int x) {
     for (i = 0, x_pos = 2; i < PARAMS_COUNT; x_pos += 1 + params_list [i].len, ++i)
         print_param (x, x_pos, &params_list [i]);
 
-    for (i = 0, x_pos = 2; i < ACTS_COUNT; x_pos += 2 + acts_list [i].len, ++i)
+    for (i = 0, x_pos = 1; i < ACTS_COUNT; x_pos += 2 + acts_list [i].len, ++i)
         print_act (y - 1, x, x_pos, &acts_list [i]);
 
     refresh ();
@@ -257,26 +266,6 @@ void print_server (const unsigned int y, const unsigned int x, const unsigned in
 
     if (is_highlighted)
         attroff (A_REVERSE);
-}
-
-int check_mouse_pos_params (const MEVENT *mouse_event) {
-    register int i, pos;
-
-    for (i = 0, pos = 3; i < PARAMS_COUNT; pos += params_list [i].len + 1, ++i)
-        if (!mouse_event->y && mouse_event->x >= pos && mouse_event->x < pos + params_list [i].str_len)
-            return i;
-
-    return -1;
-}
-
-int check_mouse_pos_acts (const int y, const MEVENT *mouse_event) {
-    register int i, pos;
-
-    for (i = 0, pos = 3; i < ACTS_COUNT; pos += acts_list [i].len + 2, ++i)
-        if (mouse_event->y == y && mouse_event->x >= pos && mouse_event->x < pos + acts_list [i].len)
-            return i;
-
-    return -1;
 }
 
 void fin_curses (void) {

@@ -14,7 +14,7 @@
 void print_act (const int y_pos, const int x, const int x_pos, const struct action *action_item) {
     int i, is_highlighted;
 
-    if (x_pos > x - 3) return;
+    if (x_pos > x - 3) return; /* TODO: Calculate X From Servers Count */
     mvaddch (y_pos, x_pos, ACS_LRCORNER);
     for (i = 0, is_highlighted = 0; action_item->name [i] && x_pos + i + 1 < x - 1; ++i) {
         if (action_item->name [i] == action_item->bind && !is_highlighted) {
@@ -26,5 +26,15 @@ void print_act (const int y_pos, const int x, const int x_pos, const struct acti
             addch (action_item->name [i]);
         }
     } if (x_pos + i + 1 < x - 1) addch (ACS_LLCORNER);
+}
+
+int check_mouse_pos_acts (const int y, const MEVENT *mouse_event, const struct action *actions_list, const int num_acts) {
+    register int i, pos;
+
+    for (i = 0, pos = 2; i < num_acts; pos += actions_list [i].len + 2, ++i)
+        if (mouse_event->y == y && mouse_event->x >= pos && mouse_event->x < pos + actions_list [i].len)
+            return i;
+
+    return -1;
 }
 

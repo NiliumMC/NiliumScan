@@ -16,4 +16,5 @@ struct action {
 };
 
 void print_act (const int, const int, const int, const struct action *);
+int check_mouse_pos_acts (const int, const MEVENT *, const struct action *, const int);
 

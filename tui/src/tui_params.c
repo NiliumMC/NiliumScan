@@ -28,3 +28,13 @@ void print_param (const int x, const int x_pos, const struct param *param_item) 
     } if (x_pos + i + 1 < x - 1) addch (ACS_ULCORNER);
 }
 
+int check_mouse_pos_params (const MEVENT *mouse_event, const struct param *params_list, const int num_params) {
+    register int i, pos;
+
+    for (i = 0, pos = 3; i < num_params; pos += params_list [i].len + 1, ++i)
+        if (!mouse_event->y && mouse_event->x >= pos && mouse_event->x < pos + params_list [i].str_len)
+            return i;
+
+    return -1;
+}
+
