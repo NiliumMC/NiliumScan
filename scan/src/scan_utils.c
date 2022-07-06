@@ -54,7 +54,7 @@ int send_request (const unsigned int sock, char **json_buf, const char *ip, cons
     char *handshake_buf,
          handshake_len_varint [5],
          protocol_varint [5],
-         ip_len_varint [2],
+         ip_len_varint [5],
          byte;
 
     unsigned int handshake_len,
@@ -123,7 +123,7 @@ int send_request (const unsigned int sock, char **json_buf, const char *ip, cons
 
     json_tmp_len = 0;
     while (json_tmp_len < json_len) {
-        if ((json_bytes_read = recv (sock, *json_buf + json_tmp_len, json_len, 0)) < 0) {
+        if ((json_bytes_read = recv (sock, *json_buf + json_tmp_len, json_len, 0)) <= 0) {
             close (sock);
             free (*json_buf);
             return 0;
