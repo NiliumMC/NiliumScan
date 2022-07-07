@@ -29,7 +29,6 @@
 void print_main_box (const int, const int);
 void print_servers (const unsigned int, const unsigned int, const int);
 void print_server (const unsigned int, const unsigned int, const unsigned int, const char);
-int check_mouse_pos_serv_list (const int, const int, const MEVENT *);
 void print_current_item_num (const int, const int);
 
 int ltc_menu_pos_x; /* Left-Top corner of menu position by horizontal */
@@ -168,7 +167,7 @@ void show_menu (void) {
                     acts_list [i].enabled = 1;
                     acts_list [i].func (0, OK, y, x, acts_list [i].name);
                     goto _key_loop_end;
-                } else if ((i = check_mouse_pos_serv_list (y - 1, x - 2, &mouse_event)) >= 0) {
+                } else if ((i = check_mouse_pos_serv_list (y - 2, x - 2, &mouse_event)) >= 0) {
                     current_serv_item = i;
                     print_main_box (y, x);
                     print_servers (y - 2, x - 4, OK);
@@ -216,13 +215,13 @@ void print_servers (const unsigned int y, const unsigned int x, const int ch) {
 
     if (ch == OK) {
         goto _print_items;
-    } if (ch == 'j') {
+    } if (ch == 'j' || ch == KEY_DOWN) {
         if (current_serv_item + 1 < serv_items_array_len)
             ++current_serv_item;
 
         if (current_serv_item - items_shift == y)
             ++items_shift;
-    } if (ch == 'k') {
+    } if (ch == 'k' || ch == KEY_UP) {
         if (current_serv_item)
             --current_serv_item;
 
@@ -275,13 +274,6 @@ void print_server (const unsigned int y, const unsigned int x, const unsigned in
 
 void fin_curses (void) {
     endwin ();
-}
-
-int check_mouse_pos_serv_list (const int y, const int x, const MEVENT *mouse_event) {
-    if (items_shift + mouse_event->y - 1 < serv_items_array_len && mouse_event->y > 0 && mouse_event->y <= y && mouse_event->x > 0 && mouse_event->x <= x)
-        return items_shift + mouse_event->y - 1;
-
-    return -1;
 }
 
 void print_current_item_num (const int y, const int x) {

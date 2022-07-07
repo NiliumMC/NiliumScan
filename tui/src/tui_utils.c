@@ -252,6 +252,13 @@ int check_mouse_double_click (const MEVENT *mouse_event) {
     return mouse_event && (mouse_event->bstate & BUTTON1_DOUBLE_CLICKED || mouse_event->bstate & BUTTON3_DOUBLE_CLICKED);
 }
 
+int check_mouse_pos_serv_list (const int y, const int x, const MEVENT *mouse_event) {
+    if (items_shift + mouse_event->y - 1 < serv_items_array_len && mouse_event->y > 0 && mouse_event->y <= y && mouse_event->x > 0 && mouse_event->x <= x)
+        return items_shift + mouse_event->y - 1;
+
+    return -1;
+}
+
 void sort_servers (const int param) {
     if (param == 0) {
         qsort (serv_items_array, serv_items_array_len, sizeof (struct serv_item), compare_serv_ip);
