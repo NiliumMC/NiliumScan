@@ -251,15 +251,20 @@ void print_server (const unsigned int y, const unsigned int x, const unsigned in
 
     tmp_str = malloc (24);
     sprintf (tmp_str, "%d/%d", serv_items_array [i].online, serv_items_array [i].slots);
-    mvprintw (y, 1, " %-*s %-*d %-*s %-*s %-*s",
+    mvprintw (y, 1, " %-*.*s %-*.*d %-*.*s %-*.*s %-*.*s",
+              params_list [0].len,
               params_list [0].len,
               serv_items_array [i].ip,
               params_list [1].len,
+              params_list [1].len,
               serv_items_array [i].port,
+              params_list [2].len,
               params_list [2].len,
               tmp_str,
               params_list [3].len,
+              params_list [3].len,
               serv_items_array [i].version,
+              x - params_list [0].len - params_list [1].len - params_list [2].len - params_list [3].len - 3,
               x - params_list [0].len - params_list [1].len - params_list [2].len - params_list [3].len - 3,
               serv_items_array [i].motd);
     free (tmp_str);
