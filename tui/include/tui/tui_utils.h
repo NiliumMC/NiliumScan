@@ -53,7 +53,7 @@ int check_move_key (const int);
 int check_enter_key (const int);
 int check_mouse_click (const MEVENT *);
 int check_mouse_double_click (const MEVENT *);
-int check_mouse_pos_serv_list (const int, const int, const MEVENT *);
+int check_mouse_pos_serv_list (const int, const int, const unsigned int, const MEVENT *);
 void sort_servers (const int);
 int compare_serv_ip (const void *, const void *);
 int compare_serv_ports (const void *, const void *);

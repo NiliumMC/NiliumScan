@@ -167,7 +167,7 @@ void show_menu (void) {
                     acts_list [i].enabled = 1;
                     acts_list [i].func (0, OK, y, x, acts_list [i].name);
                     goto _key_loop_end;
-                } else if ((i = check_mouse_pos_serv_list (y - 2, x - 2, &mouse_event)) >= 0) {
+                } else if ((i = check_mouse_pos_serv_list (y - 2, x - 2, items_shift, &mouse_event)) >= 0) {
                     current_serv_item = i;
                     print_main_box (y, x);
                     print_servers (y - 2, x - 4, OK);
