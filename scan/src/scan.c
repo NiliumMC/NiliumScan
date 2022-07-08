@@ -11,6 +11,7 @@
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#include <pthread.h>
 #include <arpa/inet.h>
 #include <string.h>
 #include <unistd.h>
@@ -28,6 +29,8 @@ void free_serv_item (struct serv_item *);
 
 int is_scanning;
 
+pthread_mutex_t scan_mutex;
+
 struct serv_item serv_items_list;
 struct serv_item *last_serv_list_item;
 unsigned int serv_items_list_len;
@@ -35,7 +38,6 @@ unsigned int serv_items_list_len;
 struct serv_item *serv_items_array;
 unsigned int serv_items_array_len;
 
-/* TODO: Check if mutex is needed */
 void * start_scan (void * sargs) {
     static unsigned short port_now;
 
@@ -54,6 +56,7 @@ void * start_scan (void * sargs) {
 
 /* TODO: Code refactoring */
 int get_serv (struct scan_args *sargs, const unsigned short port) {
+    pthread_mutex_unlock (&scan_mutex);
     struct serv_item *this_serv_item;
     int sock;
 
@@ -95,9 +98,11 @@ int get_serv (struct scan_args *sargs, const unsigned short port) {
         this_serv_item->online = json_object_get_int (json_object_object_get (certain_json_obj, "online"));
         this_serv_item->slots = json_object_get_int (json_object_object_get (certain_json_obj, "max"));
 
+        pthread_mutex_lock (&scan_mutex);
         last_serv_list_item->next = this_serv_item;
         last_serv_list_item = this_serv_item;
         ++serv_items_list_len;
+        pthread_mutex_unlock (&scan_mutex);
     } else {
         serv_items_list.ip = sargs->ip;
         serv_items_list.port = port;
@@ -113,8 +118,11 @@ int get_serv (struct scan_args *sargs, const unsigned short port) {
         certain_json_obj = json_object_object_get (parsed_json, "players");
         serv_items_list.online = json_object_get_int (json_object_object_get (certain_json_obj, "online"));
         serv_items_list.slots = json_object_get_int (json_object_object_get (certain_json_obj, "max"));
+
+        pthread_mutex_lock (&scan_mutex);
         last_serv_list_item = &serv_items_list;
         ++serv_items_list_len;
+        pthread_mutex_unlock (&scan_mutex);
     }
 
     /* free (this_serv_item); */

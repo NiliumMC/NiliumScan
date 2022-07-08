@@ -9,6 +9,9 @@
 
 project (scan)
 
+set (CMAKE_USE_PTHREADS_INIT ON)
+include (FindThreads)
+
 find_package(json-c REQUIRED NO_MODULE)
 
 set (SCAN_SOURCES
@@ -22,5 +25,6 @@ target_include_directories (${PROJECT_NAME}
                             PUBLIC ${PROJECT_SOURCE_DIR}/include)
 
 target_link_libraries (${PROJECT_NAME}
+                       PRIVATE Threads::Threads
                        PRIVATE json-c::json-c)
 
