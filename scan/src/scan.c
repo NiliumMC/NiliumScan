@@ -43,10 +43,12 @@ void * start_scan (void * sargs) {
 
     if (is_scanning && !port_now) {
         port_now = ((struct scan_args *) sargs)->port_fst;
-    } while (is_scanning && port_now <= ((struct scan_args *) sargs)->port_lst) {
+    } while (is_scanning && !pthread_mutex_lock (&scan_mutex) && port_now <= ((struct scan_args *) sargs)->port_lst) {
         get_serv ((struct scan_args *) sargs, port_now++);
-        if (port_now == 0)
+        if (port_now == 0) {
+            pthread_mutex_unlock (&scan_mutex);
             break;
+        }
     }
 
     is_scanning = 0;
