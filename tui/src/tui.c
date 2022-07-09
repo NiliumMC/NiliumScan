@@ -154,7 +154,6 @@ void show_menu (void) {
                     goto _key_loop_end;
                 }
             } if (check_move_key (ch)) {
-                print_main_box (y, x);
                 print_servers (y - 2, x - 4, ch);
             } else if (check_enter_key (ch)) {
                 /* TODO: Handle This Type Of Keys */
@@ -216,17 +215,31 @@ void print_servers (const unsigned int y, const unsigned int x, const int ch) {
     if (ch == OK) {
         goto _print_items;
     } if (ch == 'j' || ch == KEY_DOWN) {
-        if (current_serv_item + 1 < serv_items_array_len)
-            ++current_serv_item;
+        if (current_serv_item + 1 < serv_items_array_len) {
+            if ((i = current_serv_item - items_shift) < y - 1) {
+                print_server (i + 1, x, current_serv_item, 0);
+                ++current_serv_item;
+                print_server (i + 2, x, current_serv_item, 1);
+                return;
+            } else {
+                ++current_serv_item;
+            }
+        }
 
-        if (current_serv_item - items_shift == y)
-            ++items_shift;
+        if (current_serv_item - items_shift == y) ++items_shift;
     } if (ch == 'k' || ch == KEY_UP) {
-        if (current_serv_item)
-            --current_serv_item;
+        if (current_serv_item) {
+            if ((i = current_serv_item - items_shift) > 0) {
+                print_server (i + 1, x, current_serv_item, 0);
+                --current_serv_item;
+                print_server (i, x, current_serv_item, 1);
+                return;
+            } else {
+                --current_serv_item;
+            }
+        }
 
-        if (current_serv_item + 1 == items_shift)
-            --items_shift;
+        if (current_serv_item + 1 == items_shift) --items_shift;
     }
 
 _print_items:
