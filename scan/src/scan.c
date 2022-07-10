@@ -51,6 +51,7 @@ void * start_scan (void * sargs) {
         }
     }
 
+    pthread_mutex_unlock (&scan_mutex);
     is_scanning = 0;
     port_now = 0;
     return sargs;
