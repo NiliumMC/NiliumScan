@@ -33,10 +33,10 @@ pthread_mutex_t scan_mutex;
 
 struct serv_item serv_items_list;
 struct serv_item *last_serv_list_item;
-unsigned int serv_items_list_len;
+int serv_items_list_len;
 
 struct serv_item *serv_items_array;
-unsigned int serv_items_array_len;
+int serv_items_array_len;
 
 void * start_scan (void * sargs) {
     static unsigned short port_now;
@@ -63,7 +63,7 @@ int get_serv (struct scan_args *sargs, const unsigned short port) {
     int sock;
 
     char *json_buf = 0;
-    unsigned int json_buf_len;
+    int json_buf_len;
     struct json_tokener *tokener_ex;
     struct json_object *parsed_json,
                        *certain_json_obj;
@@ -169,7 +169,7 @@ void copy_serv_to_another (struct serv_item *dest_serv, const struct serv_item *
 
 void copy_serv_list_to_array (void) {
     struct serv_item *tmp_item_ptr;
-    unsigned int i = 0;
+    int i = 0;
 
     last_serv_list_item = 0;
     serv_items_array_len = serv_items_list_len;
@@ -192,20 +192,6 @@ void copy_serv_list_to_array (void) {
     }
 
     free_serv_item (&serv_items_list);
-    /*
-    serv_items_list.ip = 0;
-    serv_items_list.port = 0;
-    if (serv_items_list.version) {
-        free (serv_items_list.version);
-    } if (serv_items_list.motd) {
-        free (serv_items_list.motd);
-    }
-
-    serv_items_list.online = 0;
-    serv_items_list.slots = 0;
-    serv_items_list.next = 0;
-    */
-
     serv_items_list_len = 0;
 }
 

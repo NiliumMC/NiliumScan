@@ -162,8 +162,8 @@ int check_current_textfield (void) {
 }
 
 void start_scan_button (void) {
-    unsigned short port_fst, port_lst, num_threads;
-    unsigned int i;
+    unsigned short port_fst, port_lst;
+    int i, num_threads;
 
     if (check_textfields ()) {
         if (parse_ports (scan_textfields [1].buf, &port_fst, &port_lst) && (num_threads = atoi (scan_textfields [3].buf))) {

@@ -57,15 +57,14 @@ int send_request (const unsigned int sock, char **json_buf, const char *ip, cons
          ip_len_varint [5],
          byte;
 
-    unsigned int handshake_len,
-                 handshake_len_varint_len,
-                 protocol_varint_len,
-                 ip_len_varint_len,
-                 handshake_buf_pos = 0,
-                 json_len,
-                 json_tmp_len;
-
-    int json_bytes_read;
+    int handshake_len,
+        handshake_len_varint_len,
+        protocol_varint_len,
+        ip_len_varint_len,
+        handshake_buf_pos = 0,
+        json_len,
+        json_tmp_len,
+        json_bytes_read;
 
     /* Calculating Handshake Length */
     handshake_len = 4 + ip_len; /* 4 Bytes For Static Length Of Packet ID, Port And Next State Fields */
@@ -119,6 +118,8 @@ int send_request (const unsigned int sock, char **json_buf, const char *ip, cons
     }
 
     json_len = read_varint (sock);
+    if (json_len < 1)
+        return 0;
     *json_buf = malloc (json_len);
 
     json_tmp_len = 0;

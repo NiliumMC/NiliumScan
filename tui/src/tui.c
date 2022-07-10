@@ -22,19 +22,19 @@
 #include "scan/scan.h"
 
 #define MIN_LINES 15
-#define MIN_COLS 50
+#define MIN_COLS 64
 #define PARAMS_COUNT 5
 #define ACTS_COUNT 2
 
 void print_main_box (const int, const int);
-void print_servers (const unsigned int, const unsigned int, const int);
-void print_server (const unsigned int, const unsigned int, const unsigned int, const char);
+void print_servers (const int, const int, const int);
+void print_server (const int, const int, const int, const char);
 void print_current_item_num (const int, const int);
 
 int ltc_menu_pos_x; /* Left-Top corner of menu position by horizontal */
 
-unsigned int current_serv_item,
-             items_shift;
+int current_serv_item,
+    items_shift;
 
 const struct param params_list [PARAMS_COUNT] = { { "ip", 2, 15, 'i' },
                                                   { "port", 4, 5, 'p' },
@@ -78,7 +78,7 @@ int ini_curses (void) {
 
 void show_menu (void) {
     MEVENT mouse_event;
-    register int i, ch, y, x;
+    register int y, x, i, ch;
 
     getmaxyx (stdscr, y, x);
     if (y < MIN_LINES || x < MIN_COLS) {
@@ -121,6 +121,16 @@ void show_menu (void) {
             if (y < MIN_LINES || x < MIN_COLS) {
                 print_min_size (MIN_LINES, MIN_COLS, y, x);
                 continue;
+            }
+
+            if (serv_items_array_len > (y - 2)) {
+                if (current_serv_item - items_shift + 1 > y - 2) {
+                    items_shift += (current_serv_item - items_shift + 1) - (y - 2);
+                } else if (items_shift && serv_items_array_len - items_shift < y - 2) {
+                    items_shift -= (y - 2) - (serv_items_array_len - items_shift);
+                }
+            } else {
+                items_shift = 0;
             }
 
             print_main_box (y, x);
@@ -196,7 +206,7 @@ _key_loop_end:
 }
 
 void print_main_box (const int y, const int x) {
-    int i, x_pos;
+    register int i, x_pos;
 
     clear ();
     box (stdscr, 0, 0);
@@ -209,8 +219,8 @@ void print_main_box (const int y, const int x) {
     refresh ();
 }
 
-void print_servers (const unsigned int y, const unsigned int x, const int ch) {
-    unsigned int i;
+void print_servers (const int y, const int x, const int ch) {
+    int i;
 
     if (ch == OK) {
         goto _print_items;
@@ -220,6 +230,7 @@ void print_servers (const unsigned int y, const unsigned int x, const int ch) {
                 print_server (i + 1, x, current_serv_item, 0);
                 ++current_serv_item;
                 print_server (i + 2, x, current_serv_item, 1);
+                print_current_item_num (y + 2, x + 4);
                 return;
             } else {
                 ++current_serv_item;
@@ -233,6 +244,7 @@ void print_servers (const unsigned int y, const unsigned int x, const int ch) {
                 print_server (i + 1, x, current_serv_item, 0);
                 --current_serv_item;
                 print_server (i, x, current_serv_item, 1);
+                print_current_item_num (y + 2, x + 4);
                 return;
             } else {
                 --current_serv_item;
@@ -255,7 +267,7 @@ _print_items:
     }
 }
 
-void print_server (const unsigned int y, const unsigned int x, const unsigned int i, const char is_highlighted) {
+void print_server (const int y, const int x, const int i, const char is_highlighted) {
     char *tmp_str;
 
     if (is_highlighted)
@@ -296,6 +308,7 @@ void print_current_item_num (const int y, const int x) {
     if (serv_items_array_len) {
         tmp_str = malloc (24);
         x_pos = sprintf (tmp_str, "%d/%d", current_serv_item + 1, serv_items_array_len);
+        mvhline (y - 1, x - 15, ACS_HLINE, 12);
         mvaddch (y - 1, x - x_pos - 3, ACS_LRCORNER);
         attron (COLOR_PAIR (3));
         addstr (tmp_str);
@@ -303,6 +316,7 @@ void print_current_item_num (const int y, const int x) {
         addch (ACS_LLCORNER);
         free (tmp_str);
     } else {
+        mvhline (y - 1, x - 15, ACS_HLINE, 12);
         mvaddch (y - 1, x - 6, ACS_LRCORNER);
         attron (COLOR_PAIR (1));
         addstr ("0/0");
