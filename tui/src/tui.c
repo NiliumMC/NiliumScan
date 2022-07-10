@@ -269,29 +269,26 @@ _print_items:
 
 void print_server (const int y, const int x, const int i, const char is_highlighted) {
     char *tmp_str;
+    int x_pos = 2;
 
     if (is_highlighted)
         attron (A_REVERSE);
 
-    tmp_str = malloc (24);
+    tmp_str = malloc (24); /* Still Allocating For TODO Purposes */
+    mvhline (y, 1, 0x20, x + 2);
     sprintf (tmp_str, "%d/%d", serv_items_array [i].online, serv_items_array [i].slots);
-    mvprintw (y, 1, " %-*.*s %-*.*d %-*.*s %-*.*s %-*.*s",
-              params_list [0].len,
-              params_list [0].len,
-              serv_items_array [i].ip,
-              params_list [1].len,
-              params_list [1].len,
-              serv_items_array [i].port,
-              params_list [2].len,
-              params_list [2].len,
-              tmp_str,
-              params_list [3].len,
-              params_list [3].len,
-              serv_items_array [i].version,
-              x - params_list [0].len - params_list [1].len - params_list [2].len - params_list [3].len - 3,
-              x - params_list [0].len - params_list [1].len - params_list [2].len - params_list [3].len - 3,
-              serv_items_array [i].motd);
+
+    mvaddnstr (y, 2, serv_items_array [i].ip, params_list [0].len);
+    x_pos += params_list [0].len + 1;
+    mvprintw (y, x_pos, "%hd", serv_items_array [i].port);
+    x_pos += params_list [1].len + 1;
+    mvaddnstr (y, x_pos, tmp_str, params_list [2].len);
+    x_pos += params_list [2].len + 1;
     free (tmp_str);
+    mvaddnstr (y, x_pos, serv_items_array [i].version, params_list [3].len);
+    x_pos += params_list [3].len + 1;
+    mvaddnstr (y, x_pos, serv_items_array [i].motd, x - x_pos - 3);
+    x_pos += params_list [4].len + 1;
 
     if (is_highlighted)
         attroff (A_REVERSE);
