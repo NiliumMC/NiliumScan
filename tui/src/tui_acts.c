@@ -14,9 +14,8 @@
 void print_act (const int y_pos, const int x, const int x_pos, const struct action *action_item) {
     int i, is_highlighted;
 
-    if (x_pos > x - 3) return; /* TODO: Calculate X From Servers Count */
     mvaddch (y_pos, x_pos, ACS_LRCORNER);
-    for (i = 0, is_highlighted = 0; action_item->name [i] && x_pos + i + 1 < x - 1; ++i) {
+    for (i = 0, is_highlighted = 0; action_item->name [i]; ++i) {
         if (action_item->name [i] == action_item->bind && !is_highlighted) {
             is_highlighted = 1;
             attron (A_BOLD | COLOR_PAIR (3));
@@ -25,7 +24,7 @@ void print_act (const int y_pos, const int x, const int x_pos, const struct acti
         } else {
             addch (action_item->name [i]);
         }
-    } if (x_pos + i + 1 < x - 1) addch (ACS_LLCORNER);
+    } addch (ACS_LLCORNER);
 }
 
 int check_mouse_pos_acts (const int y, const MEVENT *mouse_event, const struct action *actions_list, const int num_acts) {

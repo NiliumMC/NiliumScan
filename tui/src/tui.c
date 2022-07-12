@@ -8,6 +8,7 @@
  *****************************************************************************/
 
 #include <ncurses.h>
+
 #include <stdlib.h>
 #include <unistd.h>
 #include <locale.h>
@@ -23,7 +24,7 @@
 #include "scan/scan.h"
 
 #define MIN_LINES 15
-#define MIN_COLS 64
+#define MIN_COLS 78
 #define PARAMS_COUNT 5
 #define ACTS_COUNT 2
 

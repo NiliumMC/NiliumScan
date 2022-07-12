@@ -14,9 +14,8 @@
 void print_param (const int x, const int x_pos, const struct param *param_item) {
     int i, is_highlighted;
 
-    if (x_pos > x - 3) return;
     mvaddch (0, x_pos, ACS_URCORNER);
-    for (i = 0, is_highlighted = 0; param_item->name [i] && x_pos + i + 1 < x - 1; ++i) {
+    for (i = 0, is_highlighted = 0; param_item->name [i]; ++i) {
         if (param_item->name [i] == param_item->bind && !is_highlighted) {
             is_highlighted = 1;
             attron (A_BOLD | COLOR_PAIR (3));
@@ -25,7 +24,7 @@ void print_param (const int x, const int x_pos, const struct param *param_item) 
         } else {
             addch (param_item->name [i]);
         }
-    } if (x_pos + i + 1 < x - 1) addch (ACS_ULCORNER);
+    } addch (ACS_ULCORNER);
 }
 
 int check_mouse_pos_params (const MEVENT *mouse_event, const struct param *params_list, const int num_params) {
