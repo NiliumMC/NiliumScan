@@ -256,8 +256,15 @@ int check_mouse_double_click (const MEVENT *mouse_event) {
 }
 
 int check_mouse_pos_serv_list (const int y, const int x, const int items_shift, const MEVENT *mouse_event) {
-    if (items_shift + mouse_event->y - 1 < serv_items_array_len && mouse_event->y > 0 && mouse_event->y <= y && mouse_event->x > 0 && mouse_event->x <= x)
-        return items_shift + mouse_event->y - 1;
+    if (is_filtering) {
+        if (filtered_items_shift + mouse_event->y - 1 < filtered_indexes_array_len && mouse_event->y > 0 && mouse_event->y <= y && mouse_event->x > 0 && mouse_event->x <= x) {
+            return filtered_items_shift + mouse_event->y - 1;
+        }
+    } else {
+        if (items_shift + mouse_event->y - 1 < serv_items_array_len && mouse_event->y > 0 && mouse_event->y <= y && mouse_event->x > 0 && mouse_event->x <= x) {
+            return items_shift + mouse_event->y - 1;
+        }
+    }
 
     return -1;
 }
