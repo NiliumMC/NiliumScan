@@ -118,12 +118,13 @@ void show_menu (void) {
         }
 
         if (ch == KEY_MOUSE && is_entering_filter) {
-            is_entering_filter = 0;
+            disable_entering_filter ();
             print_main_box (y, x);
             print_current_item_num (y, x);
         } if (is_entering_filter) {
             if (ch == KEY_RESIZE) {
                 getmaxyx (stdscr, y, x);
+                /* TODO: Resize Key Drop */
             } if (y < MIN_LINES || x < MIN_COLS) {
                 print_min_size (MIN_LINES, MIN_COLS, y, x);
                 refresh ();
@@ -239,6 +240,9 @@ _key_loop_end:
             usleep (60000);
         } if (scan_status == scan_status_scanning) {
             sleep (1);
+        } if (is_entering_filter) {
+            curs_set (1);
+            cursor_to_filter (x, 69);
         }
     }
 }
