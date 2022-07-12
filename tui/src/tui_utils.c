@@ -8,11 +8,13 @@
  *****************************************************************************/
 
 #include <ncurses.h>
-#include <stdlib.h>
+
 #include <strings.h>
+#include <stdlib.h>
 
 #include "tui/tui_filter.h"
 #include "tui/tui_utils.h"
+
 #include "scan/scan.h"
 
 void print_min_size (const int min_lines, const int min_cols, const int y, const int x) {

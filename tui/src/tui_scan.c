@@ -8,13 +8,16 @@
  *****************************************************************************/
 
 #include <ncurses.h>
+#include <pthread.h>
+
+#include <strings.h>
 #include <stdlib.h>
 #include <string.h>
-#include <strings.h>
 
 #include "tui/tui_filter.h"
 #include "tui/tui_utils.h"
 #include "tui/tui_scan.h"
+
 #include "scan/scan.h"
 
 #define BOX_HEIGHT 7

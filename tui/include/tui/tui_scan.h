@@ -7,8 +7,6 @@
  *
  *****************************************************************************/
 
-#include <pthread.h>
-
 enum scan_status_enum {
     scan_status_idle,
     scan_status_error,

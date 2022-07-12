@@ -10,7 +10,7 @@
 #include <ncurses.h>
 
 #include "tui/tui_utils.h"
-#include "tui/tui_scan.h"
+#include "tui/tui_quit.h"
 
 #define BOX_HEIGHT 5
 #define BOX_WIDTH 21
