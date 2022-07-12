@@ -12,6 +12,7 @@
 #include <unistd.h>
 #include <locale.h>
 
+#include "tui/tui_filter.h"
 #include "tui/tui_params.h"
 #include "tui/tui_utils.h"
 #include "tui/tui_acts.h"
@@ -99,9 +100,9 @@ void show_menu (void) {
             } if (ch == KEY_RESIZE) {
                 getmaxyx (stdscr, y, x);
             } if (y < MIN_LINES || x < MIN_COLS) {
-                    print_min_size (MIN_LINES, MIN_COLS, y, x);
-                    refresh ();
-                    goto _key_loop_end;
+                print_min_size (MIN_LINES, MIN_COLS, y, x);
+                refresh ();
+                goto _key_loop_end;
             }
 
             print_main_box (y, x);
@@ -110,11 +111,36 @@ void show_menu (void) {
             goto _key_loop_end;
         }
 
-        if (ch == ERR)
+        if (ch == ERR) {
             goto _key_loop_end;
+        } if (ch == KEY_MOUSE && getmouse (&mouse_event) == ERR) {
+            goto _key_loop_end;
+        }
 
-        if (ch == KEY_MOUSE && getmouse (&mouse_event) == ERR)
+        if (ch == KEY_MOUSE && is_entering_filter) {
+            is_entering_filter = 0;
+            print_main_box (y, x);
+            print_current_item_num (y, x);
+        } if (is_entering_filter) {
+            if (ch == KEY_RESIZE) {
+                getmaxyx (stdscr, y, x);
+            } if (y < MIN_LINES || x < MIN_COLS) {
+                print_min_size (MIN_LINES, MIN_COLS, y, x);
+                refresh ();
+                goto _key_loop_end;
+            }
+
+            filter_key_handler (ch);
+            print_main_box (y, x);
+            print_servers (y - 2, x - 4, OK);
             goto _key_loop_end;
+        } if (ch == 'f') {
+            is_entering_filter = 1;
+            print_main_box (y, x);
+            print_servers (y - 2, x - 4, OK);
+            print_current_item_num (y, x);
+            goto _key_loop_end;
+        }
 
         if (ch == KEY_RESIZE) {
             getmaxyx (stdscr, y, x);
@@ -123,14 +149,26 @@ void show_menu (void) {
                 continue;
             }
 
-            if (serv_items_array_len > (y - 2)) {
-                if (current_serv_item - items_shift + 1 > y - 2) {
-                    items_shift += (current_serv_item - items_shift + 1) - (y - 2);
-                } else if (items_shift && serv_items_array_len - items_shift < y - 2) {
-                    items_shift -= (y - 2) - (serv_items_array_len - items_shift);
+            if (is_filtering) {
+                if (filtered_indexes_array_len > (y - 2)) {
+                    if (current_filtered_serv_item - filtered_items_shift + 1 > y - 2) {
+                        filtered_items_shift += (current_filtered_serv_item - filtered_items_shift + 1) - (y - 2);
+                    } else if (filtered_items_shift && filtered_indexes_array_len - filtered_items_shift < y - 2) {
+                        filtered_items_shift -= (y - 2) - (filtered_indexes_array_len - filtered_items_shift);
+                    }
+                } else {
+                    filtered_items_shift = 0;
                 }
             } else {
-                items_shift = 0;
+                if (serv_items_array_len > (y - 2)) {
+                    if (current_serv_item - items_shift + 1 > y - 2) {
+                        items_shift += (current_serv_item - items_shift + 1) - (y - 2);
+                    } else if (items_shift && serv_items_array_len - items_shift < y - 2) {
+                        items_shift -= (y - 2) - (serv_items_array_len - items_shift);
+                    }
+                } else {
+                    items_shift = 0;
+                }
             }
 
             print_main_box (y, x);
@@ -216,6 +254,7 @@ void print_main_box (const int y, const int x) {
     for (i = 0, x_pos = 1; i < ACTS_COUNT; x_pos += 2 + acts_list [i].len, ++i)
         print_act (y - 1, x, x_pos, &acts_list [i]);
 
+    print_filter (x, 69);
     refresh ();
 }
 
@@ -225,43 +264,81 @@ void print_servers (const int y, const int x, const int ch) {
     if (ch == OK) {
         goto _print_items;
     } if (ch == 'j' || ch == KEY_DOWN) {
-        if (current_serv_item + 1 < serv_items_array_len) {
-            if ((i = current_serv_item - items_shift) < y - 1) {
-                print_server (i + 1, x, current_serv_item, 0);
-                ++current_serv_item;
-                print_server (i + 2, x, current_serv_item, 1);
-                print_current_item_num (y + 2, x + 4);
-                return;
-            } else {
-                ++current_serv_item;
+        if (is_filtering) {
+            if (current_filtered_serv_item + 1 < filtered_indexes_array_len) {
+                if ((i = current_filtered_serv_item - filtered_items_shift) < y - 1) {
+                    print_server (i + 1, x, filtered_indexes_array [current_filtered_serv_item++], 0);
+                    print_server (i + 2, x, filtered_indexes_array [current_filtered_serv_item], 1);
+                    print_current_item_num (y + 2, x + 4);
+                    return;
+                } else {
+                    ++current_filtered_serv_item;
+                }
             }
-        }
 
-        if (current_serv_item - items_shift == y) ++items_shift;
+            if (current_filtered_serv_item - filtered_items_shift == y) ++filtered_items_shift;
+        } else {
+            if (current_serv_item + 1 < serv_items_array_len) {
+                if ((i = current_serv_item - items_shift) < y - 1) {
+                    print_server (i + 1, x, current_serv_item++, 0);
+                    print_server (i + 2, x, current_serv_item, 1);
+                    print_current_item_num (y + 2, x + 4);
+                    return;
+                } else {
+                    ++current_serv_item;
+                }
+            }
+
+            if (current_serv_item - items_shift == y) ++items_shift;
+        }
     } if (ch == 'k' || ch == KEY_UP) {
-        if (current_serv_item) {
-            if ((i = current_serv_item - items_shift) > 0) {
-                print_server (i + 1, x, current_serv_item, 0);
-                --current_serv_item;
-                print_server (i, x, current_serv_item, 1);
-                print_current_item_num (y + 2, x + 4);
-                return;
-            } else {
-                --current_serv_item;
+        if (is_filtering) {
+            if (current_filtered_serv_item) {
+                if ((i = current_filtered_serv_item - filtered_items_shift) > 0) {
+                    print_server (i + 1, x, filtered_indexes_array [current_filtered_serv_item--], 0);
+                    print_server (i, x, filtered_indexes_array [current_filtered_serv_item], 1);
+                    print_current_item_num (y + 2, x + 4);
+                    return;
+                } else {
+                    --current_filtered_serv_item;
+                }
             }
-        }
 
-        if (current_serv_item + 1 == items_shift) --items_shift;
+            if (current_filtered_serv_item + 1 == filtered_items_shift) --filtered_items_shift;
+        } else {
+            if (current_serv_item) {
+                if ((i = current_serv_item - items_shift) > 0) {
+                    print_server (i + 1, x, current_serv_item--, 0);
+                    print_server (i, x, current_serv_item, 1);
+                    print_current_item_num (y + 2, x + 4);
+                    return;
+                } else {
+                    --current_serv_item;
+                }
+            }
+
+            if (current_serv_item + 1 == items_shift) --items_shift;
+        }
     }
 
 _print_items:
     print_current_item_num (y + 2, x + 4);
     if (scan_status != scan_status_scanning && serv_items_array_len) {
-        for (i = 0; items_shift + i < serv_items_array_len && i < y; ++i) {
-            if (items_shift + i == current_serv_item) {
-                print_server (i + 1, x, items_shift + i, 1);
-            } else {
-                print_server (i + 1, x, items_shift + i, 0);
+        if (is_filtering) {
+            for (i = 0; i < filtered_indexes_array_len && i < y; ++i) {
+                if (filtered_items_shift + i == current_filtered_serv_item) {
+                    print_server (i + 1, x, filtered_indexes_array [filtered_items_shift + i], 1);
+                } else {
+                    print_server (i + 1, x, filtered_indexes_array [filtered_items_shift + i], 0);
+                }
+            }
+        } else {
+            for (i = 0; items_shift + i < serv_items_array_len && i < y; ++i) {
+                if (items_shift + i == current_serv_item) {
+                    print_server (i + 1, x, items_shift + i, 1);
+                } else {
+                    print_server (i + 1, x, items_shift + i, 0);
+                }
             }
         }
     }
@@ -302,7 +379,17 @@ void print_current_item_num (const int y, const int x) {
     int x_pos;
     char *tmp_str;
 
-    if (serv_items_array_len) {
+    if (is_filtering && filtered_indexes_array_len) {
+        tmp_str = malloc (24);
+        x_pos = sprintf (tmp_str, "%d/%d", current_filtered_serv_item + 1, filtered_indexes_array_len);
+        mvhline (y - 1, x - 15, ACS_HLINE, 12);
+        mvaddch (y - 1, x - x_pos - 3, ACS_LRCORNER);
+        attron (COLOR_PAIR (3));
+        addstr (tmp_str);
+        attroff (COLOR_PAIR (3));
+        addch (ACS_LLCORNER);
+        free (tmp_str);
+    } else if (serv_items_array_len) {
         tmp_str = malloc (24);
         x_pos = sprintf (tmp_str, "%d/%d", current_serv_item + 1, serv_items_array_len);
         mvhline (y - 1, x - 15, ACS_HLINE, 12);

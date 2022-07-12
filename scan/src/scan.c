@@ -38,7 +38,7 @@ int serv_items_list_len;
 struct serv_item *serv_items_array;
 int serv_items_array_len;
 
-void * start_scan (void * sargs) {
+void * start_scan (void *sargs) {
     static unsigned short port_now;
 
     if (is_scanning && !port_now) {

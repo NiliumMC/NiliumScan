@@ -11,6 +11,7 @@
 #include <stdlib.h>
 #include <strings.h>
 
+#include "tui/tui_filter.h"
 #include "tui/tui_utils.h"
 #include "scan/scan.h"
 
@@ -261,46 +262,95 @@ int check_mouse_pos_serv_list (const int y, const int x, const int items_shift, 
 
 void sort_servers (const int param) {
     if (param == 0) {
-        qsort (serv_items_array, serv_items_array_len, sizeof (struct serv_item), compare_serv_ip);
+        if (is_filtering) {
+            qsort (filtered_indexes_array, filtered_indexes_array_len, sizeof (int), compare_serv_ip);
+        } else {
+            qsort (serv_items_array, serv_items_array_len, sizeof (struct serv_item), compare_serv_ip);
+        }
     } else if (param == 1) {
-        qsort (serv_items_array, serv_items_array_len, sizeof (struct serv_item), compare_serv_ports);
+        if (is_filtering) {
+            qsort (filtered_indexes_array, filtered_indexes_array_len, sizeof (int), compare_serv_ports);
+        } else {
+            qsort (serv_items_array, serv_items_array_len, sizeof (struct serv_item), compare_serv_ports);
+        }
     } else if (param == 2) {
-        qsort (serv_items_array, serv_items_array_len, sizeof (struct serv_item), compare_serv_online);
+        if (is_filtering) {
+            qsort (filtered_indexes_array, filtered_indexes_array_len, sizeof (int), compare_serv_online);
+        } else {
+            qsort (serv_items_array, serv_items_array_len, sizeof (struct serv_item), compare_serv_online);
+        }
     } else if (param == 3) {
-        qsort (serv_items_array, serv_items_array_len, sizeof (struct serv_item), compare_serv_version);
+        if (is_filtering) {
+            qsort (filtered_indexes_array, filtered_indexes_array_len, sizeof (int), compare_serv_version);
+        } else {
+            qsort (serv_items_array, serv_items_array_len, sizeof (struct serv_item), compare_serv_version);
+        }
     } else if (param == 4) {
-        qsort (serv_items_array, serv_items_array_len, sizeof (struct serv_item), compare_serv_motd);
+        if (is_filtering) {
+            qsort (filtered_indexes_array, filtered_indexes_array_len, sizeof (int), compare_serv_motd);
+        } else {
+            qsort (serv_items_array, serv_items_array_len, sizeof (struct serv_item), compare_serv_motd);
+        }
     }
 }
 
+/* TODO: Compare Identical Strings With Variable Length */
 int compare_serv_ip (const void *serv_item_fst, const void *serv_item_snd) {
     register int i;
 
-    for (i = 0; ((struct serv_item *) serv_item_fst)->ip [i] && ((struct serv_item *) serv_item_snd)->ip [i]; ++i) {
-        if (((struct serv_item *) serv_item_fst)->ip [i] > ((struct serv_item *) serv_item_snd)->ip [i]) {
-            return 1;
-        } else if (((struct serv_item *) serv_item_fst)->ip [i] < ((struct serv_item *) serv_item_snd)->ip [i]) {
-            return -1;
+    if (is_filtering) {
+        for (i = 0; serv_items_array [*((int *) serv_item_fst)].ip [i] && serv_items_array [*((int *) serv_item_snd)].ip [i]; ++i) {
+            if (serv_items_array [*((int *) serv_item_fst)].ip [i] > serv_items_array [*((int *) serv_item_snd)].ip [i]) {
+                return 1;
+            } else if (serv_items_array [*((int *) serv_item_fst)].ip [i] < serv_items_array [*((int *) serv_item_snd)].ip [i]) {
+                return -1;
+            }
+        }
+    } else {
+        for (i = 0; ((struct serv_item *) serv_item_fst)->ip [i] && ((struct serv_item *) serv_item_snd)->ip [i]; ++i) {
+            if (((struct serv_item *) serv_item_fst)->ip [i] > ((struct serv_item *) serv_item_snd)->ip [i]) {
+                return 1;
+            } else if (((struct serv_item *) serv_item_fst)->ip [i] < ((struct serv_item *) serv_item_snd)->ip [i]) {
+                return -1;
+            }
         }
     } return 0;
 }
 
-int compare_serv_online (const void *serv_item_fst, const void *serv_item_snd) {
-    return (((struct serv_item *) serv_item_snd)->online - ((struct serv_item *) serv_item_fst)->online);
+int compare_serv_ports (const void *serv_item_fst, const void *serv_item_snd) {
+    if (is_filtering) {
+        return (serv_items_array [*((int *) serv_item_fst)].port - serv_items_array [*((int *) serv_item_snd)].port);
+    } else {
+        return (((struct serv_item *) serv_item_fst)->port - ((struct serv_item *) serv_item_snd)->port);
+    }
 }
 
-int compare_serv_ports (const void *serv_item_fst, const void *serv_item_snd) {
-    return (((struct serv_item *) serv_item_fst)->port - ((struct serv_item *) serv_item_snd)->port);
+int compare_serv_online (const void *serv_item_fst, const void *serv_item_snd) {
+    if (is_filtering) {
+        return (serv_items_array [*((int *) serv_item_snd)].online - serv_items_array [*((int *) serv_item_fst)].online);
+    } else {
+        return (((struct serv_item *) serv_item_snd)->online - ((struct serv_item *) serv_item_fst)->online);
+    }
 }
 
 int compare_serv_version (const void *serv_item_fst, const void *serv_item_snd) {
     register int i;
 
-    for (i = 0; ((struct serv_item *) serv_item_fst)->version [i] && ((struct serv_item *) serv_item_snd)->version [i]; ++i) {
-        if (((struct serv_item *) serv_item_fst)->version [i] > ((struct serv_item *) serv_item_snd)->version [i]) {
-            return 1;
-        } else if (((struct serv_item *) serv_item_fst)->version [i] < ((struct serv_item *) serv_item_snd)->version [i]) {
-            return -1;
+    if (is_filtering) {
+        for (i = 0; serv_items_array [*((int *) serv_item_fst)].version [i] && serv_items_array [*((int *) serv_item_snd)].version [i]; ++i) {
+            if (serv_items_array [*((int *) serv_item_fst)].version [i] > serv_items_array [*((int *) serv_item_snd)].version [i]) {
+                return 1;
+            } else if (serv_items_array [*((int *) serv_item_fst)].version [i] < serv_items_array [*((int *) serv_item_snd)].version [i]) {
+                return -1;
+            }
+        }
+    } else {
+        for (i = 0; ((struct serv_item *) serv_item_fst)->version [i] && ((struct serv_item *) serv_item_snd)->version [i]; ++i) {
+            if (((struct serv_item *) serv_item_fst)->version [i] > ((struct serv_item *) serv_item_snd)->version [i]) {
+                return 1;
+            } else if (((struct serv_item *) serv_item_fst)->version [i] < ((struct serv_item *) serv_item_snd)->version [i]) {
+                return -1;
+            }
         }
     } return 0;
 }
@@ -308,11 +358,21 @@ int compare_serv_version (const void *serv_item_fst, const void *serv_item_snd) 
 int compare_serv_motd (const void *serv_item_fst, const void *serv_item_snd) {
     register int i;
 
-    for (i = 0; ((struct serv_item *) serv_item_fst)->motd [i] && ((struct serv_item *) serv_item_snd)->motd [i]; ++i) {
-        if (((struct serv_item *) serv_item_fst)->motd [i] > ((struct serv_item *) serv_item_snd)->motd [i]) {
-            return 1;
-        } else if (((struct serv_item *) serv_item_fst)->motd [i] < ((struct serv_item *) serv_item_snd)->motd [i]) {
-            return -1;
+    if (is_filtering) {
+        for (i = 0; serv_items_array [*((int *) serv_item_fst)].motd [i] && serv_items_array [*((int *) serv_item_snd)].motd [i]; ++i) {
+            if (serv_items_array [*((int *) serv_item_fst)].motd [i] > serv_items_array [*((int *) serv_item_snd)].motd [i]) {
+                return 1;
+            } else if (serv_items_array [*((int *) serv_item_fst)].motd [i] < serv_items_array [*((int *) serv_item_snd)].motd [i]) {
+                return -1;
+            }
+        }
+    } else {
+        for (i = 0; ((struct serv_item *) serv_item_fst)->motd [i] && ((struct serv_item *) serv_item_snd)->motd [i]; ++i) {
+            if (((struct serv_item *) serv_item_fst)->motd [i] > ((struct serv_item *) serv_item_snd)->motd [i]) {
+                return 1;
+            } else if (((struct serv_item *) serv_item_fst)->motd [i] < ((struct serv_item *) serv_item_snd)->motd [i]) {
+                return -1;
+            }
         }
     } return 0;
 }

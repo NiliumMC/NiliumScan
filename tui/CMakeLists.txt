@@ -17,6 +17,7 @@ set (CMAKE_USE_PTHREADS_INIT ON)
 include (FindThreads)
 
 set (TUI_SOURCES
+     src/tui_filter.c
      src/tui_params.c
      src/tui_utils.c
      src/tui_acts.c

@@ -12,6 +12,7 @@
 #include <string.h>
 #include <strings.h>
 
+#include "tui/tui_filter.h"
 #include "tui/tui_utils.h"
 #include "tui/tui_scan.h"
 #include "scan/scan.h"
@@ -183,6 +184,13 @@ void start_scan_button (void) {
                     free_serv_item (&serv_items_array [i]);
                 } free (serv_items_array);
                 serv_items_array = 0;
+                serv_items_array_len = 0;
+            } if (is_filtering) {
+                if (filtered_indexes_array) {
+                    free (filtered_indexes_array);
+                    filtered_indexes_array = 0;
+                    filtered_indexes_array_len = 0;
+                } is_filtering = 0;
             } for (i = 0; i < num_threads; ++i) {
                 pthread_create (&scan_threads [i], 0, start_scan, (void *) &sargs);
                 pthread_detach (scan_threads [i]);
