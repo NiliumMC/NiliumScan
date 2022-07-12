@@ -57,6 +57,7 @@ void print_filter (const int x, const int x_pos) {
     } addch (ACS_ULCORNER);
 }
 
+/* TODO: Filter Entering String Size Limit */
 void filter_key_handler (const int ch) {
     char *tmp_str;
 
@@ -127,11 +128,26 @@ void apply_serv_filter (const struct serv_item *serv_items_array, const int serv
 }
 
 int compare_serv_with_filter (const struct serv_item *serv_to_filter) {
-    if (strstr (serv_to_filter->version, filter_str)) {
+    char *tmp_str;
+
+    tmp_str = malloc (28);
+    sprintf (tmp_str, "%d%d%d", serv_to_filter->port, serv_to_filter->online, serv_to_filter->slots);
+    if (strstr (serv_to_filter->ip, filter_str)) {
+        free (tmp_str);
         return 1;
-    } else {
-        return 0;
+    } if (strstr (tmp_str, filter_str)) {
+        free (tmp_str);
+        return 1;
+    } if (strstr (serv_to_filter->version, filter_str)) {
+        free (tmp_str);
+        return 1;
+    } if (strstr (serv_to_filter->motd, filter_str)) {
+        free (tmp_str);
+        return 1;
     }
+
+    free (tmp_str);
+    return 0;
 }
 
 void cursor_to_filter (const int x, const int x_pos) {
