@@ -58,7 +58,7 @@ void print_filter (const int x, const int x_pos) {
 }
 
 /* TODO: Filter Entering String Size Limit */
-void filter_key_handler (const int ch) {
+int filter_key_handler (const int ch) {
     char *tmp_str;
 
     if (check_enter_key (ch)) {
@@ -97,16 +97,20 @@ void filter_key_handler (const int ch) {
             filter_str [filter_str_len++] = ch;
             filter_str [filter_str_len] = 0;
         } else {
-            tmp_str = malloc (filter_str_len);
-            memcpy (tmp_str, filter_str, filter_str_len);
-            free (filter_str);
-            filter_str = malloc (filter_str_len + 2);
-            memcpy (filter_str, tmp_str, filter_str_len);
-            filter_str [filter_str_len++] = ch;
-            filter_str [filter_str_len] = 0;
-            free (tmp_str);
+            if (filter_str_len < MAX_FILTER_STR_LEN) {
+                tmp_str = malloc (filter_str_len);
+                memcpy (tmp_str, filter_str, filter_str_len);
+                free (filter_str);
+                filter_str = malloc (filter_str_len + 2);
+                memcpy (filter_str, tmp_str, filter_str_len);
+                filter_str [filter_str_len++] = ch;
+                filter_str [filter_str_len] = 0;
+                free (tmp_str);
+            } else {
+                return 0;
+            }
         }
-    }
+    } return 1;
 }
 
 void apply_serv_filter (const struct serv_item *serv_items_array, const int serv_items_array_len) {
@@ -128,25 +132,12 @@ void apply_serv_filter (const struct serv_item *serv_items_array, const int serv
 }
 
 int compare_serv_with_filter (const struct serv_item *serv_to_filter) {
-    char *tmp_str;
-
-    tmp_str = malloc (28);
-    sprintf (tmp_str, "%d%d%d", serv_to_filter->port, serv_to_filter->online, serv_to_filter->slots);
-    if (strstr (serv_to_filter->ip, filter_str)) {
-        free (tmp_str);
-        return 1;
-    } if (strstr (tmp_str, filter_str)) {
-        free (tmp_str);
-        return 1;
-    } if (strstr (serv_to_filter->version, filter_str)) {
-        free (tmp_str);
+    if (strstr (serv_to_filter->version, filter_str)) {
         return 1;
     } if (strstr (serv_to_filter->motd, filter_str)) {
-        free (tmp_str);
         return 1;
     }
 
-    free (tmp_str);
     return 0;
 }
 

@@ -140,10 +140,10 @@ void show_menu (void) {
                 goto _key_loop_end;
             }
 
-            filter_key_handler (ch);
-            print_main_box (y, x);
-            print_servers (y - 2, x - 4, OK);
-            goto _key_loop_end;
+            if (filter_key_handler (ch)) {
+                print_main_box (y, x);
+                print_servers (y - 2, x - 4, OK);
+            } goto _key_loop_end;
         } if (ch == 'f') {
             is_entering_filter = 1;
             print_main_box (y, x);

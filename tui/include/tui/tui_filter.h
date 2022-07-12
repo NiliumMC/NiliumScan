@@ -19,7 +19,7 @@ extern int *filtered_indexes_array,
            filtered_items_shift;
 
 void print_filter (const int, const int);
-void filter_key_handler (const int);
+int filter_key_handler (const int);
 void cursor_to_filter (const int, const int);
 void disable_entering_filter (void);
 int check_mouse_pos_filter (const MEVENT *);
