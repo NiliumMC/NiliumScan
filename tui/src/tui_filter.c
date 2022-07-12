@@ -155,3 +155,7 @@ void disable_entering_filter (void) {
     curs_set (0);
 }
 
+int check_mouse_pos_filter (const MEVENT *mouse_event) {
+    return !mouse_event->y && mouse_event->x >= 70 && mouse_event->x < 76;
+}
+
