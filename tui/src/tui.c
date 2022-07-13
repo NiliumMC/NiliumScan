@@ -231,7 +231,7 @@ void show_menu (void) {
                         current_serv_item = i;
                     }
 
-                    print_main_box (y, x);
+                    print_current_item_num (y + 2, x + 4);
                     print_servers (y - 2, x - 4, OK);
                 }
             } else if ((i = check_mouse_double_click (&mouse_event)) >= 0) {
