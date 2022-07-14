@@ -64,7 +64,6 @@ void print_filter (const int x, const int x_pos) {
     }
 }
 
-/* TODO: Filter Entering String Size Limit */
 int filter_key_handler (const int ch) {
     char *tmp_str;
 

@@ -14,6 +14,6 @@ struct param {
     char bind;
 };
 
-void print_param (const int, const int, const struct param *);
+void print_param (const int, const struct param *);
 int check_mouse_pos_params (const MEVENT *, const struct param *, const int);
 

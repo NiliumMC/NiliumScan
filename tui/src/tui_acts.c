@@ -11,7 +11,7 @@
 
 #include "tui/tui_acts.h"
 
-void print_act (const int y_pos, const int x, const int x_pos, const struct action *action_item) {
+void print_act (const int y_pos, const int x_pos, const struct action *action_item) {
     int i, is_highlighted;
 
     mvaddch (y_pos, x_pos, ACS_LRCORNER);

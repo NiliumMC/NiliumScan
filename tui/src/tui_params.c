@@ -11,7 +11,7 @@
 
 #include "tui/tui_params.h"
 
-void print_param (const int x, const int x_pos, const struct param *param_item) {
+void print_param (const int x_pos, const struct param *param_item) {
     int i, is_highlighted;
 
     mvaddch (0, x_pos, ACS_URCORNER);

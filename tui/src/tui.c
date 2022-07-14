@@ -142,7 +142,7 @@ void show_menu (void) {
 
             if (filter_key_handler (ch)) {
                 print_main_box (y, x);
-                print_servers (y - 2, x - 4, OK);
+                print_servers (y - 2, x - 4, OK); /* Not Optimized For TODO Purposes */
             } goto _key_loop_end;
         } if (ch == 'f') {
             is_entering_filter = 1;
@@ -270,10 +270,10 @@ void print_main_box (const int y, const int x) {
     clear ();
     box (stdscr, 0, 0);
     for (i = 0, x_pos = 2; i < PARAMS_COUNT; x_pos += 1 + params_list [i].len, ++i)
-        print_param (x, x_pos, &params_list [i]);
+        print_param (x_pos, &params_list [i]);
 
     for (i = 0, x_pos = 1; i < ACTS_COUNT; x_pos += 2 + acts_list [i].len, ++i)
-        print_act (y - 1, x, x_pos, &acts_list [i]);
+        print_act (y - 1, x_pos, &acts_list [i]);
 
     print_filter (x, 69);
     refresh ();
