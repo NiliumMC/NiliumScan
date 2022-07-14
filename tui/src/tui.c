@@ -226,13 +226,16 @@ void show_menu (void) {
                     goto _key_loop_end;
                 } else if ((i = check_mouse_pos_serv_list (y - 2, x - 2, items_shift, &mouse_event)) >= 0) {
                     if (is_filtering) {
+                        print_server (current_filtered_serv_item - filtered_items_shift + 1, x - 4, filtered_indexes_array [current_filtered_serv_item], 0);
                         current_filtered_serv_item = i;
+                        print_server (current_filtered_serv_item - filtered_items_shift + 1, x - 4, filtered_indexes_array [i], 1);
                     } else {
+                        print_server (current_serv_item - items_shift + 1, x - 4, current_serv_item, 0);
                         current_serv_item = i;
+                        print_server (current_serv_item - items_shift + 1, x - 4, current_serv_item, 1);
                     }
 
-                    print_current_item_num (y + 2, x + 4);
-                    print_servers (y - 2, x - 4, OK);
+                    print_current_item_num (y, x);
                 }
             } else if ((i = check_mouse_double_click (&mouse_event)) >= 0) {
                 if ((i = check_mouse_pos_params (&mouse_event, params_list, PARAMS_COUNT)) >= 0) {
