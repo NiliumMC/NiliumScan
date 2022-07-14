@@ -39,22 +39,29 @@ void print_filter (const int x, const int x_pos) {
     attroff (COLOR_PAIR (3));
     if (!is_entering_filter && !is_filtering) {
         addstr ("ilter");
+        addch (ACS_ULCORNER);
     } else {
         addch (' ');
         if (x_pos + MAX_FILTER_FIELD_LEN >= x - 2) {
-            if (filter_str_len > x - x_pos - 5) {
-                printw ("%-*.*s", x - x_pos - 5, x - x_pos - 5, filter_str + (filter_str_len - (x - x_pos - 5)));
+            if (filter_str_len >= x - x_pos - 5) {
+                printw ("%.*s", x - x_pos - 5, filter_str + (filter_str_len - (x - x_pos - 5)));
+                addch (ACS_ULCORNER);
             } else {
-                printw ("%-*.*s", x - x_pos - 5, x - x_pos - 5, filter_str ? filter_str : "");
+                printw ("%.*s", x - x_pos - 5, filter_str ? filter_str : "");
+                addch (' ');
+                addch (ACS_ULCORNER);
             }
         } else {
-            if (filter_str_len > MAX_FILTER_FIELD_LEN - 2) {
-                printw ("%-*.*s", MAX_FILTER_FIELD_LEN - 2, MAX_FILTER_FIELD_LEN - 2, filter_str + (filter_str_len - (MAX_FILTER_FIELD_LEN - 2)));
+            if (filter_str_len >= MAX_FILTER_FIELD_LEN - 2) {
+                printw ("%.*s", MAX_FILTER_FIELD_LEN - 2, filter_str + (filter_str_len - (MAX_FILTER_FIELD_LEN - 2)));
+                addch (ACS_ULCORNER);
             } else {
-                printw ("%-*.*s", MAX_FILTER_FIELD_LEN - 2, MAX_FILTER_FIELD_LEN - 2, filter_str ? filter_str : "");
+                printw ("%.*s", MAX_FILTER_FIELD_LEN - 2, filter_str ? filter_str : "");
+                addch (' ');
+                addch (ACS_ULCORNER);
             }
         }
-    } addch (ACS_ULCORNER);
+    }
 }
 
 /* TODO: Filter Entering String Size Limit */
