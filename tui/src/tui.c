@@ -119,15 +119,15 @@ void show_menu (void) {
         }
 
         if (ch == KEY_MOUSE && !is_entering_filter) {
-            if (check_mouse_double_click (&mouse_event) && check_mouse_pos_filter (&mouse_event) && check_mouse_click (&mouse_event)) {
+            if ((check_mouse_click (&mouse_event) || check_mouse_double_click (&mouse_event)) && check_mouse_pos_filter (&mouse_event)) {
                 is_entering_filter = 1;
                 print_main_box (y, x);
                 print_servers (y - 2, x - 4, OK);
-                print_current_item_num (y, x);
+                /* print_current_item_num (y, x); */
                 goto _key_loop_end;
             }
         } if (ch == KEY_MOUSE && is_entering_filter) {
-            if (check_mouse_double_click (&mouse_event) && check_mouse_pos_filter (&mouse_event) && check_mouse_pos_filter_ok_button (x, 69, &mouse_event)) {
+            if ((check_mouse_click (&mouse_event) || check_mouse_double_click (&mouse_event)) && check_mouse_pos_filter_ok_button (x, 69, &mouse_event)) {
                 filter_key_handler (KEY_ENTER);
             } else {
                 disable_entering_filter ();
