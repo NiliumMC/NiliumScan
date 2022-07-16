@@ -7,8 +7,6 @@
  *
  *****************************************************************************/
 
-#include <ncurses.h>
-
 enum tui_direct {
     direct_up,
     direct_down,

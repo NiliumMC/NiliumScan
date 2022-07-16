@@ -18,7 +18,8 @@
 #include "scan/scan.h"
 
 int is_filtering,
-    is_entering_filter;
+    is_entering_filter,
+    is_filter_applied;
 
 char *filter_str;
 int filter_str_len;
@@ -43,21 +44,65 @@ void print_filter (const int x, const int x_pos) {
     } else {
         addch (' ');
         if (x_pos + MAX_FILTER_FIELD_LEN >= x - 2) {
-            if (filter_str_len >= x - x_pos - 5) {
-                printw ("%.*s", x - x_pos - 5, filter_str + (filter_str_len - (x - x_pos - 5)));
+            if (filter_str_len >= x - x_pos - (is_entering_filter ? 8 : 6)) {
+                printw ("%.*s", x - x_pos - (is_entering_filter ? 8 : 6), filter_str + (filter_str_len - (x - x_pos - (is_entering_filter ? 8 : 6))));
+                addch (' ');
+
+                if (is_entering_filter) {
+                    attron (COLOR_PAIR (2) | A_REVERSE);
+                    addstr ("OK");
+                    attroff (COLOR_PAIR (2) | A_REVERSE);
+                }
+
                 addch (ACS_ULCORNER);
             } else {
-                printw ("%.*s", x - x_pos - 5, filter_str ? filter_str : "");
+                printw ("%.*s", x - x_pos - 2, filter_str ? filter_str : "");
                 addch (' ');
+
+                if (is_entering_filter) {
+                    if (filter_str_len) {
+                        attron (COLOR_PAIR (2) | A_REVERSE);
+                        addstr ("OK");
+                        attroff (COLOR_PAIR (2) | A_REVERSE);
+                    } else {
+                        addch (' ');
+                        attron (COLOR_PAIR (1) | A_REVERSE);
+                        addstr ("OK");
+                        attroff (COLOR_PAIR (1) | A_REVERSE);
+                    }
+                }
+
                 addch (ACS_ULCORNER);
             }
         } else {
-            if (filter_str_len >= MAX_FILTER_FIELD_LEN - 2) {
-                printw ("%.*s", MAX_FILTER_FIELD_LEN - 2, filter_str + (filter_str_len - (MAX_FILTER_FIELD_LEN - 2)));
+            if (filter_str_len >= MAX_FILTER_FIELD_LEN - (is_entering_filter ? 5 : 3)) {
+                printw ("%.*s", MAX_FILTER_FIELD_LEN - (is_entering_filter ? 5 : 3), filter_str + (filter_str_len - (MAX_FILTER_FIELD_LEN - (is_entering_filter ? 5 : 3))));
+                addch (' ');
+
+                if (is_entering_filter) {
+                    attron (COLOR_PAIR (2) | A_REVERSE);
+                    addstr ("OK");
+                    attroff (COLOR_PAIR (2) | A_REVERSE);
+                }
+
                 addch (ACS_ULCORNER);
             } else {
-                printw ("%.*s", MAX_FILTER_FIELD_LEN - 2, filter_str ? filter_str : "");
+                printw ("%.*s", MAX_FILTER_FIELD_LEN - (is_entering_filter ? 5 : 3), filter_str ? filter_str : "");
                 addch (' ');
+
+                if (is_entering_filter) {
+                    if (filter_str_len) {
+                        attron (COLOR_PAIR (2) | A_REVERSE);
+                        addstr ("OK");
+                        attroff (COLOR_PAIR (2) | A_REVERSE);
+                    } else {
+                        addch (' ');
+                        attron (COLOR_PAIR (1) | A_REVERSE);
+                        addstr ("OK");
+                        attroff (COLOR_PAIR (1) | A_REVERSE);
+                    }
+                }
+
                 addch (ACS_ULCORNER);
             }
         }
@@ -77,6 +122,7 @@ int filter_key_handler (const int ch) {
             }
 
             current_filtered_serv_item = 0;
+            is_filter_applied = 1;
             is_filtering = 1;
             apply_serv_filter (serv_items_array, serv_items_array_len);
         } else {
@@ -149,16 +195,16 @@ int compare_serv_with_filter (const struct serv_item *serv_to_filter) {
 
 void cursor_to_filter (const int x, const int x_pos) {
     if (x_pos + MAX_FILTER_FIELD_LEN >= x - 2) {
-        if (filter_str_len > x - x_pos - 6) {
-            move (0, x - 3);
+        if (filter_str_len > x - x_pos - 8) {
+            move (0, x - 6);
         } else {
-            move (0, x_pos + 3 + filter_str_len);
+            move (0, x_pos + (filter_str_len ? 2 : 3) + filter_str_len);
         }
     } else {
-        if (filter_str_len > MAX_FILTER_FIELD_LEN - 3) {
-            move (0, x_pos + 3 + (MAX_FILTER_FIELD_LEN - 3));
+        if (filter_str_len >= MAX_FILTER_FIELD_LEN - 5) {
+            move (0, x_pos + 3 + (MAX_FILTER_FIELD_LEN - 6));
         } else {
-            move (0, x_pos + 3 + filter_str_len);
+            move (0, x_pos + (filter_str_len ? 2 : 3) + filter_str_len);
         }
     }
 }
@@ -170,5 +216,30 @@ void disable_entering_filter (void) {
 
 int check_mouse_pos_filter (const MEVENT *mouse_event) {
     return !mouse_event->y && mouse_event->x >= 70 && mouse_event->x < 76;
+}
+
+int check_mouse_pos_filter_ok_button (const int x, const int x_pos, const MEVENT *mouse_event) {
+    register int i;
+
+    if (!mouse_event->y) {
+        if (x_pos + MAX_FILTER_FIELD_LEN >= x - 2) {
+            if (filter_str_len > x - x_pos - 8) {
+                return mouse_event->x >= x - 4 && mouse_event->x <= x - 3;
+            } else {
+                i = x_pos + (filter_str_len ? 4 : 5) + filter_str_len;
+                return mouse_event->x >= i && mouse_event->x <= i + 1;
+            }
+        } else {
+            if (filter_str_len >= MAX_FILTER_FIELD_LEN - 5) {
+                i = x_pos + 5 + (MAX_FILTER_FIELD_LEN - 6);
+                return mouse_event->x >= i && mouse_event->x <= i + 1;
+            } else {
+                i = x_pos + (filter_str_len ? 4 : 5) + filter_str_len;
+                return mouse_event->x >= i && mouse_event->x <= i + 1;
+            }
+        }
+    }
+
+    return 0;
 }
 
