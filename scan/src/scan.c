@@ -151,6 +151,8 @@ char *copy_json_string (const char *json_str, const unsigned int len) {
 }
 
 void copy_serv_to_another (struct serv_item *dest_serv, const struct serv_item *src_serv) {
+    char *tmp_char_ptr;
+
     if (src_serv->ip) {
         dest_serv->ip = malloc (strlen (src_serv->ip) + 1);
         strcpy (dest_serv->ip, src_serv->ip);
@@ -160,9 +162,15 @@ void copy_serv_to_another (struct serv_item *dest_serv, const struct serv_item *
     if (src_serv->version) {
         dest_serv->version = malloc (strlen (src_serv->version) + 1);
         strcpy (dest_serv->version, src_serv->version);
+        while ((tmp_char_ptr = strchr (dest_serv->version, 0x0A))) {
+            *tmp_char_ptr = ' ';
+        }
     } if (src_serv->motd) {
         dest_serv->motd = malloc (strlen (src_serv->motd) + 1);
         strcpy (dest_serv->motd, src_serv->motd);
+        while ((tmp_char_ptr = strchr (dest_serv->motd, 0x0A))) {
+            *tmp_char_ptr = ' ';
+        }
     }
 
     dest_serv->online = src_serv->online;
