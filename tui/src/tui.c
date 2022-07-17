@@ -300,6 +300,8 @@ void print_servers (const int y, const int x, const int ch) {
                 } else {
                     ++current_filtered_serv_item;
                 }
+            } else {
+                return;
             }
 
             if (current_filtered_serv_item - filtered_items_shift == y) ++filtered_items_shift;
@@ -313,6 +315,8 @@ void print_servers (const int y, const int x, const int ch) {
                 } else {
                     ++current_serv_item;
                 }
+            } else {
+                return;
             }
 
             if (current_serv_item - items_shift == y) ++items_shift;
@@ -328,6 +332,8 @@ void print_servers (const int y, const int x, const int ch) {
                 } else {
                     --current_filtered_serv_item;
                 }
+            } else {
+                return;
             }
 
             if (current_filtered_serv_item + 1 == filtered_items_shift) --filtered_items_shift;
@@ -341,6 +347,8 @@ void print_servers (const int y, const int x, const int ch) {
                 } else {
                     --current_serv_item;
                 }
+            } else {
+                return;
             }
 
             if (current_serv_item + 1 == items_shift) --items_shift;
