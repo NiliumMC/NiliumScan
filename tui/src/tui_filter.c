@@ -183,13 +183,25 @@ void apply_serv_filter (const struct serv_item *serv_items_array, const int serv
     }
 }
 
+/* TODO: Configure Using This Version Of Filter */
 int compare_serv_with_filter (const struct serv_item *serv_to_filter) {
-    if (strstr (serv_to_filter->version, filter_str)) {
-        return 1;
-    } if (strstr (serv_to_filter->motd, filter_str)) {
-        return 1;
+    char *tmp_filter_str, *filter_str_tkn;
+
+    tmp_filter_str = malloc (filter_str_len + 1);
+    strcpy (tmp_filter_str, filter_str);
+
+    filter_str_tkn = strtok (tmp_filter_str, " ");
+    while (filter_str_tkn) {
+        if (strstr (serv_to_filter->version, filter_str_tkn)) {
+            free (tmp_filter_str);
+            return 1;
+        } if (strstr (serv_to_filter->motd, filter_str_tkn)) {
+            free (tmp_filter_str);
+            return 1;
+        } filter_str_tkn = strtok (0, " ");
     }
 
+    free (tmp_filter_str);
     return 0;
 }
 
