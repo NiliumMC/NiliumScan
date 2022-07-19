@@ -24,7 +24,7 @@
 #include "scan/scan.h"
 
 #define MIN_LINES 15
-#define MIN_COLS 78
+#define MIN_COLS 80
 #define PARAMS_COUNT 5
 #define ACTS_COUNT 2
 
@@ -119,18 +119,27 @@ void show_menu (void) {
         }
 
         if (ch == KEY_MOUSE && !is_entering_filter) {
-            if ((check_mouse_click (&mouse_event) || check_mouse_double_click (&mouse_event)) && check_mouse_pos_filter (&mouse_event)) {
+            if (is_filtering && check_mouse_pos_filter_dl_button (x, 69, &mouse_event)) {
+                drop_filter ();
+                print_main_box (y, x);
+                print_servers (y - 2, x - 4, OK);
+                goto _key_loop_end;
+            } if ((check_mouse_click (&mouse_event) || check_mouse_double_click (&mouse_event)) && check_mouse_pos_filter (&mouse_event)) {
                 is_entering_filter = 1;
                 print_main_box (y, x);
                 print_servers (y - 2, x - 4, OK);
-                /* print_current_item_num (y, x); */
                 goto _key_loop_end;
             }
         } if (ch == KEY_MOUSE && is_entering_filter) {
-            if ((check_mouse_click (&mouse_event) || check_mouse_double_click (&mouse_event)) && check_mouse_pos_filter_ok_button (x, 69, &mouse_event)) {
-                filter_key_handler (KEY_ENTER);
-            } else {
-                disable_entering_filter ();
+            if (check_mouse_click (&mouse_event) || check_mouse_double_click (&mouse_event)) {
+                if (check_mouse_pos_filter_ok_button (x, 69, &mouse_event)) {
+                    filter_key_handler (KEY_ENTER);
+                } else if (check_mouse_pos_filter_dl_button (x, 69, &mouse_event)) {
+                    disable_entering_filter ();
+                    drop_filter ();
+                } else {
+                    disable_entering_filter ();
+                }
             }
 
             print_main_box (y, x);

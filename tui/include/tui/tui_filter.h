@@ -22,6 +22,8 @@ void print_filter (const int, const int);
 int filter_key_handler (const int);
 void cursor_to_filter (const int, const int);
 void disable_entering_filter (void);
+void drop_filter (void);
 int check_mouse_pos_filter (const MEVENT *);
 int check_mouse_pos_filter_ok_button (const int, const int, const MEVENT *);
+int check_mouse_pos_filter_dl_button (const int, const int, const MEVENT *);
 
