@@ -162,8 +162,11 @@ void show_menu (void) {
             is_entering_filter = 1;
             print_main_box (y, x);
             print_servers (y - 2, x - 4, OK);
-            print_current_item_num (y, x);
             goto _key_loop_end;
+        } if (is_filtering && ch == KEY_DC) {
+            drop_filter ();
+            print_main_box (y, x);
+            print_servers (y - 2, x - 4, OK);
         }
 
         if (ch == KEY_RESIZE) {
