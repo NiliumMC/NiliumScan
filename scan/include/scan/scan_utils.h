@@ -7,6 +7,8 @@
  *
  *****************************************************************************/
 
+#define MAX_SERV_RESPONSE_LEN 16384
+
 int connection_init (const unsigned int, const char *, const unsigned short, const int);
 int send_request (const unsigned int, char **, const char *, const unsigned int, const unsigned short, const int);
 

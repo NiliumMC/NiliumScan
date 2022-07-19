@@ -120,7 +120,7 @@ int send_request (const unsigned int sock, char **json_buf, const char *ip, cons
     }
 
     json_len = read_varint (sock);
-    if (json_len < 1)
+    if (json_len < 1 || json_len > MAX_SERV_RESPONSE_LEN)
         return 0;
     *json_buf = malloc (json_len);
 
