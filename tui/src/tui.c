@@ -197,51 +197,20 @@ void show_menu (void) {
             /* TODO: Handle This Type Of Keys */
         }
 
-        /* Filter Keys Handler */
-        if (is_entering_filter) {
-            if (filter_key_handler (ch)) {
-                print_main_box (y, x);
-                print_servers (y - 2, x - 4, OK);
-            } goto _key_loop_end;
-        } if (ch == 'f') {
-            is_entering_filter = 1;
-            print_main_box (y, x);
-            print_servers (y - 2, x - 4, OK);
-            goto _key_loop_end;
-        } if (is_filtering && ch == KEY_DC) {
-            drop_filter ();
-            print_main_box (y, x);
-            print_servers (y - 2, x - 4, OK);
-        }
-
         /* Mouse Keys Handler */
         else if (check_mouse_click (&mouse_event)) {
             if (is_entering_filter) {
-                if (check_mouse_click (&mouse_event) || check_mouse_double_click (&mouse_event)) {
-                    if (check_mouse_pos_filter_ok_button (x, 69, &mouse_event)) {
-                        filter_key_handler (KEY_ENTER);
-                    } else if (check_mouse_pos_filter_dl_button (x, 69, &mouse_event)) {
-                        disable_entering_filter ();
-                        drop_filter ();
-                    } else {
-                        disable_entering_filter ();
-                    }
+                if (check_mouse_pos_filter_ok_button (x, 69, &mouse_event)) {
+                    filter_key_handler (KEY_ENTER);
+                } else if (check_mouse_pos_filter_dl_button (x, 69, &mouse_event)) {
+                    disable_entering_filter ();
+                    drop_filter ();
+                } else {
+                    disable_entering_filter ();
                 }
 
                 print_main_box (y, x);
                 print_servers (y - 2, x - 4, OK);
-            } else if (!is_entering_filter) {
-                if (is_filtering && check_mouse_pos_filter_dl_button (x, 69, &mouse_event)) {
-                    drop_filter ();
-                    print_main_box (y, x);
-                    print_servers (y - 2, x - 4, OK);
-                    goto _key_loop_end;
-                } if ((check_mouse_click (&mouse_event) || check_mouse_double_click (&mouse_event)) && check_mouse_pos_filter (&mouse_event)) {
-                    is_entering_filter = 1;
-                    print_main_box (y, x);
-                    print_servers (y - 2, x - 4, OK);
-                    goto _key_loop_end;
-                }
             } else if ((i = check_mouse_pos_params (&mouse_event, params_list, PARAMS_COUNT)) >= 0) {
                 sort_servers (i);
                 print_main_box (y, x);
@@ -261,6 +230,18 @@ void show_menu (void) {
                 }
 
                 print_current_item_num (y, x);
+            } else if (!is_entering_filter) {
+                if (is_filtering && check_mouse_pos_filter_dl_button (x, 69, &mouse_event)) {
+                    drop_filter ();
+                    print_main_box (y, x);
+                    print_servers (y - 2, x - 4, OK);
+                    goto _key_loop_end;
+                } if ((check_mouse_click (&mouse_event) || check_mouse_double_click (&mouse_event)) && check_mouse_pos_filter (&mouse_event)) {
+                    is_entering_filter = 1;
+                    print_main_box (y, x);
+                    print_servers (y - 2, x - 4, OK);
+                    goto _key_loop_end;
+                }
             }
         } else if (check_mouse_double_click (&mouse_event)) {
             if ((i = check_mouse_pos_params (&mouse_event, params_list, PARAMS_COUNT)) >= 0) {
@@ -274,6 +255,23 @@ void show_menu (void) {
             } else {
                 /* TODO: Server Action Dialog */
             }
+        }
+
+        /* Filter Keys Handler */
+        if (is_entering_filter) {
+            if (filter_key_handler (ch)) {
+                print_main_box (y, x);
+                print_servers (y - 2, x - 4, OK);
+            } goto _key_loop_end;
+        } else if (ch == 'f') {
+            is_entering_filter = 1;
+            print_main_box (y, x);
+            print_servers (y - 2, x - 4, OK);
+            goto _key_loop_end;
+        } else if (is_filtering && ch == KEY_DC) {
+            drop_filter ();
+            print_main_box (y, x);
+            print_servers (y - 2, x - 4, OK);
         }
 
 _key_loop_end:
