@@ -169,7 +169,7 @@ int filter_key_handler (const int ch) {
             filter_str = tmp_str;
             filter_str [filter_str_len] = 0;
         }
-    } else {
+    } else if (check_entering_field_key (ch)) {
         if (!filter_str_len) {
             if (filter_str)
                 free (filter_str);

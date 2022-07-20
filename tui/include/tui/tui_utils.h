@@ -47,6 +47,7 @@ void print_tui_textfields (const int, const struct tui_textfield *, const int);
 int find_next_item (const int, const MEVENT *, int *, const struct tui_button *, const int, const struct tui_textfield *, const int);
 void enter_to_textfield (const int, const int, struct tui_textfield *, const int);
 void cursor_to_textfield (const int, const struct tui_textfield *, const int);
+int check_entering_field_key (const int);
 int check_move_key (const int);
 int check_enter_key (const int);
 int check_mouse_click (const MEVENT *);

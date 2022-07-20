@@ -66,7 +66,7 @@ int act_scan (const MEVENT *mouse_event, int ch, const int y, const int x, const
         } if (ch == KEY_ENTER || ch == '\n') {
             ch = KEY_STAB;
         /* TODO: RegEX buttons check */
-        } if ((ch >= 'A' && ch <= 'Z') || (ch >= 'a' && ch <= 'z') || (ch >= '0' && ch <= '9') || ch == '.' || ch == '-' || ch == KEY_BACKSPACE) {
+        } if (check_entering_field_key (ch)) {
             enter_to_textfield (ch, scan_current, scan_textfields, TEXTFIELDS_COUNT);
         } if (ch != KEY_UP && ch != KEY_DOWN && ch != KEY_LEFT && ch != KEY_RIGHT && ch != KEY_STAB && ch != '\t' && ch != KEY_BTAB) {
             goto _calc_size;

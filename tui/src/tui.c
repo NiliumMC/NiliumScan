@@ -147,7 +147,7 @@ void show_menu (void) {
         } if (is_entering_filter) {
             if (ch == KEY_RESIZE) {
                 getmaxyx (stdscr, y, x);
-                /* TODO: Resize Key Drop */
+                ch = OK;
             } if (y < MIN_LINES || x < MIN_COLS) {
                 print_min_size (MIN_LINES, MIN_COLS, y, x);
                 refresh ();
@@ -156,7 +156,7 @@ void show_menu (void) {
 
             if (filter_key_handler (ch)) {
                 print_main_box (y, x);
-                print_servers (y - 2, x - 4, OK); /* Not Optimized For TODO Purposes */
+                print_servers (y - 2, x - 4, OK);
             } goto _key_loop_end;
         } if (ch == 'f') {
             is_entering_filter = 1;
