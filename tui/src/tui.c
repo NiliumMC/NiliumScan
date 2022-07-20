@@ -91,8 +91,9 @@ void show_menu (void) {
     }
 
     while ((ch = getch ()) && is_open) {
+        /* Check If Scan Is Ended And Draw Servers */
         if (scan_status == scan_status_scanning) {
-            if (scan_status == scan_status_scanning && !is_scanning) {
+            if (!is_scanning) {
                 items_shift = 0;
                 current_serv_item = 0;
                 scan_status = scan_status_end;
@@ -118,62 +119,15 @@ void show_menu (void) {
             goto _key_loop_end;
         }
 
-        if (ch == KEY_MOUSE && !is_entering_filter) {
-            if (is_filtering && check_mouse_pos_filter_dl_button (x, 69, &mouse_event)) {
-                drop_filter ();
-                print_main_box (y, x);
-                print_servers (y - 2, x - 4, OK);
-                goto _key_loop_end;
-            } if ((check_mouse_click (&mouse_event) || check_mouse_double_click (&mouse_event)) && check_mouse_pos_filter (&mouse_event)) {
-                is_entering_filter = 1;
-                print_main_box (y, x);
-                print_servers (y - 2, x - 4, OK);
-                goto _key_loop_end;
-            }
-        } if (ch == KEY_MOUSE && is_entering_filter) {
-            if (check_mouse_click (&mouse_event) || check_mouse_double_click (&mouse_event)) {
-                if (check_mouse_pos_filter_ok_button (x, 69, &mouse_event)) {
-                    filter_key_handler (KEY_ENTER);
-                } else if (check_mouse_pos_filter_dl_button (x, 69, &mouse_event)) {
-                    disable_entering_filter ();
-                    drop_filter ();
-                } else {
-                    disable_entering_filter ();
-                }
-            }
-
-            print_main_box (y, x);
-            print_servers (y - 2, x - 4, OK);
-        } if (is_entering_filter) {
-            if (ch == KEY_RESIZE) {
-                getmaxyx (stdscr, y, x);
-                ch = OK;
-            } if (y < MIN_LINES || x < MIN_COLS) {
-                print_min_size (MIN_LINES, MIN_COLS, y, x);
-                refresh ();
-                goto _key_loop_end;
-            }
-
-            if (filter_key_handler (ch)) {
-                print_main_box (y, x);
-                print_servers (y - 2, x - 4, OK);
-            } goto _key_loop_end;
-        } if (ch == 'f') {
-            is_entering_filter = 1;
-            print_main_box (y, x);
-            print_servers (y - 2, x - 4, OK);
-            goto _key_loop_end;
-        } if (is_filtering && ch == KEY_DC) {
-            drop_filter ();
-            print_main_box (y, x);
-            print_servers (y - 2, x - 4, OK);
-        }
-
         if (ch == KEY_RESIZE) {
             getmaxyx (stdscr, y, x);
             if (y < MIN_LINES || x < MIN_COLS) {
                 print_min_size (MIN_LINES, MIN_COLS, y, x);
                 continue;
+            }
+
+            if (is_entering_filter) {
+                ch = OK;
             }
 
             if (is_filtering) {
@@ -200,15 +154,21 @@ void show_menu (void) {
 
             print_main_box (y, x);
             print_servers (y - 2, x - 4, OK);
-            for (i = 0; i < ACTS_COUNT; ++i)
-                if (acts_list [i].enabled)
+            for (i = 0; i < ACTS_COUNT; ++i) {
+                if (acts_list [i].enabled) {
                     acts_list [i].enabled = acts_list [i].func (0, ch, y, x, acts_list [i].name);
+                }
+            }
+        }
 
-        } else {
-            if (y < MIN_LINES || x < MIN_COLS) {
-                print_min_size (MIN_LINES, MIN_COLS, y, x);
-                continue;
-            } for (i = 0; i < ACTS_COUNT; ++i) {
+        if (y < MIN_LINES || x < MIN_COLS) {
+            print_min_size (MIN_LINES, MIN_COLS, y, x);
+            continue;
+        }
+
+        /* Params & Acts Rendering */
+        if (!is_entering_filter) {
+            for (i = 0; i < ACTS_COUNT; ++i) {
                 if (acts_list [i].enabled) {
                     if (!(acts_list [i].enabled = acts_list [i].func (ch == KEY_MOUSE ? &mouse_event : 0, ch, y, x, acts_list [i].name))) {
                         print_main_box (y, x);
@@ -228,44 +188,91 @@ void show_menu (void) {
                     print_servers (y - 2, x - 4, OK);
                     goto _key_loop_end;
                 }
-            } if (check_move_key (ch)) {
-                print_servers (y - 2, x - 4, ch);
-            } else if (check_enter_key (ch)) {
-                /* TODO: Handle This Type Of Keys */
-            } else if (check_mouse_click (&mouse_event)) {
-                if ((i = check_mouse_pos_params (&mouse_event, params_list, PARAMS_COUNT)) >= 0) {
-                    sort_servers (i);
-                    print_main_box (y, x);
-                    print_servers (y - 2, x - 4, OK);
-                } else if ((i = check_mouse_pos_acts (y - 1, &mouse_event, acts_list, ACTS_COUNT)) >= 0) {
-                    acts_list [i].enabled = 1;
-                    acts_list [i].func (0, OK, y, x, acts_list [i].name);
-                    goto _key_loop_end;
-                } else if ((i = check_mouse_pos_serv_list (y - 2, x - 2, items_shift, &mouse_event)) >= 0) {
-                    if (is_filtering) {
-                        print_server (current_filtered_serv_item - filtered_items_shift + 1, x - 4, filtered_indexes_array [current_filtered_serv_item], 0);
-                        current_filtered_serv_item = i;
-                        print_server (current_filtered_serv_item - filtered_items_shift + 1, x - 4, filtered_indexes_array [i], 1);
-                    } else {
-                        print_server (current_serv_item - items_shift + 1, x - 4, current_serv_item, 0);
-                        current_serv_item = i;
-                        print_server (current_serv_item - items_shift + 1, x - 4, current_serv_item, 1);
-                    }
+            }
+        }
 
-                    print_current_item_num (y, x);
+        if (check_move_key (ch)) {
+            print_servers (y - 2, x - 4, ch);
+        } else if (check_enter_key (ch)) {
+            /* TODO: Handle This Type Of Keys */
+        }
+
+        /* Filter Keys Handler */
+        if (is_entering_filter) {
+            if (filter_key_handler (ch)) {
+                print_main_box (y, x);
+                print_servers (y - 2, x - 4, OK);
+            } goto _key_loop_end;
+        } if (ch == 'f') {
+            is_entering_filter = 1;
+            print_main_box (y, x);
+            print_servers (y - 2, x - 4, OK);
+            goto _key_loop_end;
+        } if (is_filtering && ch == KEY_DC) {
+            drop_filter ();
+            print_main_box (y, x);
+            print_servers (y - 2, x - 4, OK);
+        }
+
+        /* Mouse Keys Handler */
+        else if (check_mouse_click (&mouse_event)) {
+            if (is_entering_filter) {
+                if (check_mouse_click (&mouse_event) || check_mouse_double_click (&mouse_event)) {
+                    if (check_mouse_pos_filter_ok_button (x, 69, &mouse_event)) {
+                        filter_key_handler (KEY_ENTER);
+                    } else if (check_mouse_pos_filter_dl_button (x, 69, &mouse_event)) {
+                        disable_entering_filter ();
+                        drop_filter ();
+                    } else {
+                        disable_entering_filter ();
+                    }
                 }
-            } else if ((i = check_mouse_double_click (&mouse_event)) >= 0) {
-                if ((i = check_mouse_pos_params (&mouse_event, params_list, PARAMS_COUNT)) >= 0) {
-                    sort_servers (i);
+
+                print_main_box (y, x);
+                print_servers (y - 2, x - 4, OK);
+            } else if (!is_entering_filter) {
+                if (is_filtering && check_mouse_pos_filter_dl_button (x, 69, &mouse_event)) {
+                    drop_filter ();
                     print_main_box (y, x);
                     print_servers (y - 2, x - 4, OK);
-                } else if ((i = check_mouse_pos_acts (y - 1, &mouse_event, acts_list, ACTS_COUNT)) >= 0) {
-                    acts_list [i].enabled = 1;
-                    acts_list [i].func (0, OK, y, x, acts_list [i].name);
                     goto _key_loop_end;
-                } else {
-                    /* TODO: Server Action Dialog */
+                } if ((check_mouse_click (&mouse_event) || check_mouse_double_click (&mouse_event)) && check_mouse_pos_filter (&mouse_event)) {
+                    is_entering_filter = 1;
+                    print_main_box (y, x);
+                    print_servers (y - 2, x - 4, OK);
+                    goto _key_loop_end;
                 }
+            } else if ((i = check_mouse_pos_params (&mouse_event, params_list, PARAMS_COUNT)) >= 0) {
+                sort_servers (i);
+                print_main_box (y, x);
+                print_servers (y - 2, x - 4, OK);
+            } else if ((i = check_mouse_pos_acts (y - 1, &mouse_event, acts_list, ACTS_COUNT)) >= 0) {
+                acts_list [i].enabled = 1;
+                acts_list [i].func (0, OK, y, x, acts_list [i].name);
+            } else if ((i = check_mouse_pos_serv_list (y - 2, x - 2, items_shift, &mouse_event)) >= 0) {
+                if (is_filtering) {
+                    print_server (current_filtered_serv_item - filtered_items_shift + 1, x - 4, filtered_indexes_array [current_filtered_serv_item], 0);
+                    current_filtered_serv_item = i;
+                    print_server (current_filtered_serv_item - filtered_items_shift + 1, x - 4, filtered_indexes_array [i], 1);
+                } else {
+                    print_server (current_serv_item - items_shift + 1, x - 4, current_serv_item, 0);
+                    current_serv_item = i;
+                    print_server (current_serv_item - items_shift + 1, x - 4, current_serv_item, 1);
+                }
+
+                print_current_item_num (y, x);
+            }
+        } else if (check_mouse_double_click (&mouse_event)) {
+            if ((i = check_mouse_pos_params (&mouse_event, params_list, PARAMS_COUNT)) >= 0) {
+                sort_servers (i);
+                print_main_box (y, x);
+                print_servers (y - 2, x - 4, OK);
+            } else if ((i = check_mouse_pos_acts (y - 1, &mouse_event, acts_list, ACTS_COUNT)) >= 0) {
+                acts_list [i].enabled = 1;
+                acts_list [i].func (0, OK, y, x, acts_list [i].name);
+                goto _key_loop_end;
+            } else {
+                /* TODO: Server Action Dialog */
             }
         }
 
