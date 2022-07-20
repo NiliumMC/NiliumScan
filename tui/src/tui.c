@@ -191,12 +191,6 @@ void show_menu (void) {
             }
         }
 
-        if (check_move_key (ch)) {
-            print_servers (y - 2, x - 4, ch);
-        } else if (check_enter_key (ch)) {
-            /* TODO: Handle This Type Of Keys */
-        }
-
         /* Mouse Keys Handler */
         else if (check_mouse_click (&mouse_event)) {
             if (is_entering_filter) {
@@ -272,6 +266,12 @@ void show_menu (void) {
             drop_filter ();
             print_main_box (y, x);
             print_servers (y - 2, x - 4, OK);
+        }
+
+        if (check_move_key (ch)) {
+            print_servers (y - 2, x - 4, ch);
+        } else if (check_enter_key (ch)) {
+            /* TODO: Handle This Type Of Keys */
         }
 
 _key_loop_end:
