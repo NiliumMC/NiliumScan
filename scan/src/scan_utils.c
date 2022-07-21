@@ -19,9 +19,7 @@
 #include <unistd.h>
 
 #include "scan/scan_utils.h"
-
-int read_varint (const unsigned int);
-int write_varint (int, char *);
+#include "scan/scan_varint.h"
 
 const char request_packet [2] = { 0x01, 0x00 };
 const char handshake_packet_id = 0x00;
@@ -51,7 +49,7 @@ int connection_init (const unsigned int sock, const char *ip, const unsigned sho
     return 1;
 }
 
-/* I'm have VarInt*/
+/* I'm hate VarInt*/
 int send_request (const unsigned int sock, char **json_buf, const char *ip, const unsigned int ip_len, const unsigned short port, const int protocol) {
     char *handshake_buf,
          handshake_len_varint [5],
@@ -135,30 +133,5 @@ int send_request (const unsigned int sock, char **json_buf, const char *ip, cons
 
     close (sock);
     return json_len;
-}
-
-int read_varint (const unsigned int sock) {
-    char byte;
-    int value = 0,
-        pos = 0;
-
-    do {
-        read (sock, &byte, 1);
-        value |= (byte & 0x7F) << pos;
-        pos += 7;
-    } while (byte & 0x80 && pos < 32);
-    return value;
-}
-
-int write_varint (int value, char *buf) {
-    unsigned int pos;
-
-    for (pos = 0; pos < 5; ++pos) {
-        if (!(value & ~0x7F)) {
-            buf [pos++] = value & 0x7F;
-            break;
-        } buf [pos] = (value & 0x7F) | 0x80;
-        value = (unsigned int) value >> 7;
-    } return pos;
 }
 

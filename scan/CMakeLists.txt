@@ -15,8 +15,9 @@ include (FindThreads)
 find_package(json-c REQUIRED NO_MODULE)
 
 set (SCAN_SOURCES
-     src/scan.c
-     src/scan_utils.c)
+     src/scan_varint.c
+     src/scan_utils.c
+     src/scan.c)
 
 add_library (${PROJECT_NAME} ${SCAN_SOURCES})
 add_library (tmc::scan ALIAS ${PROJECT_NAME})
