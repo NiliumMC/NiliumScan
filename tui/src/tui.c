@@ -25,6 +25,7 @@
 
 #define MIN_LINES 15
 #define MIN_COLS 80
+
 #define PARAMS_COUNT 5
 #define ACTS_COUNT 2
 

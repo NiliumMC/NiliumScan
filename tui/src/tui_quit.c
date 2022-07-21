@@ -14,6 +14,7 @@
 
 #define BOX_HEIGHT 5
 #define BOX_WIDTH 21
+
 #define BUTTONS_COUNT 2
 
 int is_open = 1;

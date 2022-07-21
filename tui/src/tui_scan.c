@@ -22,8 +22,10 @@
 
 #define BOX_HEIGHT 7
 #define BOX_WIDTH 64
+
 #define BUTTONS_COUNT 2
 #define TEXTFIELDS_COUNT 5
+
 #define STATUS_IDLE_STR "IDLE"
 #define STATUS_ERR_STR "ERROR"
 #define STATUS_SCAN_STR "SCANNING"
