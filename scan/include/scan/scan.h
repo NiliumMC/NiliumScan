@@ -25,9 +25,9 @@ struct scan_args {
     unsigned short port_lst;
 };
 
-void * start_scan (void *);
-void copy_serv_list_to_array (void);
-void free_serv_item (struct serv_item *);
+void * start_scan (void *); /* Start Servers Scan */
+void copy_serv_list_to_array (void); /* Move Scanned Servers From Linked List To An Array */
+void free_serv_item (struct serv_item *); /* Free Memory Dedicated For Server Item Structure */
 
 extern int is_scanning;
 extern struct serv_item serv_items_list;

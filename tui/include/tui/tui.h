@@ -7,7 +7,7 @@
  *
  *****************************************************************************/
 
-int ini_curses (void);
-void show_menu (void);
-void fin_curses (void);
+int ini_curses (void); /* Init Curses Screen Mode */
+void show_menu (void); /* Draw Main Menu At Screen */
+void fin_curses (void); /* End Curses Screen Mode */
 

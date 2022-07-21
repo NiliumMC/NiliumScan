@@ -14,7 +14,7 @@ enum scan_status_enum {
     scan_status_end
 };
 
-int act_scan (const MEVENT *, const int, const int, const int, const char *);
+int act_scan (const MEVENT *, const int, const int, const int, const char *); /* Bind Function For Scan Action */
 
 extern pthread_t *scan_threads;
 extern int scan_status;

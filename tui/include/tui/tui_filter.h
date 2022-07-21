@@ -18,12 +18,12 @@ extern int *filtered_indexes_array,
            current_filtered_serv_item,
            filtered_items_shift;
 
-void print_filter (const int, const int);
-int filter_key_handler (const int);
-void cursor_to_filter (const int, const int);
-void disable_entering_filter (void);
-void drop_filter (void);
-int check_mouse_pos_filter (const MEVENT *);
-int check_mouse_pos_filter_ok_button (const int, const int, const MEVENT *);
-int check_mouse_pos_filter_dl_button (const int, const int, const MEVENT *);
+void print_filter (const int, const int); /* Draw Servers Filter At Main Window */
+int filter_key_handler (const int); /* Handler Keys Pressed When Servers Filter Is Entering */
+void cursor_to_filter (const int, const int); /* Move Terminal Cursor To Entering Servers Filter */
+void disable_entering_filter (void); /* Stop Entering Servers Filter */
+void drop_filter (void); /* Reset Servers Filter Value */
+int check_mouse_pos_filter (const MEVENT *); /* Check If Pressed Mouse Key At Servers Filter */
+int check_mouse_pos_filter_ok_button (const int, const int, const MEVENT *); /* Check If Pressed Mouse Key At Servers Filter OK Button */
+int check_mouse_pos_filter_dl_button (const int, const int, const MEVENT *); /* Check If Pressed Mouse Key At Servers Filter DL Button */
 

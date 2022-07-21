@@ -7,7 +7,7 @@
  *
  *****************************************************************************/
 
-int act_quit (const MEVENT *, const int, const int, const int, const char *);
+int act_quit (const MEVENT *, const int, const int, const int, const char *); /* Bind Function For Quit Action */
 
 extern int is_open;
 

@@ -15,6 +15,6 @@ struct action {
     int enabled;
 };
 
-void print_act (const int, const int, const struct action *);
-int check_mouse_pos_acts (const int, const MEVENT *, const struct action *, const int);
+void print_act (const int, const int, const struct action *); /* Draw Actions At Main Window */
+int check_mouse_pos_acts (const int, const MEVENT *, const struct action *, const int); /* Check If Pressed Mouse Key At Actions Positions */
 
