@@ -7,6 +7,8 @@
  *
  *****************************************************************************/
 
+#include <unistd.h>
+
 int read_varint (const unsigned int sock) {
     char byte;
     int value = 0,
