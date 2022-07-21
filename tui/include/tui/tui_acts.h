@@ -7,6 +7,7 @@
  *
  *****************************************************************************/
 
+/* One Action Structure */
 struct action {
     char *name;
     int len;

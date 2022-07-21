@@ -21,17 +21,15 @@
 #include "scan/scan_utils.h"
 #include "scan/scan.h"
 
-#define STR_NULL "[NULL]"
-#define STR_NULL_LEN 7
+#define STR_NULL "[NULL]" /* Placeholder For Empty Server Element's Fields */
+#define STR_NULL_LEN 7 /* Lenght Of Previous String */
 
-int get_serv (struct scan_args *, const unsigned short);
-char *copy_json_string (const char *, const unsigned int);
-void copy_serv_to_another (struct serv_item *, const struct serv_item *);
-void free_serv_item (struct serv_item *);
+int get_serv (struct scan_args *, const unsigned short); /* Ping Certain Server */
+char *copy_json_string (const char *, const unsigned int); /* Copy String From Json Response */
 
 int is_scanning;
 
-pthread_mutex_t scan_mutex;
+pthread_mutex_t scan_mutex; /* Mutex Lock For Scan Function */
 
 struct serv_item serv_items_list;
 struct serv_item *last_serv_list_item;
@@ -130,7 +128,6 @@ int get_serv (struct scan_args *sargs, const unsigned short port) {
         pthread_mutex_unlock (&scan_mutex);
     }
 
-    /* free (this_serv_item); */
     json_object_put (parsed_json);
     free (json_buf);
     return 1;

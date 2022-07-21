@@ -12,14 +12,15 @@
 #include "tui/tui_utils.h"
 #include "tui/tui_quit.h"
 
-#define BOX_HEIGHT 5
-#define BOX_WIDTH 21
+#define BOX_HEIGHT 5 /* Height Of Quit Window */
+#define BOX_WIDTH 21 /* Width Of Quit Window */
 
-#define BUTTONS_COUNT 2
+#define BUTTONS_COUNT 2 /* Count Of Quit Window's Buttons */
 
 int is_open = 1;
-int quit_current = 1;
+int quit_current = 1; /* Selected Now Quit TUI Element */
 
+/* Quit Window's Buttons List */
 struct tui_button quit_buttons [BUTTONS_COUNT] = { { 0, 0, COLOR_PAIR (2), "Yes", 3, 0, 0, 0, 1, 1 },
                                                    { 0, 0, COLOR_PAIR (1), "No", 2, 1, 1, 1, 0, 0 } };
 

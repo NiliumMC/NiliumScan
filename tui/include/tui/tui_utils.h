@@ -7,6 +7,7 @@
  *
  *****************************************************************************/
 
+/* Enum Direction In Which Is Located Next TUI Element */
 enum tui_direct {
     direct_up,
     direct_down,
@@ -14,6 +15,7 @@ enum tui_direct {
     direct_right
 };
 
+/* One TUI Button Structure */
 struct tui_button {
     int y_pos, x_pos, attrs;
     const char *name;
@@ -25,6 +27,7 @@ struct tui_button {
               right_id;
 };
 
+/* One TUI TextField Structure */
 struct tui_textfield {
     int y_pos, x_pos, attrs;
     const char *name;
@@ -59,6 +62,4 @@ int compare_serv_ports (const void *, const void *); /* Compare Two Servers Port
 int compare_serv_online (const void *, const void *); /* Compare Two Servers Online Values*/
 int compare_serv_version (const void *, const void *); /* Compare Two Servers Version Values*/
 int compare_serv_motd (const void *, const void *); /* Compare Two Servers MOTD Values*/
-
-extern struct serv_item *serv_items_array;
 

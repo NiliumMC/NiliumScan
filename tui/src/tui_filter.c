@@ -18,11 +18,10 @@
 #include "scan/scan.h"
 
 int is_filtering,
-    is_entering_filter,
-    is_filter_applied;
+    is_entering_filter;
 
-char *filter_str;
-int filter_str_len;
+char *filter_str; /* Servers List Filter String */
+int filter_str_len; /* Servers List Filter String Lenght */
 
 int *filtered_indexes_array,
     filtered_indexes_array_len,
@@ -150,7 +149,7 @@ int filter_key_handler (const int ch) {
             }
 
             current_filtered_serv_item = 0;
-            is_filter_applied = 1;
+            /* is_filter_applied = 1; */
             is_filtering = 1;
             apply_serv_filter (serv_items_array, serv_items_array_len);
         } else {

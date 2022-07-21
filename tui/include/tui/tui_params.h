@@ -7,6 +7,7 @@
  *
  *****************************************************************************/
 
+/* One Param Structure */
 struct param {
     char *name;
     int str_len,

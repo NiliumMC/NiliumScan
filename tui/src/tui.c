@@ -23,11 +23,11 @@
 
 #include "scan/scan.h"
 
-#define MIN_LINES 15
-#define MIN_COLS 80
+#define MIN_LINES 15 /* Minimum Count Of Screen's Lines */
+#define MIN_COLS 80 /* Minimum Count Of Screen's Cols */
 
-#define PARAMS_COUNT 5
-#define ACTS_COUNT 2
+#define PARAMS_COUNT 5 /* Count Of Params At Main Window */
+#define ACTS_COUNT 2 /* Count Of Acts At Main Window */
 
 void print_main_box (const int, const int);
 void print_servers (const int, const int, const int);
@@ -36,15 +36,17 @@ void print_current_item_num (const int, const int);
 
 int ltc_menu_pos_x; /* Left-Top corner of menu position by horizontal */
 
-int current_serv_item,
-    items_shift;
+int current_serv_item, /* Selected Now Servers List Item */
+    items_shift; /* Servers List Items Offset */
 
+/* Params List */
 const struct param params_list [PARAMS_COUNT] = { { "ip", 2, 15, 'i' },
                                                   { "port", 4, 5, 'p' },
                                                   { "online", 6, 10, 'o' },
                                                   { "version", 7, 27, 'v' },
                                                   { "motd", 4, 20, 'm' } };
 
+/* Acts List */
 struct action acts_list [ACTS_COUNT] = { { "scan", 4, act_scan, 's', 0 },
                                          { "quit", 4, act_quit, 'q', 0 } };
 

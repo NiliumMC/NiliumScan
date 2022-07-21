@@ -7,16 +7,16 @@
  *
  *****************************************************************************/
 
-#define MAX_FILTER_FIELD_LEN 20
-#define MAX_FILTER_STR_LEN 35
+#define MAX_FILTER_FIELD_LEN 20 /* Maximum Servers List Filter's TUI Lenght */
+#define MAX_FILTER_STR_LEN 35 /* Maximum Servers List Filter's String Lenght */
 
-extern int is_filtering;
-extern int is_entering_filter;
+extern int is_filtering; /* Servers List Filtering Toggle */
+extern int is_entering_filter; /* Entering Servers List Filter Toggle */
 
-extern int *filtered_indexes_array,
-           filtered_indexes_array_len,
-           current_filtered_serv_item,
-           filtered_items_shift;
+extern int *filtered_indexes_array, /* Dynamic Array Of Indexes Servers List Items */
+           filtered_indexes_array_len, /* Lenght Of Previous Array */
+           current_filtered_serv_item, /* Selected Now Filtered Servers List Item*/
+           filtered_items_shift; /* Filtered Servers List Offset */
 
 void print_filter (const int, const int); /* Draw Servers Filter At Main Window */
 int filter_key_handler (const int); /* Handler Keys Pressed When Servers Filter Is Entering */

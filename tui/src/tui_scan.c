@@ -20,26 +20,28 @@
 
 #include "scan/scan.h"
 
-#define BOX_HEIGHT 7
-#define BOX_WIDTH 64
+#define BOX_HEIGHT 7 /* Height Of Scan Window */
+#define BOX_WIDTH 64 /* Width Of Scan Window */
 
-#define BUTTONS_COUNT 2
-#define TEXTFIELDS_COUNT 5
+#define BUTTONS_COUNT 2 /* Count Of Scan Window's Buttons */
+#define TEXTFIELDS_COUNT 5 /* Count Of Scan Window's TextFields */
 
 #define STATUS_IDLE_STR "IDLE"
 #define STATUS_ERR_STR "ERROR"
 #define STATUS_SCAN_STR "SCANNING"
 #define STATUS_END_STR "SCANNED"
 
-int check_current_textfield (void);
-void start_scan_button (void);
-int parse_ports (char *, unsigned short *, unsigned short *);
-void print_scan_status (const int, const int);
-int check_textfields (void);
+int check_current_textfield (void); /* Check If Some TextField Is Selected */
+void start_scan_button (void); /* Start Scan Bind Function */
+int parse_ports (char *, unsigned short *, unsigned short *); /* Parsing Port Range */
+void print_scan_status (const int, const int); /* Draw Current Scan Status */
+int check_textfields (void); /* Check If Some TextField's String Is NULL */
 
+/* Scan Window's Buttons List */
 struct tui_button scan_buttons [BUTTONS_COUNT] = { { 0, 0, COLOR_PAIR (3), "Start Scan", 10, 0, 4, 0, 6, 1 },
                                                    { 0, 0, COLOR_PAIR (1), "Cancel", 6, 1, 4, 1, 0, 2 } };
 
+/* Scan Window's TextFields List */
 struct tui_textfield scan_textfields [TEXTFIELDS_COUNT] = { { 0, 0, COLOR_PAIR (3), "IP", 2, 28, 50, 0, 0, 2, 2, 4, 1, 3 },
                                                             { 0, 0, COLOR_PAIR (3), "Port Range", 10, 11, 11, 0, 0, 3, 3, 6, 2, 4 },
                                                             { 0, 0, COLOR_PAIR (3), "MC Protocol", 11, 11, 11, 0, 0, 4, 2, 0, 3, 5 },
@@ -49,10 +51,10 @@ struct tui_textfield scan_textfields [TEXTFIELDS_COUNT] = { { 0, 0, COLOR_PAIR (
 pthread_t *scan_threads;
 int num_threads;
 
-struct scan_args sargs;
+struct scan_args sargs; /* `start_scan ()` Arguments */
 
-int scan_current,
-    scan_status;
+int scan_current, /* Selected Now Scan TUI Element */
+    scan_status; /* Current Scan Status */
 
 int act_scan (const MEVENT *mouse_event, int ch, const int y, const int x, const char *name) {
     static int y_pos, x_pos;

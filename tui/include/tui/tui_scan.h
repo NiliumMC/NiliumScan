@@ -7,6 +7,7 @@
  *
  *****************************************************************************/
 
+/* Enum Of Scan Status */
 enum scan_status_enum {
     scan_status_idle,
     scan_status_error,
@@ -16,6 +17,6 @@ enum scan_status_enum {
 
 int act_scan (const MEVENT *, const int, const int, const int, const char *); /* Bind Function For Scan Action */
 
-extern pthread_t *scan_threads;
-extern int scan_status;
+extern pthread_t *scan_threads; /* Dynamic Array Of Scan Threads */
+extern int scan_status; /* Count Of Scan Threads */
 

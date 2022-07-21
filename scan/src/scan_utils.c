@@ -21,8 +21,8 @@
 #include "scan/scan_utils.h"
 #include "scan/scan_varint.h"
 
-const char request_packet [2] = { 0x01, 0x00 };
-const char handshake_packet_id = 0x00;
+const char request_packet [2] = { 0x01, 0x00 }; /* Second C2S Packet (Request) */
+const char handshake_packet_id = 0x00; /* Packet ID Of First C2S Packet (Handshake) */
 
 int connection_init (const unsigned int sock, const char *ip, const unsigned short port, const int timeout) {
     struct timeval tv_timeout;

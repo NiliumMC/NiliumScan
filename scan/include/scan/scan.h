@@ -7,6 +7,7 @@
  *
  *****************************************************************************/
 
+/* One Scanned Server Element Structure */
 struct serv_item {
     char *ip;
     unsigned short port;
@@ -17,6 +18,7 @@ struct serv_item {
     struct serv_item *next;
 };
 
+/* `start_scan ()` Arguments Structure */
 struct scan_args {
     char *ip;
     unsigned int ip_len;
@@ -29,11 +31,11 @@ void * start_scan (void *); /* Start Servers Scan */
 void copy_serv_list_to_array (void); /* Move Scanned Servers From Linked List To An Array */
 void free_serv_item (struct serv_item *); /* Free Memory Dedicated For Server Item Structure */
 
-extern int is_scanning;
-extern struct serv_item serv_items_list;
-extern struct serv_item *last_serv_list_item;
-extern int serv_items_list_len;
+extern int is_scanning; /* Scan Toggle */
+extern struct serv_item serv_items_list; /* Linked List Of Servers Elements */
+extern struct serv_item *last_serv_list_item; /* Last Servers List Element */
+extern int serv_items_list_len; /* Lenght Of Servers Linked List */
 
-extern struct serv_item *serv_items_array;
-extern int serv_items_array_len;
+extern struct serv_item *serv_items_array; /* Dynamic Array Of Scanned Servers */
+extern int serv_items_array_len; /* Lenght Of Previous Array */
 
