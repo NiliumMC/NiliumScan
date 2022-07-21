@@ -25,7 +25,7 @@
 #define STR_NULL_LEN 7 /* Lenght Of Previous String */
 
 int get_serv (struct scan_args *, const unsigned short); /* Ping Certain Server */
-char *copy_json_string (const char *, const unsigned int); /* Copy String From Json Response */
+char *copy_json_string (const char *, const unsigned int); /* Copy String From JSON Response */
 
 int is_scanning;
 
