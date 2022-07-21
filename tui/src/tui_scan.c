@@ -222,7 +222,7 @@ int parse_ports (char *ports_str, unsigned short *fst, unsigned short *lst) {
 }
 
 void print_scan_status (const int y, const int x) {
-    mvaddch (y, x, '[');
+    mvaddch (y, x, ACS_LRCORNER);
     addstr ("Status: ");
     if (scan_status == scan_status_idle) {
         attron (COLOR_PAIR (3));
@@ -241,7 +241,7 @@ void print_scan_status (const int y, const int x) {
         attron (COLOR_PAIR (2));
         addstr (STATUS_END_STR);
         attroff (COLOR_PAIR (2));
-    } addch (']');
+    } addch (ACS_LLCORNER);
 }
 
 int check_textfields (void) {
