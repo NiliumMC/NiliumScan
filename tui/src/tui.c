@@ -411,7 +411,7 @@ void print_server (const int y, const int x, const int i, const char is_highligh
 
     mvaddnstr (y, 2, serv_items_array [i].ip, params_list [0].len);
     x_pos += params_list [0].len + 1;
-    mvprintw (y, x_pos, "%hd", serv_items_array [i].port);
+    mvprintw (y, x_pos, "%hu", serv_items_array [i].port);
     x_pos += params_list [1].len + 1;
     mvaddnstr (y, x_pos, tmp_str, params_list [2].len);
     x_pos += params_list [2].len + 1;
