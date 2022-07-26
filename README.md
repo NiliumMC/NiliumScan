@@ -1,3 +1,5 @@
+<img src="icon.png" align="left" width="128px">
+
 # TMCScan 0.12 (DevVersion)
 Only Linux Lightweight Minecraft Port Scanner Written In C/Ncurses
 
