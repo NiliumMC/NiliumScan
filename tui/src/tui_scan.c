@@ -78,6 +78,7 @@ int act_scan (const MEVENT *mouse_event, int ch, const int y, const int x, const
     }
 
     if (ch == 'q') {
+        scan_status = scan_status_idle;
         curs_set (0);
         return 0;
     } if (ch == 'y') {
