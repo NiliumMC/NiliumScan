@@ -443,7 +443,7 @@ void print_current_item_num (const int y, const int x) {
         attroff (COLOR_PAIR (3));
         addch (ACS_LLCORNER);
         free (tmp_str);
-    } else if (serv_items_array_len) {
+    } else if (!is_filtering && serv_items_array_len) {
         tmp_str = malloc (24);
         x_pos = sprintf (tmp_str, "%d/%d", current_serv_item + 1, serv_items_array_len);
         mvhline (y - 1, x - 15, ACS_HLINE, 12);
