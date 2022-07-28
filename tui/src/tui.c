@@ -197,7 +197,7 @@ void show_menu (void) {
         }
 
         /* Mouse Keys Handler */
-        else if (check_mouse_click (&mouse_event)) {
+        if (check_mouse_click (&mouse_event)) {
             if (is_entering_filter) {
                 if (check_mouse_pos_filter_ok_button (x, 69, &mouse_event)) {
                     filter_key_handler (KEY_ENTER);
