@@ -23,14 +23,10 @@ $ cmake .. && make
 ```
 And in the build folder you can see `tmcscan` binary.  
   
-Note: If you are using Termux you need to build json-c "libjson-c.a" file manually.
+Note: If you are using Termux you need to install "json-c-static" package.
 ```
-$ cd
-$ git clone https://github.com/json-c/json-c
-$ cd json-c
-$ mkdir build && cd build
-$ cmake .. && make
-$ cp libjson-c.a ../../../usr/lib/
+$ apt update
+$ apt install json-c-static
 ```
 
 ### TODO
