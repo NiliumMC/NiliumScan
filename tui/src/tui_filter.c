@@ -203,9 +203,11 @@ void apply_serv_filter (const struct serv_item *serv_items_array, const int serv
             }
         }
 
-        filtered_indexes_array = malloc (filtered_indexes_array_len * sizeof (int));
-        for (i = 0; i < filtered_indexes_array_len; ++i) {
-            filtered_indexes_array [i] = tmp_indexes_array [i];
+        if (filtered_indexes_array_len) {
+            filtered_indexes_array = malloc (filtered_indexes_array_len * sizeof (int));
+            for (i = 0; i < filtered_indexes_array_len; ++i) {
+                filtered_indexes_array [i] = tmp_indexes_array [i];
+            }
         } free (tmp_indexes_array);
     }
 }
