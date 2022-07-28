@@ -16,6 +16,7 @@
 #include "tui/tui_filter.h"
 #include "tui/tui_params.h"
 #include "tui/tui_utils.h"
+#include "tui/tui_about.h"
 #include "tui/tui_acts.h"
 #include "tui/tui_scan.h"
 #include "tui/tui_quit.h"
@@ -27,7 +28,7 @@
 #define MIN_COLS 80 /* Minimum Count Of Screen's Cols */
 
 #define PARAMS_COUNT 5 /* Count Of Params At Main Window */
-#define ACTS_COUNT 2 /* Count Of Acts At Main Window */
+#define ACTS_COUNT 3 /* Count Of Acts At Main Window */
 
 void print_main_box (const int, const int);
 void print_servers (const int, const int, const int);
@@ -48,7 +49,8 @@ const struct param params_list [PARAMS_COUNT] = { { "ip", 2, 15, 'i' },
 
 /* Acts List */
 struct action acts_list [ACTS_COUNT] = { { "scan", 4, act_scan, 's', 0 },
-                                         { "quit", 4, act_quit, 'q', 0 } };
+                                         { "quit", 4, act_quit, 'q', 0 },
+                                         { "about", 5, act_about, 'a', 0 } };
 
 int ini_curses (void) {
     setlocale (LC_ALL, "");

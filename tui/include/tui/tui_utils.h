@@ -55,6 +55,7 @@ int check_move_key (const int); /* Check If Pressed Key Is Move Bind */
 int check_enter_key (const int); /* Check If Pressed Key Is Select Bind */
 int check_mouse_click (const MEVENT *); /* Check If Mouse Click Is LMB/RMB */
 int check_mouse_double_click (const MEVENT *); /* Check If Mouse Click Is Double LMB/RMB */
+int check_mouse_pos_box (const int, const int, const int, const int, const int, const int); /* Check If Pressed Mouse Key At Box Position */
 int check_mouse_pos_serv_list (const int, const int, const int, const MEVENT *); /* Check If Pressed Mouse Key At Servers List Position */
 void sort_servers (const int); /* Sort Servers List */
 int compare_serv_ip (const void *, const void *); /* Compare Two Servers IP Values*/

@@ -20,6 +20,7 @@ set (TUI_SOURCES
      src/tui_filter.c
      src/tui_params.c
      src/tui_utils.c
+     src/tui_about.c
      src/tui_acts.c
      src/tui_scan.c
      src/tui_quit.c

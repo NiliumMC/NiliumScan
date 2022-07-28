@@ -259,6 +259,10 @@ int check_mouse_double_click (const MEVENT *mouse_event) {
     return mouse_event && (mouse_event->bstate & BUTTON1_DOUBLE_CLICKED || mouse_event->bstate & BUTTON3_DOUBLE_CLICKED);
 }
 
+int check_mouse_pos_box (const int y_pos, const int x_pos, const int y, const int x, const int height, const int width) {
+    return y_pos >= y && y_pos < y + height && x_pos >= x && x_pos < x + width;
+}
+
 int check_mouse_pos_serv_list (const int y, const int x, const int items_shift, const MEVENT *mouse_event) {
     if (is_filtering) {
         if (filtered_items_shift + mouse_event->y - 1 < filtered_indexes_array_len && mouse_event->y > 0 && mouse_event->y <= y && mouse_event->x > 0 && mouse_event->x <= x) {
