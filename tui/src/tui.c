@@ -284,7 +284,7 @@ _key_loop_end:
             usleep (60000);
         } if (scan_status == scan_status_scanning) {
             sleep (1);
-        } if (is_entering_filter) {
+        } if (is_entering_filter && y >= MIN_LINES && x >= MIN_COLS) {
             curs_set (1);
             cursor_to_filter (x, 69);
         }
