@@ -34,7 +34,7 @@ int act_about (const MEVENT *mouse_event, const int ch, const int y, const int x
     print_clear_win_at (y_pos, x_pos, BOX_HEIGHT, BOX_WIDTH, name);
 
     attron (COLOR_PAIR (3));
-    mvprintw (y_pos + 2, x_pos + 2, "TMCScan 1.0.0: ");
+    mvprintw (y_pos + 2, x_pos + 2, "TMCScan 1.0.1: ");
     attroff (COLOR_PAIR (3));
     addstr ("Advanced TUI Minecraft Port Scanner");
 
