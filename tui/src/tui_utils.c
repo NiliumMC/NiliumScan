@@ -17,6 +17,13 @@
 
 #include "scan/scan.h"
 
+void print_tui_button (const struct tui_button *, const int); /* Print One TUI Button */
+void print_tui_textfield (const struct tui_textfield *, const int); /* Print One TUI TextField */
+int check_mouse_pos_button (const struct tui_button *, const int, const int); /* Check If The Pressed Mouse Key Is On TUI Button */
+int button_get_next (const struct tui_button *, int); /* Find Next TUI Item Index From TUI Button */
+int check_mouse_pos_textfield (const struct tui_textfield *, const int, const int); /* Check If The Pressed Mouse Key Is On TUI TextField */
+int textfield_get_next (const struct tui_textfield *, int); /* Find Next TUI Item Index From TUI TextField */
+
 void print_min_size (const int min_lines, const int min_cols, const int y, const int x) {
     int y_pos = (y / 2) - 2, x_pos = (x / 2) - 16;
 
@@ -119,6 +126,19 @@ int check_mouse_pos_button (const struct tui_button *button, const int y_pos, co
     return y_pos == button->y_pos && x_pos >= button->x_pos && x_pos <= button->x_pos + button->len + 1;
 }
 
+int button_get_next (const struct tui_button *button, int direction) {
+    if (direction == direct_up) {
+        return button->up_id;
+    } else if (direction == direct_down) {
+        return button->down_id;
+    } else if (direction == direct_left) {
+        return button->left_id;
+    } else if (direction == direct_right) {
+        return button->right_id;
+    } /* `else {}` is optimized */
+    return -1;
+}
+
 int check_mouse_pos_textfield (const struct tui_textfield *textfield, const int y_pos, const int x_pos) {
     return y_pos == textfield->y_pos && x_pos >= textfield->x_pos && x_pos <= textfield->x_pos + textfield->len_name + textfield->len_buf + 3;
 }
@@ -133,19 +153,6 @@ int textfield_get_next (const struct tui_textfield *textfield, int direction) {
     } else if (direction == direct_right) {
         return textfield->right_id;
     }  /* `else {}` is optimized */
-    return -1;
-}
-
-int button_get_next (const struct tui_button *button, int direction) {
-    if (direction == direct_up) {
-        return button->up_id;
-    } else if (direction == direct_down) {
-        return button->down_id;
-    } else if (direction == direct_left) {
-        return button->left_id;
-    } else if (direction == direct_right) {
-        return button->right_id;
-    } /* `else {}` is optimized */
     return -1;
 }
 
