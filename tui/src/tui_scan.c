@@ -103,26 +103,28 @@ int act_scan (const MEVENT *mouse_event, int ch, const int y, const int x, const
     }
 
 _check_mouse:
-    if (check_mouse_click (mouse_event)) {
-        tmp_current = find_next_item (ch, mouse_event, &scan_current, scan_buttons, BUTTONS_COUNT, scan_textfields, TEXTFIELDS_COUNT);
-        scan_status = scan_status_idle;
+    if (ch == KEY_MOUSE) {
+        if (check_mouse_click (mouse_event)) {
+            tmp_current = find_next_item (ch, mouse_event, &scan_current, scan_buttons, BUTTONS_COUNT, scan_textfields, TEXTFIELDS_COUNT);
+            scan_status = scan_status_idle;
 
-        if (scan_current == tmp_current && tmp_current == 0) {
-            start_scan_button ();
-        } if (scan_current == tmp_current && tmp_current == 1) {
-            curs_set (0);
-            return 0;
-        }
-    } if (check_mouse_double_click (mouse_event)) {
-        tmp_current = find_next_item (ch, mouse_event, &scan_current, scan_buttons, BUTTONS_COUNT, scan_textfields, TEXTFIELDS_COUNT);
-        scan_status = scan_status_idle;
-
-        if (tmp_current >= 0) {
-            if (scan_current == 0) {
+            if (scan_current == tmp_current && tmp_current == 0) {
                 start_scan_button ();
-            } if (scan_current == 1) {
+            } if (scan_current == tmp_current && tmp_current == 1) {
                 curs_set (0);
                 return 0;
+            }
+        } if (check_mouse_double_click (mouse_event)) {
+            tmp_current = find_next_item (ch, mouse_event, &scan_current, scan_buttons, BUTTONS_COUNT, scan_textfields, TEXTFIELDS_COUNT);
+            scan_status = scan_status_idle;
+
+            if (tmp_current >= 0) {
+                if (scan_current == 0) {
+                    start_scan_button ();
+                } if (scan_current == 1) {
+                    curs_set (0);
+                    return 0;
+                }
             }
         }
     }
