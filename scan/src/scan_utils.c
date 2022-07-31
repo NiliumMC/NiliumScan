@@ -93,7 +93,7 @@ int send_request (const int sock, char **json_buf, const char *ip, const int ip_
     handshake_buf_pos += ip_len;
 
     /* Write Port And Next State */
-    handshake_buf [handshake_buf_pos++] = (((char) port) >> 8) & 0xFF;
+    handshake_buf [handshake_buf_pos++] = (char) ((((char) port) >> 8) & 0xFF);
     handshake_buf [handshake_buf_pos++] = (char) (port & 0xFF);
     handshake_buf [handshake_buf_pos++] = 0x01;
 
