@@ -29,6 +29,8 @@ set (TUI_SOURCES
 add_library (${PROJECT_NAME} ${TUI_SOURCES})
 add_library (tmc::tui ALIAS ${PROJECT_NAME})
 
+configure_file (${PROJECT_SOURCE_DIR}/include/tui/tui_about.h.in ${PROJECT_SOURCE_DIR}/include/tui/tui_about.h NEWLINE_STYLE UNIX)
+
 target_include_directories (${PROJECT_NAME}
                             PUBLIC ${PROJECT_SOURCE_DIR}/include
                             PRIVATE ${CURSES_INCLUDE_DIRS})
