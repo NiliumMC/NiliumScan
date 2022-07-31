@@ -1,2 +1,3 @@
 /.git/
 /build
+/tui/include/tui/tui_about.h
