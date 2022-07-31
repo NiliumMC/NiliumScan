@@ -161,9 +161,9 @@ int filter_key_handler (const int ch) {
         }
     } else if (ch == KEY_BACKSPACE) {
         if (filter_str_len) {
-            tmp_str = malloc (filter_str_len--);
+            tmp_str = malloc ((unsigned int) filter_str_len--);
             if (filter_str_len)
-                memcpy (tmp_str, filter_str, filter_str_len);
+                memcpy (tmp_str, filter_str, (unsigned int) filter_str_len);
             free (filter_str);
             filter_str = tmp_str;
             filter_str [filter_str_len] = 0;
@@ -173,16 +173,16 @@ int filter_key_handler (const int ch) {
             if (filter_str)
                 free (filter_str);
             filter_str = malloc (2);
-            filter_str [filter_str_len++] = ch;
+            filter_str [filter_str_len++] = (char) ch;
             filter_str [filter_str_len] = 0;
         } else {
             if (filter_str_len < MAX_FILTER_STR_LEN) {
-                tmp_str = malloc (filter_str_len);
-                memcpy (tmp_str, filter_str, filter_str_len);
+                tmp_str = malloc ((unsigned int) filter_str_len);
+                memcpy (tmp_str, filter_str, (unsigned int) filter_str_len);
                 free (filter_str);
-                filter_str = malloc (filter_str_len + 2);
-                memcpy (filter_str, tmp_str, filter_str_len);
-                filter_str [filter_str_len++] = ch;
+                filter_str = malloc ((unsigned int) (filter_str_len + 2));
+                memcpy (filter_str, tmp_str, (unsigned int) filter_str_len);
+                filter_str [filter_str_len++] = (char) ch;
                 filter_str [filter_str_len] = 0;
                 free (tmp_str);
             } else {
@@ -196,7 +196,7 @@ void apply_serv_filter (const struct serv_item *serv_items_array, const int serv
     int *tmp_indexes_array, i;
 
     if (serv_items_array_len) {
-        tmp_indexes_array = malloc (serv_items_array_len * sizeof (int));
+        tmp_indexes_array = malloc ((unsigned int) serv_items_array_len * sizeof (int));
         for (i = 0; i < serv_items_array_len; ++i) {
             if (compare_serv_with_filter (&serv_items_array [i])) {
                 tmp_indexes_array [filtered_indexes_array_len++] = i;
@@ -204,7 +204,7 @@ void apply_serv_filter (const struct serv_item *serv_items_array, const int serv
         }
 
         if (filtered_indexes_array_len) {
-            filtered_indexes_array = malloc (filtered_indexes_array_len * sizeof (int));
+            filtered_indexes_array = malloc ((unsigned int) filtered_indexes_array_len * sizeof (int));
             for (i = 0; i < filtered_indexes_array_len; ++i) {
                 filtered_indexes_array [i] = tmp_indexes_array [i];
             }
@@ -216,7 +216,7 @@ void apply_serv_filter (const struct serv_item *serv_items_array, const int serv
 int compare_serv_with_filter (const struct serv_item *serv_to_filter) {
     char *tmp_filter_str, *filter_str_tkn;
 
-    tmp_filter_str = malloc (filter_str_len + 1);
+    tmp_filter_str = malloc ((unsigned int) (filter_str_len + 1));
     strcpy (tmp_filter_str, filter_str);
 
     filter_str_tkn = strtok (tmp_filter_str, " ");

@@ -7,6 +7,6 @@
  *
  *****************************************************************************/
 
-int read_varint (const unsigned int); /* Read VarInt From Socket */
+int read_varint (const int); /* Read VarInt From Socket */
 int write_varint (int, char *); /* Write VarInt To Buffer */
 

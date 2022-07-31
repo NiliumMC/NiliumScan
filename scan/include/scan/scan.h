@@ -21,10 +21,11 @@ struct serv_item {
 /* `start_scan ()` Arguments Structure */
 struct scan_args {
     char *ip;
-    unsigned int ip_len;
-    int protocol, timeout;
-    unsigned short port_fst;
-    unsigned short port_lst;
+    int ip_len,
+        protocol,
+        timeout;
+    unsigned short port_fst,
+                   port_lst;
 };
 
 void * start_scan (void *); /* Start Servers Scan */

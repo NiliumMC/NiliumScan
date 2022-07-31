@@ -25,7 +25,7 @@
 #define STR_NULL_LEN 7 /* Lenght Of Previous String */
 
 int get_serv (struct scan_args *, const unsigned short); /* Ping Certain Server */
-char *copy_json_string (const char *, const unsigned int); /* Copy String From JSON Response */
+char *copy_json_string (const char *, const int); /* Copy String From JSON Response */
 
 int is_scanning;
 
@@ -133,17 +133,17 @@ int get_serv (struct scan_args *sargs, const unsigned short port) {
     return 1;
 }
 
-char *copy_json_string (const char *json_str, const unsigned int len) {
+char *copy_json_string (const char *json_str, const int len) {
     char *str;
 
     if (json_str && len) {
-        str = malloc (len + 1);
-        bzero (str, len + 1);
-        strncpy (str, json_str, len);
+        str = malloc ((unsigned int) (len + 1));
+        memset(str, 0, (unsigned int) (len + 1));
+        strncpy (str, json_str, (unsigned int) len);
     } else {
-        str = malloc (STR_NULL_LEN);
-        bzero (str, STR_NULL_LEN);
-        strncpy (str, STR_NULL, STR_NULL_LEN);
+        str = malloc ((unsigned int) STR_NULL_LEN);
+        memset (str, 0, (unsigned int) STR_NULL_LEN);
+        strncpy (str, STR_NULL, (unsigned int) STR_NULL_LEN);
     } return str;
 }
 
@@ -181,7 +181,7 @@ void copy_serv_list_to_array (void) {
 
     last_serv_list_item = 0;
     serv_items_array_len = serv_items_list_len;
-    serv_items_array = malloc (sizeof (struct serv_item) * serv_items_array_len);
+    serv_items_array = malloc (sizeof (struct serv_item) * (unsigned int) serv_items_array_len);
     last_serv_list_item = &serv_items_list;
     for (i = 0; i < serv_items_list_len; ++i) {
         copy_serv_to_another (&serv_items_array [i], last_serv_list_item);

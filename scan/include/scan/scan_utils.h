@@ -9,6 +9,6 @@
 
 #define MAX_SERV_RESPONSE_LEN 16384 /* Maximum Lenght Of Server's JSON Response */
 
-int connection_init (const unsigned int, const char *, const unsigned short, const int); /* Init Connection To The Server */
-int send_request (const unsigned int, char **, const char *, const unsigned int, const unsigned short, const int); /* Send Handshake/Request To The Server */
+int connection_init (const int, const char *, const unsigned short, const int); /* Init Connection To The Server */
+int send_request (const int, char **, const char *, const int, const unsigned short, const int); /* Send Handshake/Request To The Server */
 

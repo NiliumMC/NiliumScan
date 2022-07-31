@@ -176,7 +176,7 @@ void start_scan_button (void) {
 
     if (check_textfields ()) {
         if (parse_ports (scan_textfields [1].buf, &port_fst, &port_lst) && (num_threads = atoi (scan_textfields [3].buf))) {
-            scan_threads = malloc (sizeof (pthread_t) * num_threads);
+            scan_threads = malloc (sizeof (pthread_t) * (unsigned int) num_threads);
 
             sargs.ip = scan_textfields [0].buf;
             sargs.ip_len = scan_textfields [0].buf_size;
@@ -217,7 +217,7 @@ int parse_ports (char *ports_str, unsigned short *fst, unsigned short *lst) {
     if (!(delim = strchr (ports_str, '-')))
         return 0;
 
-    if (!(*fst = atoi (ports_str)) || !(*lst = atoi (delim + 1)))
+    if (!(*fst = (unsigned short) atoi (ports_str)) || !(*lst = (unsigned short) atoi (delim + 1)))
         return 0;
 
     if (*fst > *lst)

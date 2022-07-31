@@ -19,10 +19,10 @@ void print_param (const int x_pos, const struct param *param_item) {
         if (param_item->name [i] == param_item->bind && !is_highlighted) {
             is_highlighted = 1;
             attron (A_BOLD | COLOR_PAIR (3));
-            addch (param_item->name [i]);
+            addch ((unsigned int) param_item->name [i]);
             attroff (A_BOLD | COLOR_PAIR (3));
         } else {
-            addch (param_item->name [i]);
+            addch ((unsigned int) param_item->name [i]);
         }
     } addch (ACS_ULCORNER);
 }

@@ -19,10 +19,10 @@ void print_act (const int y_pos, const int x_pos, const struct action *action_it
         if (action_item->name [i] == action_item->bind && !is_highlighted) {
             is_highlighted = 1;
             attron (A_BOLD | COLOR_PAIR (3));
-            addch (action_item->name [i]);
+            addch ((unsigned int) action_item->name [i]);
             attroff (A_BOLD | COLOR_PAIR (3));
         } else {
-            addch (action_item->name [i]);
+            addch ((unsigned int) action_item->name [i]);
         }
     } addch (ACS_LLCORNER);
 }

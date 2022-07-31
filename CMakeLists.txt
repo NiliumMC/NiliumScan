@@ -10,7 +10,7 @@
 cmake_minimum_required (VERSION 3.10)
 
 project (tmcscan
-         VERSION 1.0.2
+         VERSION 1.0.3
          DESCRIPTION "TUI Minecraft Port Scanner"
          LANGUAGES C)
 
@@ -21,7 +21,18 @@ set (CMAKE_BUILD_TYPE RELEASE)
 
 if (ISDEBUG)
   set (CMAKE_BUILD_TYPE DEBUG)
-  set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address -Wall -Wextra -Wpedantic")
+  set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address \
+                                       -Wall \
+                                       -Wextra \
+                                       -Werror \
+                                       -Wpedantic \
+                                       \
+                                       -Wcast-qual \
+                                       -Wconversion \
+                                       -Wcast-align \
+                                       -Wredundant-decls \
+                                       -Wsign-conversion \
+                                       -Waggregate-return")
 endif ()
 
 add_subdirectory (scan)

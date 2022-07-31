@@ -9,7 +9,7 @@
 
 #include <unistd.h>
 
-int read_varint (const unsigned int sock) {
+int read_varint (const int sock) {
     char byte;
     int value = 0,
         pos = 0;
@@ -23,14 +23,14 @@ int read_varint (const unsigned int sock) {
 }
 
 int write_varint (int value, char *buf) {
-    unsigned int pos;
+    int pos;
 
     for (pos = 0; pos < 5; ++pos) {
         if (!(value & ~0x7F)) {
             buf [pos++] = value & 0x7F;
             break;
-        } buf [pos] = (value & 0x7F) | 0x80;
-        value = (unsigned int) value >> 7;
+        } buf [pos] = ((char) (value & 0x7F)) | (char) 0x80;
+        value = (int) (((unsigned int) value) >> 7);
     } return pos;
 }
 

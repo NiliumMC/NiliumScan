@@ -24,7 +24,7 @@
 const char request_packet [2] = { 0x01, 0x00 }; /* Second C2S Packet (Request) */
 const char handshake_packet_id = 0x00; /* Packet ID Of First C2S Packet (Handshake) */
 
-int connection_init (const unsigned int sock, const char *ip, const unsigned short port, const int timeout) {
+int connection_init (const int sock, const char *ip, const unsigned short port, const int timeout) {
     struct timeval tv_timeout;
     struct sockaddr_in addr;
 
@@ -50,7 +50,7 @@ int connection_init (const unsigned int sock, const char *ip, const unsigned sho
 }
 
 /* I'm hate VarInt*/
-int send_request (const unsigned int sock, char **json_buf, const char *ip, const unsigned int ip_len, const unsigned short port, const int protocol) {
+int send_request (const int sock, char **json_buf, const char *ip, const int ip_len, const unsigned short port, const int protocol) {
     char *handshake_buf,
          handshake_len_varint [5],
          protocol_varint [5],
@@ -71,33 +71,33 @@ int send_request (const unsigned int sock, char **json_buf, const char *ip, cons
     handshake_len += protocol_varint_len = write_varint (protocol, protocol_varint);
     handshake_len += ip_len_varint_len = write_varint (ip_len, ip_len_varint);
     handshake_len_varint_len = write_varint (handshake_len, handshake_len_varint);
-    handshake_buf = malloc (handshake_len + handshake_len_varint_len);
+    handshake_buf = malloc ((unsigned int) (handshake_len + handshake_len_varint_len));
 
     /* Write VarInt Handshake Length */
-    memcpy (handshake_buf + handshake_buf_pos, handshake_len_varint, handshake_len_varint_len);
+    memcpy (handshake_buf + handshake_buf_pos, handshake_len_varint, (unsigned int) handshake_len_varint_len);
     handshake_buf_pos += handshake_len_varint_len;
 
     /* Write Packet ID */
     handshake_buf [handshake_buf_pos++] = 0x00;
 
     /* Write VarInt Protocol */
-    memcpy (handshake_buf + handshake_buf_pos, protocol_varint, protocol_varint_len);
+    memcpy (handshake_buf + handshake_buf_pos, protocol_varint, (unsigned int) protocol_varint_len);
     handshake_buf_pos += protocol_varint_len;
 
     /* Write VarInt Host Length */
-    memcpy (handshake_buf + handshake_buf_pos, ip_len_varint, ip_len_varint_len);
+    memcpy (handshake_buf + handshake_buf_pos, ip_len_varint, (unsigned int) ip_len_varint_len);
     handshake_buf_pos += ip_len_varint_len;
 
     /* Write Host */
-    memcpy (handshake_buf + handshake_buf_pos, ip, ip_len);
+    memcpy (handshake_buf + handshake_buf_pos, ip, (unsigned int) ip_len);
     handshake_buf_pos += ip_len;
 
     /* Write Port And Next State */
-    handshake_buf [handshake_buf_pos++] = (port >> 8) & 0xFF;
-    handshake_buf [handshake_buf_pos++] = port & 0xFF;
+    handshake_buf [handshake_buf_pos++] = (((char) port) >> 8) & 0xFF;
+    handshake_buf [handshake_buf_pos++] = (char) (port & 0xFF);
     handshake_buf [handshake_buf_pos++] = 0x01;
 
-    if (send (sock, handshake_buf, handshake_len + handshake_len_varint_len, 0) < 0) {
+    if (send (sock, handshake_buf, (unsigned int) (handshake_len + handshake_len_varint_len), 0) < 0) {
         close (sock);
         free (handshake_buf);
         return 0;
@@ -120,11 +120,11 @@ int send_request (const unsigned int sock, char **json_buf, const char *ip, cons
     json_len = read_varint (sock);
     if (json_len < 1 || json_len > MAX_SERV_RESPONSE_LEN)
         return 0;
-    *json_buf = malloc (json_len);
+    *json_buf = malloc ((unsigned int) json_len);
 
     json_tmp_len = 0;
     while (json_tmp_len < json_len) {
-        if ((json_bytes_read = recv (sock, *json_buf + json_tmp_len, json_len - json_tmp_len, 0)) <= 0) {
+        if ((json_bytes_read = (int) recv (sock, *json_buf + json_tmp_len, (unsigned int) (json_len - json_tmp_len), 0)) <= 0) {
             close (sock);
             free (*json_buf);
             return 0;
