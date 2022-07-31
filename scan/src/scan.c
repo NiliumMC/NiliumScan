@@ -85,7 +85,7 @@ int get_serv (struct scan_args *sargs, const unsigned short port) {
 
     if (serv_items_list_len) {
         this_serv_item = malloc (sizeof (struct serv_item));
-        bzero (this_serv_item, sizeof (struct serv_item));
+        memset (this_serv_item, 0, sizeof (struct serv_item));
         this_serv_item->ip = sargs->ip;
         this_serv_item->port = port;
 
