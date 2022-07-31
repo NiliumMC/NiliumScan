@@ -25,7 +25,8 @@ struct tui_button quit_buttons [BUTTONS_COUNT] = { { 0, 0, COLOR_PAIR (2), "Yes"
                                                    { 0, 0, COLOR_PAIR (1), "No", 2, 1, 1, 1, 0, 0 } };
 
 int act_quit (const MEVENT *mouse_event, const int ch, const int y, const int x, const char *name) {
-    int y_pos, x_pos, tmp_current;
+    static int y_pos, x_pos;
+    int tmp_current;
 
     if (ch == OK) {
         quit_current = 1;
@@ -50,25 +51,29 @@ int act_quit (const MEVENT *mouse_event, const int ch, const int y, const int x,
         }
     }
 
-    if (check_mouse_click (mouse_event)) {
-        tmp_current = find_next_item (ch, mouse_event, &quit_current, quit_buttons, BUTTONS_COUNT, 0, 0);
+    if (ch == KEY_MOUSE) {
+        if (check_mouse_click (mouse_event)) {
+            tmp_current = find_next_item (ch, mouse_event, &quit_current, quit_buttons, BUTTONS_COUNT, 0, 0);
 
-        if (quit_current == tmp_current && tmp_current == 0) {
-            is_open = 0;
-            return 0;
-        } if (quit_current == tmp_current && tmp_current == 1) {
-            return 0;
-        }
-    } if (check_mouse_double_click (mouse_event)) {
-        tmp_current = find_next_item (ch, mouse_event, &quit_current, quit_buttons, BUTTONS_COUNT, 0, 0);
-
-        if (tmp_current >= 0) {
-            if (quit_current == 0) {
+            if (quit_current == tmp_current && tmp_current == 0) {
                 is_open = 0;
                 return 0;
-            } if (quit_current == 1) {
+            } if (quit_current == tmp_current && tmp_current == 1) {
                 return 0;
             }
+        } if (check_mouse_double_click (mouse_event)) {
+            tmp_current = find_next_item (ch, mouse_event, &quit_current, quit_buttons, BUTTONS_COUNT, 0, 0);
+
+            if (tmp_current >= 0) {
+                if (quit_current == 0) {
+                    is_open = 0;
+                    return 0;
+                } if (quit_current == 1) {
+                    return 0;
+                }
+            }
+        } if (!check_mouse_pos_box (mouse_event->y, mouse_event->x, y_pos, x_pos, BOX_HEIGHT, BOX_WIDTH)) {
+                return 0;
         }
     }
 

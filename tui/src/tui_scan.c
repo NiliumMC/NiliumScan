@@ -126,6 +126,9 @@ _check_mouse:
                     return 0;
                 }
             }
+        } if (!check_mouse_pos_box (mouse_event->y, mouse_event->x, y_pos, x_pos, BOX_HEIGHT, BOX_WIDTH)) {
+            curs_set (0);
+            return 0;
         }
     }
 
