@@ -37,8 +37,6 @@ void print_current_item_num (const int, const int);
 
 extern int is_force_no_256colors; /* CLI Parameter That Forced Disables Xterm Colors */
 
-int ltc_menu_pos_x; /* Left-Top corner of menu position by horizontal */
-
 int current_serv_item, /* Selected Now Servers List Item */
     items_shift; /* Servers List Items Offset */
 
