@@ -35,6 +35,8 @@ void print_servers (const int, const int, const int);
 void print_server (const int, const int, const int, const char);
 void print_current_item_num (const int, const int);
 
+extern int is_force_no_256colors; /* CLI Parameter That Forced Disables Xterm Colors */
+
 int ltc_menu_pos_x; /* Left-Top corner of menu position by horizontal */
 
 int current_serv_item, /* Selected Now Servers List Item */
@@ -69,7 +71,7 @@ int ini_curses (void) {
     else
         return 0;
 
-    if (can_change_color ()) {
+    if (!is_force_no_256colors && can_change_color ()) {
         assume_default_colors (231, 16);
         init_pair (1, 196, 16);
         init_pair (2, 112, 16);
