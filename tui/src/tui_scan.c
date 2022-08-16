@@ -133,8 +133,8 @@ _check_mouse:
     }
 
 _calc_size:
-    y_pos = (y / 2) - (BOX_HEIGHT / 2);
-    x_pos = (x / 2) - (BOX_WIDTH / 2);
+    y_pos = (y >> 1) - (BOX_HEIGHT >> 1);
+    x_pos = (x >> 1) - (BOX_WIDTH >> 1);
     scan_buttons [0].y_pos = y_pos + 6;
     scan_buttons [0].x_pos = x_pos + 2;
     scan_buttons [1].y_pos = y_pos + 6;

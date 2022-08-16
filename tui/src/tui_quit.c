@@ -77,8 +77,8 @@ int act_quit (const MEVENT *mouse_event, const int ch, const int y, const int x,
         }
     }
 
-    y_pos = (y / 2) - (BOX_HEIGHT / 2);
-    x_pos = (x / 2) - (BOX_WIDTH / 2);
+    y_pos = (y >> 1) - (BOX_HEIGHT >> 1);
+    x_pos = (x >> 1) - (BOX_WIDTH >> 1);
     quit_buttons [0].y_pos = y_pos + 4;
     quit_buttons [0].x_pos = x_pos + 2;
     quit_buttons [1].y_pos = y_pos + 4;

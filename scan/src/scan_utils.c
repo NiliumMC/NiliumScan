@@ -49,7 +49,7 @@ int connection_init (const int sock, const char *ip, const unsigned short port, 
     return 1;
 }
 
-/* I'm hate VarInt*/
+/* I'm hate VarInt */
 int send_request (const int sock, char **json_buf, const char *ip, const int ip_len, const unsigned short port, const int protocol) {
     char *handshake_buf,
          handshake_len_varint [5],

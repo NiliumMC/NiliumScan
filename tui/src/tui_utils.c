@@ -25,7 +25,7 @@ int check_mouse_pos_textfield (const struct tui_textfield *, const int, const in
 int textfield_get_next (const struct tui_textfield *, int); /* Find Next TUI Item Index From TUI TextField */
 
 void print_min_size (const int min_lines, const int min_cols, const int y, const int x) {
-    int y_pos = (y / 2) - 2, x_pos = (x / 2) - 16;
+    int y_pos = (y >> 1) - 2, x_pos = (x >> 1) - 16;
 
     clear ();
     curs_set (0);

@@ -18,8 +18,8 @@
 int act_about (const MEVENT *mouse_event, const int ch, const int y, const int x, const char *name) {
     int y_pos, x_pos;
 
-    y_pos = (y / 2) - (BOX_HEIGHT / 2);
-    x_pos = (x / 2) - (BOX_WIDTH / 2);
+    y_pos = (y >> 1) - (BOX_HEIGHT >> 1);
+    x_pos = (x >> 1) - (BOX_WIDTH >> 1);
 
     if (ch == KEY_MOUSE) {
         if (check_mouse_pos_box (mouse_event->y, mouse_event->x, y_pos, x_pos, BOX_HEIGHT, BOX_WIDTH)) {
