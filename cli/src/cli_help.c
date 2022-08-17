@@ -19,8 +19,8 @@ void print_help (int exit_code) {
 
           "Usage: tmcscan [args]\n\n"
 
-          "  -h --help\t\tPrint this message\n"
-          "  -x --force-no-xterm-colors\t\tPrint this message\n\n"
+          "  -h --help\t\t\tPrint this message\n"
+          "  -x --force-no-xterm-colors\tForce Not Use Xterm Colors\n\n"
 
           "Version: " TMCS_VERSION "\n"
           "Author: _Magenta_\n");
