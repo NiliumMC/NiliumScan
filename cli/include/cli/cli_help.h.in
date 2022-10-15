@@ -1,0 +1,12 @@
+/*
+ *  cli/include/cli/cli.h.in >>> cli/include/cli/cli.h
+ *  This file is a part of the TMCScan distribution released under GNU GPLv3
+ *  Copyright (C) 2022 _Magenta_
+ *  https://github.com/0Magenta0/TMCScan
+ */
+
+#define TMCS_VERSION "@CMAKE_PROJECT_VERSION@"
+#define TMCS_DESCRIPTION "@CMAKE_PROJECT_DESCRIPTION@"
+
+void print_help (int);
+

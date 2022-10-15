@@ -33,7 +33,9 @@ if (ISDEBUG)
                                        -Waggregate-return")
 endif ()
 
+add_subdirectory (cli)
 add_executable (${CMAKE_PROJECT_NAME} main.c)
 
-target_link_libraries (${CMAKE_PROJECT_NAME})
-
+target_link_libraries (${CMAKE_PROJECT_NAME}
+                       PRIVATE tmc::cli)
+ 
