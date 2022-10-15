@@ -7,16 +7,20 @@ https://github.com/0Magenta0/TMCScan
 
 project (tmcscan-cli)
 
-set (CLI_SOURCES
-     src/cli_parameters.c
-     src/cli_help.c
-     src/cli.c)
-
-add_library (${PROJECT_NAME} ${CLI_SOURCES})
+add_library (${PROJECT_NAME} OBJECT)
 add_library (tmc::cli ALIAS ${PROJECT_NAME})
+
+target_sources (
+  ${PROJECT_NAME} PRIVATE
+    src/cli_parameters.c
+    src/cli_help.c
+    src/cli.c
+)
 
 configure_file (${PROJECT_SOURCE_DIR}/include/cli/cli_help.h.in ${PROJECT_SOURCE_DIR}/include/cli/cli_help.h NEWLINE_STYLE UNIX)
 
-target_include_directories (${PROJECT_NAME}
-                            PUBLIC ${PROJECT_SOURCE_DIR}/include)
+target_include_directories (
+  ${PROJECT_NAME}
+    PUBLIC ${PROJECT_SOURCE_DIR}/include
+)
 
