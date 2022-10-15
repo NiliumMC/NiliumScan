@@ -1,3 +1,10 @@
+#[[
+CMakeLists.txt
+This file is a part of the TMCScan distribution released under GNU GPLv3
+Copyright (C) 2022 _Magenta_
+https://github.com/0Magenta0/TMCScan
+]]
+
 cmake_minimum_required (VERSION 3.10)
 
 project (tmcscan
