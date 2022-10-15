@@ -1,16 +1,7 @@
-#[[****************************************************************************
-   *
-   *    CMakeLists.txt
-   *    This file is part of TMCScan distribution released under GPL 3.0
-   *    Copyright (C) 2022 _Magenta_
-   *    https://github.com/0Magenta0/TMCScan
-   *
-   ****************************************************************************]]
-
 cmake_minimum_required (VERSION 3.10)
 
 project (tmcscan
-         VERSION 2.1.0
+         VERSION 3.0
          DESCRIPTION "Advanced TUI Minecraft Port Scanner"
          LANGUAGES C)
 
@@ -35,12 +26,7 @@ if (ISDEBUG)
                                        -Waggregate-return")
 endif ()
 
-add_subdirectory (scan)
-add_subdirectory (tui)
-add_subdirectory (cli)
 add_executable (${CMAKE_PROJECT_NAME} main.c)
 
-target_link_libraries (${CMAKE_PROJECT_NAME}
-                       PRIVATE tmc::tui
-                       PRIVATE tmc::cli)
+target_link_libraries (${CMAKE_PROJECT_NAME})
 
