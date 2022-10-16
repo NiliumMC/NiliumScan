@@ -8,12 +8,18 @@
 #include <stdio.h>
 
 #include "cli/cli.h"
+#include "tui/tui.h"
 
 int main (int argc, char **argv) {
     if (argc > 1)
         if (start_cli (argc, argv))
             return 0;
 
-    return 0;
+    if (start_tui ()) {
+        return 0;
+    } else {
+        fputs ("Curses not initialized normally!\n", stderr);
+        return 1;
+    }
 }
 

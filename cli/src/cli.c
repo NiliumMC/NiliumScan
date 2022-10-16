@@ -5,6 +5,7 @@
  *  https://github.com/0Magenta0/TMCScan
  */
 
+#include <stdio.h>
 #include <stdbool.h>
 
 #include "cli/cli.h"
@@ -13,6 +14,11 @@
 bool start_cli (int argc, char **argv) {
     handle_parameters (argc, argv);
 
-    return (term_flags & tfb_use_cli) ? true : false;
+    if (term_flags & tfb_use_cli) {
+
+        return true;
+    }
+
+    return false;
 }
 

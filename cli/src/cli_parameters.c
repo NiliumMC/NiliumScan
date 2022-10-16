@@ -26,7 +26,7 @@ struct option long_flags [] = { { "help", no_argument, 0, tfl_get_help },
 void handle_parameters (int argc, char **argv) {
     int arg, opt_index = 0;
 
-    while ((arg = getopt_long (argc, argv, "h", long_flags, &opt_index)) != -1) {
+    while ((arg = getopt_long (argc, argv, "", long_flags, &opt_index)) != -1) {
         switch ((enum term_flags_list) arg) {
             case tfl_get_help:
                 print_help (0);

@@ -33,10 +33,12 @@ if (ISDEBUG)
 endif ()
 
 add_subdirectory (cli)
+add_subdirectory (tui)
 add_executable (${CMAKE_PROJECT_NAME} main.c)
 
 target_link_libraries (
   ${CMAKE_PROJECT_NAME}
     PRIVATE tmc::cli
+    PRIVATE tmc::tui
 )
 
