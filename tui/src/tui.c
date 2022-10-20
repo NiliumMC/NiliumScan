@@ -34,8 +34,8 @@ const struct serv_info_colon colons_arr [COLONS_COUNT] = {
 };
 
 const struct main_action actions_arr [ACTIONS_COUNT] = {
-    { "scan", 4, 's', /* window_scan */ NULL },
-    { "quit", 4, 'q', /* window_quit */ NULL }
+    { "scan", 4, 's', /* window_scan */ NULL, false },
+    { "quit", 4, 'q', /* window_quit */ NULL, false }
 };
 
 bool start_tui (void) {
@@ -90,8 +90,15 @@ void show_menu (void) {
         ch = getch ();
         if (ch == ERR) {
             goto _key_loop_end;
-        } if (ch == 'q') {
-            break;
+        }
+
+        if (ch == KEY_RESIZE) {
+            getmaxyx (stdscr, y, x);
+            if (y < MIN_SCR_LINES || x < MIN_SCR_COLS) {
+                print_min_size (y, x);
+            } else {
+                print_main_box (y);
+            }
         }
 
 _key_loop_end:
