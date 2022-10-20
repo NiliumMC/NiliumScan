@@ -5,8 +5,8 @@
  *  https://github.com/0Magenta0/TMCScan
  */
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "cli/cli_help.h"
 

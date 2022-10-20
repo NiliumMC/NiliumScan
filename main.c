@@ -11,13 +11,18 @@
 #include "tui/tui.h"
 
 int main (int argc, char **argv) {
-    if (argc > 1)
-        if (start_cli (argc, argv))
+    if (argc > 1) {
+        if (start_cli (argc, argv)) {
             return 0;
+        }
+    }
 
     if (start_tui ()) {
+        show_menu ();
+        end_tui ();
         return 0;
     } else {
+        end_tui ();
         fputs ("Curses not initialized normally!\n", stderr);
         return 1;
     }

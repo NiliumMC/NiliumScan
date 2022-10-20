@@ -6,7 +6,7 @@
  */
 
 enum term_flags_bitset {
-    tfb_use_cli = 0x01,
+    tfb_use_cli = 0x01
 };
 
 extern enum term_flags_bitset term_flags;

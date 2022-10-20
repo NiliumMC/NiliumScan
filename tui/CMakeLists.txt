@@ -16,6 +16,8 @@ add_library (tmc::tui ALIAS ${PROJECT_NAME})
 
 target_sources (
   ${PROJECT_NAME} PRIVATE
+    src/tui_serv_info_colons.c
+    src/tui_main_actions.c
     src/tui.c
 )
 

@@ -5,11 +5,11 @@
  *  https://github.com/0Magenta0/TMCScan
  */
 
-#include <stdio.h>
 #include <stdbool.h>
+#include <stdio.h>
 
-#include "cli/cli.h"
 #include "cli/cli_parameters.h"
+#include "cli/cli.h"
 
 bool start_cli (int argc, char **argv) {
     handle_parameters (argc, argv);

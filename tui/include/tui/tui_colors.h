@@ -1,15 +1,14 @@
 /*
- *  tui/include/tui/tui.h
+ *  tui/include/tui/tui_colors.h
  *  This file is a part of the TMCScan distribution released under GNU GPLv3
  *  Copyright (C) 2022 _Magenta_
  *  https://github.com/0Magenta0/TMCScan
  */
 
-#include <ncurses.h>
-
-#include <stdbool.h>
-
-bool start_tui (void);
-void end_tui (void);
-void show_menu (void);
+enum tui_color_pairs {
+    pair_default,
+    pair_general,
+    pair_positive,
+    pair_negative
+};
 
