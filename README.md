@@ -52,6 +52,6 @@ $ apt install json-c-static
 * Servers Auth Type Check
 
 ### LICENSE
-TMCScan uses GNU GPL v3 license.  
+TMCScan uses GNU GPLv3 license.  
 Copyright (C) 2022 \_Magenta\_
 
