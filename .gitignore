@@ -1,5 +1,6 @@
 /.git/
 /.gitignore
 /build/
+/.cache/
 /tui/include/tui/tui_about.h
 /cli/include/cli/cli_help.h

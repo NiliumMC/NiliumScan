@@ -18,6 +18,9 @@ target_sources (
   ${PROJECT_NAME} PRIVATE
     src/tui_serv_info_colons.c
     src/tui_main_actions.c
+    src/tui_window_quit.c
+    src/tui_min_size.c
+    src/tui_utils.c
     src/tui.c
 )
 

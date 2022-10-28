@@ -13,17 +13,15 @@
 
 #include "tui/tui_serv_info_colons.h"
 #include "tui/tui_main_actions.h"
+#include "tui/tui_window_quit.h"
+#include "tui/tui_min_size.h"
 #include "tui/tui_colors.h"
 #include "tui/tui.h"
-
-#define MIN_SCR_LINES 24
-#define MIN_SCR_COLS 80
 
 #define COLONS_COUNT 5
 #define ACTIONS_COUNT 2
 
 void print_main_box (const int);
-void print_min_size (const int, const int);
 
 const struct serv_info_colon colons_arr [COLONS_COUNT] = {
     { "ip", 2, 15, 'i' },
@@ -33,9 +31,9 @@ const struct serv_info_colon colons_arr [COLONS_COUNT] = {
     { "motd", 4, 20, 'm' }
 };
 
-const struct main_action actions_arr [ACTIONS_COUNT] = {
+struct main_action actions_arr [ACTIONS_COUNT] = {
     { "scan", 4, 's', /* window_scan */ NULL, false },
-    { "quit", 4, 'q', /* window_quit */ NULL, false }
+    { "quit", 4, 'q', window_quit, false }
 };
 
 bool start_tui (void) {
@@ -77,7 +75,7 @@ void end_tui (void) {
 }
 
 void show_menu (void) {
-    int ch, y, x;
+    int ch, y, x, counter;
 
     getmaxyx (stdscr, y, x);
     if (y < MIN_SCR_LINES || x < MIN_SCR_COLS) {
@@ -86,8 +84,7 @@ void show_menu (void) {
         print_main_box (y);
     }
 
-    while (true) {
-        ch = getch ();
+    while ((ch = getch ()) && is_open) {
         if (ch == ERR) {
             goto _key_loop_end;
         }
@@ -98,6 +95,22 @@ void show_menu (void) {
                 print_min_size (y, x);
             } else {
                 print_main_box (y);
+            }
+        }
+
+        for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
+            if (actions_arr [counter].is_enabled == true) {
+                if (actions_arr [counter].func (ch, y, x, actions_arr [counter].name) == false) {
+                    actions_arr [counter].is_enabled = false;
+                    print_main_box (y);
+                } goto _key_loop_end;
+            }
+        }
+
+        for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
+            if (ch == actions_arr [counter].bind) {
+                actions_arr [counter].is_enabled = true;
+                actions_arr [counter].func (OK, y, x, actions_arr [counter].name);
             }
         }
 
@@ -113,29 +126,6 @@ void print_main_box (const int y) {
     box (stdscr, 0, 0);
     print_serv_info_colons (COLONS_COUNT, colons_arr);
     print_main_actions (y, ACTIONS_COUNT, actions_arr);
-
-    refresh ();
-}
-
-void print_min_size (const int y, const int x) {
-    int y_pos, x_pos;
-
-    y_pos = (y >> 1) - 2;
-    x_pos = (x >> 1) - 16;
-
-    clear ();
-
-    mvprintw (y_pos++, x_pos, "Your terminal is too small!");
-
-    mvprintw (y_pos++, x_pos, "      Lines: %d/", MIN_SCR_LINES);
-    attron (COLOR_PAIR ((y >= MIN_SCR_LINES) ? pair_positive : pair_negative));
-    printw ("%d", y);
-    standend ();
-
-    mvprintw (y_pos, x_pos, "      Cols: %d/", MIN_SCR_COLS);
-    attron (COLOR_PAIR ((x >= MIN_SCR_COLS) ? pair_positive : pair_negative));
-    printw ("%d", x);
-    standend ();
 
     refresh ();
 }

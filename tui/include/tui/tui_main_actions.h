@@ -11,7 +11,7 @@ struct main_action {
     const char *name;
     const int name_str_len;
     const char bind;
-    int (*const func) (const char ch);
+    bool (*const func) (const int, const int, const int, const char *);
     bool is_enabled;
 };
 
