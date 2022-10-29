@@ -7,5 +7,5 @@
 
 #include <stdbool.h>
 
-int check_opened_windows (void);
+void print_clear_win_at (const int, const int, const int, const int, const char *);
 
