@@ -12,5 +12,5 @@ struct serv_info_colon {
     const char bind;
 };
 
-void print_serv_info_colons (const int, const struct serv_info_colon []);
+void print_serv_info_colons (const struct serv_info_colon [], const int);
 

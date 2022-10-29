@@ -7,3 +7,5 @@
 
 #include <stdbool.h>
 
+int check_opened_windows (void);
+

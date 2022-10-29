@@ -10,9 +10,9 @@
 #include "tui/tui_main_actions.h"
 #include "tui/tui_colors.h"
 
-void print_main_action (const struct main_action *);
+static void print_main_action (const struct main_action *);
 
-void print_main_actions (const int y_pos, const int array_size, const struct main_action actions_arr []) {
+void print_main_actions (const int y_pos, const struct main_action actions_arr [], const int array_size) {
     int counter;
 
     move (y_pos - 1, 1);
@@ -21,7 +21,11 @@ void print_main_actions (const int y_pos, const int array_size, const struct mai
     }
 }
 
-void print_main_action (const struct main_action *action) {
+int check_opened_windows (const struct main_action actions_arr [], const int array_size) {
+
+}
+
+static void print_main_action (const struct main_action *action) {
     bool is_highlighted;
     int counter;
 

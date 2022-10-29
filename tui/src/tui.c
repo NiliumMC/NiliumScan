@@ -21,7 +21,7 @@
 #define COLONS_COUNT 5
 #define ACTIONS_COUNT 2
 
-void print_main_box (const int);
+static void print_main_box (const int);
 
 const struct serv_info_colon colons_arr [COLONS_COUNT] = {
     { "ip", 2, 15, 'i' },
@@ -121,11 +121,11 @@ _key_loop_end:
     }
 }
 
-void print_main_box (const int y) {
+static void print_main_box (const int y) {
     clear ();
     box (stdscr, 0, 0);
-    print_serv_info_colons (COLONS_COUNT, colons_arr);
-    print_main_actions (y, ACTIONS_COUNT, actions_arr);
+    print_serv_info_colons (colons_arr, COLONS_COUNT);
+    print_main_actions (y, actions_arr, ACTIONS_COUNT);
 
     refresh ();
 }

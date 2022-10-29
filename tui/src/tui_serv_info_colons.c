@@ -10,9 +10,9 @@
 #include "tui/tui_serv_info_colons.h"
 #include "tui/tui_colors.h"
 
-void print_serv_info_colon (const int, const struct serv_info_colon *);
+static void print_serv_info_colon (const int, const struct serv_info_colon *);
 
-void print_serv_info_colons (const int array_size, const struct serv_info_colon colons_arr []) {
+void print_serv_info_colons (const struct serv_info_colon colons_arr [], const int array_size) {
     register int counter, x_pos;
 
     for (counter = 0, x_pos = 2; counter < array_size; x_pos += colons_arr [counter].field_len + 1, ++counter) {
@@ -20,7 +20,7 @@ void print_serv_info_colons (const int array_size, const struct serv_info_colon 
     }
 }
 
-void print_serv_info_colon (const int x_pos, const struct serv_info_colon *info_colon) {
+static void print_serv_info_colon (const int x_pos, const struct serv_info_colon *info_colon) {
     bool is_highlighted;
     register int counter;
 
