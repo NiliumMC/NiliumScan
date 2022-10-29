@@ -100,7 +100,7 @@ void show_menu (void) {
                 print_main_box (y);
                 for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
                     if (actions_arr [counter].is_enabled == true) {
-                        if (actions_arr [counter].func (ch, y, x, actions_arr [counter].name) == false) {
+                        if (actions_arr [counter].func (KEY_RESIZE, y, x, actions_arr [counter].name) == false) {
                             actions_arr [counter].is_enabled = false;
                             print_main_box (y);
                         }

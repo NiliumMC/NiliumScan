@@ -11,12 +11,12 @@
 #include "tui/tui_utils.h"
 
 #define WINDOW_HEIGHT 6
-#define WINDOW_WIDTH 35
+#define WINDOW_WIDTH 36
 
 bool is_open = true;
 
 bool window_quit (const int ch, const int y, const int x, const char *name) {
-    int window_y_pos, window_x_pos;
+    static int window_y_pos, window_x_pos;
 
     if (ch == 'q') {
         return false;
@@ -25,11 +25,14 @@ bool window_quit (const int ch, const int y, const int x, const char *name) {
         return false;
     }
 
-    window_y_pos = (y >> 1) - (WINDOW_HEIGHT >> 1);
-    window_x_pos = (x >> 1) - (WINDOW_WIDTH >> 1);
+    if (ch == KEY_RESIZE || ch == OK) {
+        window_y_pos = (y >> 1) - (WINDOW_HEIGHT >> 1);
+        window_x_pos = (x >> 1) - (WINDOW_WIDTH >> 1);
 
-    print_clear_win_at (window_y_pos, window_x_pos, WINDOW_HEIGHT, WINDOW_WIDTH, name);
-    refresh ();
+        print_clear_win_at (window_y_pos, window_x_pos, WINDOW_HEIGHT, WINDOW_WIDTH, name);
+        mvprintw (window_y_pos + 2, window_x_pos + 6, "Are you sure about that?");
+        refresh ();
+    }
 
     return true;
 }
