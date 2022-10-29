@@ -10,6 +10,8 @@
 #include "tui/tui_min_size.h"
 #include "tui/tui_colors.h"
 
+bool is_quite_large = true;
+
 void print_min_size (const int y, const int x) {
     int y_pos, x_pos;
 

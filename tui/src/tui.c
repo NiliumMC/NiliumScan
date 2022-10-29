@@ -79,23 +79,34 @@ void show_menu (void) {
 
     getmaxyx (stdscr, y, x);
     if (y < MIN_SCR_LINES || x < MIN_SCR_COLS) {
+        is_quite_large = false;
         print_min_size (y, x);
     } else {
         print_main_box (y);
     }
 
     while ((ch = getch ()) && is_open) {
-        if (ch == ERR) {
+        if (ch == ERR || (is_quite_large == false && ch != KEY_RESIZE)) {
             goto _key_loop_end;
         }
 
         if (ch == KEY_RESIZE) {
             getmaxyx (stdscr, y, x);
             if (y < MIN_SCR_LINES || x < MIN_SCR_COLS) {
+                is_quite_large = false;
                 print_min_size (y, x);
             } else {
+                is_quite_large = true;
                 print_main_box (y);
-            }
+                for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
+                    if (actions_arr [counter].is_enabled == true) {
+                        if (actions_arr [counter].func (ch, y, x, actions_arr [counter].name) == false) {
+                            actions_arr [counter].is_enabled = false;
+                            print_main_box (y);
+                        }
+                    }
+                }
+            } goto _key_loop_end;
         }
 
         for (counter = 0; counter < ACTIONS_COUNT; ++counter) {

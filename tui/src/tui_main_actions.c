@@ -21,10 +21,6 @@ void print_main_actions (const int y_pos, const struct main_action actions_arr [
     }
 }
 
-int check_opened_windows (const struct main_action actions_arr [], const int array_size) {
-
-}
-
 static void print_main_action (const struct main_action *action) {
     bool is_highlighted;
     int counter;

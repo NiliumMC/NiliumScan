@@ -16,5 +16,4 @@ struct main_action {
 };
 
 void print_main_actions (const int, const struct main_action [], const int);
-int check_opened_windows (const struct main_action [], const int);
 
