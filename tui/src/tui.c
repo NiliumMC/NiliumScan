@@ -75,14 +75,14 @@ void end_tui (void) {
 }
 
 void show_menu (void) {
-    int ch, y, x, counter;
+    int ch, screen_height, screen_width, counter;
 
-    getmaxyx (stdscr, y, x);
-    if (y < MIN_SCR_LINES || x < MIN_SCR_COLS) {
+    getmaxyx (stdscr, screen_height, screen_width);
+    if (screen_height < MIN_SCR_LINES || screen_width < MIN_SCR_COLS) {
         is_quite_large = false;
-        print_min_size (y, x);
+        print_min_size (screen_height, screen_width);
     } else {
-        print_main_box (y);
+        print_main_box (screen_height);
     }
 
     while ((ch = getch ()) && is_open) {
@@ -91,18 +91,18 @@ void show_menu (void) {
         }
 
         if (ch == KEY_RESIZE) {
-            getmaxyx (stdscr, y, x);
-            if (y < MIN_SCR_LINES || x < MIN_SCR_COLS) {
+            getmaxyx (stdscr, screen_height, screen_width);
+            if (screen_height < MIN_SCR_LINES || screen_width < MIN_SCR_COLS) {
                 is_quite_large = false;
-                print_min_size (y, x);
+                print_min_size (screen_height, screen_width);
             } else {
                 is_quite_large = true;
-                print_main_box (y);
+                print_main_box (screen_height);
                 for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
                     if (actions_arr [counter].is_enabled == true) {
-                        if (actions_arr [counter].func (KEY_RESIZE, y, x, actions_arr [counter].name) == false) {
+                        if (actions_arr [counter].func (KEY_RESIZE, screen_height, screen_width, actions_arr [counter].name) == false) {
                             actions_arr [counter].is_enabled = false;
-                            print_main_box (y);
+                            print_main_box (screen_height);
                         }
                     }
                 }
@@ -111,9 +111,9 @@ void show_menu (void) {
 
         for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
             if (actions_arr [counter].is_enabled == true) {
-                if (actions_arr [counter].func (ch, y, x, actions_arr [counter].name) == false) {
+                if (actions_arr [counter].func (ch, screen_height, screen_width, actions_arr [counter].name) == false) {
                     actions_arr [counter].is_enabled = false;
-                    print_main_box (y);
+                    print_main_box (screen_height);
                 } goto _key_loop_end;
             }
         }
@@ -121,7 +121,7 @@ void show_menu (void) {
         for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
             if (ch == actions_arr [counter].bind) {
                 actions_arr [counter].is_enabled = true;
-                actions_arr [counter].func (OK, y, x, actions_arr [counter].name);
+                actions_arr [counter].func (OK, screen_height, screen_width, actions_arr [counter].name);
             }
         }
 
@@ -132,11 +132,11 @@ _key_loop_end:
     }
 }
 
-static void print_main_box (const int y) {
+static void print_main_box (const int screen_height) {
     clear ();
     box (stdscr, 0, 0);
     print_serv_info_colons (colons_arr, COLONS_COUNT);
-    print_main_actions (y, actions_arr, ACTIONS_COUNT);
+    print_main_actions (screen_height, actions_arr, ACTIONS_COUNT);
 
     refresh ();
 }
