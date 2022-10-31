@@ -10,6 +10,28 @@
 #include "tui/tui_colors.h"
 #include "tui/tui_utils.h"
 
+const struct item_change_direction_bindings binds_arr [4] = {
+    { icd_up, 2, {
+        { 'k', true, false },
+        { KEY_UP, true, true }
+    } },
+
+    { icd_down, 2, {
+        { 'j', true, false },
+        { KEY_DOWN, true, true }
+    } },
+
+    { icd_left, 2, {
+        { 'h', true, false },
+        { KEY_LEFT, true, true }
+    } },
+
+    { icd_right, 2, {
+        { 'l', true, false },
+        { KEY_RIGHT, true, true }
+    } },
+};
+
 void print_clear_win_at (const int y_pos, const int x_pos, const int height, const int width, const char *name) {
     int counter_height, counter_width;
 
@@ -35,7 +57,7 @@ void print_clear_win_at (const int y_pos, const int x_pos, const int height, con
     addch (ACS_ULCORNER);
 }
 
-void change_item (const int window_y_pos, const int window_x_pos, const int current_item_id, const enum item_change_direction direction, const struct tui_button button_arr [], const int buttons_array_size) {
+int change_item (const int window_y_pos, const int window_x_pos, const int current_item_id, const enum item_change_direction direction, const struct tui_button button_arr [], const int buttons_array_size) {
     const struct tui_button *tmp_button_p;
     int counter;
 
@@ -48,22 +70,28 @@ void change_item (const int window_y_pos, const int window_x_pos, const int curr
             if (direction == icd_up) {
                 if ((tmp_button_p = get_button_by_id (button_arr [counter].up_element_id, button_arr, buttons_array_size)) != NULL) {
                     print_button (window_y_pos, window_x_pos, tmp_button_p, true);
+                    return tmp_button_p->element_id;
                 }
             } else if (direction == icd_down) {
                 if ((tmp_button_p = get_button_by_id (button_arr [counter].down_element_id, button_arr, buttons_array_size)) != NULL) {
                     print_button (window_y_pos, window_x_pos, tmp_button_p, true);
+                    return tmp_button_p->element_id;
                 }
             } else if (direction == icd_left) {
                 if ((tmp_button_p = get_button_by_id (button_arr [counter].left_element_id, button_arr, buttons_array_size)) != NULL) {
                     print_button (window_y_pos, window_x_pos, tmp_button_p, true);
+                    return tmp_button_p->element_id;
                 }
             } else if (direction == icd_right) {
                 if ((tmp_button_p = get_button_by_id (button_arr [counter].right_element_id, button_arr, buttons_array_size)) != NULL) {
                     print_button (window_y_pos, window_x_pos, tmp_button_p, true);
+                    return tmp_button_p->element_id;
                 }
             }
         }
     }
+
+    return 0;
 }
 
 bool check_bind (const int ch, const enum item_type type, const struct item_change_direction_bindings bindings_arr [], const int array_size, enum item_change_direction *direction) {

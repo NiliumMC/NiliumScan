@@ -28,6 +28,7 @@ static const struct tui_button buttons_arr [BUTTONS_COUNT] = {
 
 bool window_quit (const int ch, const int screen_height, const int screen_width, const char *name) {
     static int window_y_pos, window_x_pos;
+    enum item_change_direction direction;
 
     if (ch == 'q') {
         current_item_id = DEFAULT_ITEM_ID;
@@ -35,6 +36,10 @@ bool window_quit (const int ch, const int screen_height, const int screen_width,
     } if (ch == 'y') {
         is_open = false;
         return false;
+    }
+
+    if (check_bind (ch, button_type, binds_arr, 4, &direction) == true) {
+        current_item_id = change_item (window_y_pos, window_x_pos, current_item_id, direction, buttons_arr, BUTTONS_COUNT);
     }
 
     if (ch == KEY_RESIZE || ch == OK) {
