@@ -36,5 +36,33 @@ void print_clear_win_at (const int y_pos, const int x_pos, const int height, con
 }
 
 void change_item (const enum item_change_direction direction, const struct tui_button button_arr [], const int button_array_size) {
+
+}
+
+bool check_bind (const int ch, const enum item_type type, const struct item_change_direction_bindings *bindings_arr, const int array_size) {
+    int counter_array, counter_bindings;
+
+    for (counter_array = 0; counter_array < array_size; ++counter_array) {
+        for (counter_bindings = 0; counter_bindings < bindings_arr [counter_array].array_size; ++counter_bindings) {
+            if (ch == bindings_arr [counter_array].binds_arr [counter_bindings].bind) {
+                switch (type) {
+                    case button_type:
+                        if (bindings_arr [counter_array].binds_arr [counter_bindings].is_for_buttons) {
+                            return true;
+                        } break;
+
+                    case textfield_type:
+                        if (bindings_arr [counter_array].binds_arr [counter_bindings].is_for_textfields) {
+                            return true;
+                        } break;
+
+                    default:
+                        return false;
+                }
+            }
+        }
+    }
+
+    return false;
 }
 
