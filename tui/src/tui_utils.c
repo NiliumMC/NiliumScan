@@ -66,7 +66,7 @@ void change_item (const int window_y_pos, const int window_x_pos, const int curr
     }
 }
 
-bool check_bind (const int ch, const enum item_type type, const struct item_change_direction_bindings *bindings_arr, const int array_size, enum item_change_direction *direction) {
+bool check_bind (const int ch, const enum item_type type, const struct item_change_direction_bindings bindings_arr [], const int array_size, enum item_change_direction *direction) {
     int counter_array, counter_bindings;
 
     for (counter_array = 0; counter_array < array_size; ++counter_array) {

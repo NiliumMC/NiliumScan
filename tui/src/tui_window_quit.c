@@ -43,7 +43,7 @@ bool window_quit (const int ch, const int screen_height, const int screen_width,
 
         print_clear_win_at (window_y_pos, window_x_pos, WINDOW_HEIGHT, WINDOW_WIDTH, name);
         mvprintw (window_y_pos + 2, window_x_pos + 6, "Are you sure about that?");
-        print_buttons (window_y_pos, window_x_pos, buttons_arr, BUTTONS_COUNT);
+        print_buttons (window_y_pos, window_x_pos, buttons_arr, BUTTONS_COUNT, current_item_id);
         refresh ();
     }
 
