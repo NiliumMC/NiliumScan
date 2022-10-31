@@ -34,6 +34,7 @@ struct item_change_direction_bindings {
 };
 
 void print_clear_win_at (const int, const int, const int, const int, const char *);
-void change_item (const enum item_change_direction, const struct tui_button [], const int);
-bool check_bind (const int, const enum item_type, const struct item_change_direction_bindings *, const int);
+void change_item (const int, const int, const int, const enum item_change_direction, const struct tui_button [], const int);
+bool check_bind (const int, const enum item_type, const struct item_change_direction_bindings *, const int, enum item_change_direction *);
+const struct tui_button * get_button_by_id (const int, const struct tui_button [], const int);
 

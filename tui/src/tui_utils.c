@@ -35,16 +35,44 @@ void print_clear_win_at (const int y_pos, const int x_pos, const int height, con
     addch (ACS_ULCORNER);
 }
 
-void change_item (const enum item_change_direction direction, const struct tui_button button_arr [], const int button_array_size) {
+void change_item (const int window_y_pos, const int window_x_pos, const int current_item_id, const enum item_change_direction direction, const struct tui_button button_arr [], const int buttons_array_size) {
+    const struct tui_button *tmp_button_p;
+    int counter;
 
+    if ((tmp_button_p = get_button_by_id (current_item_id, button_arr, buttons_array_size)) != NULL) {
+        print_button (window_y_pos, window_x_pos, tmp_button_p, false);
+    }
+
+    for (counter = 0; counter < buttons_array_size; ++counter) {
+        if (current_item_id == button_arr [counter].element_id) {
+            if (direction == icd_up) {
+                if ((tmp_button_p = get_button_by_id (button_arr [counter].up_element_id, button_arr, buttons_array_size)) != NULL) {
+                    print_button (window_y_pos, window_x_pos, tmp_button_p, true);
+                }
+            } else if (direction == icd_down) {
+                if ((tmp_button_p = get_button_by_id (button_arr [counter].down_element_id, button_arr, buttons_array_size)) != NULL) {
+                    print_button (window_y_pos, window_x_pos, tmp_button_p, true);
+                }
+            } else if (direction == icd_left) {
+                if ((tmp_button_p = get_button_by_id (button_arr [counter].left_element_id, button_arr, buttons_array_size)) != NULL) {
+                    print_button (window_y_pos, window_x_pos, tmp_button_p, true);
+                }
+            } else if (direction == icd_right) {
+                if ((tmp_button_p = get_button_by_id (button_arr [counter].right_element_id, button_arr, buttons_array_size)) != NULL) {
+                    print_button (window_y_pos, window_x_pos, tmp_button_p, true);
+                }
+            }
+        }
+    }
 }
 
-bool check_bind (const int ch, const enum item_type type, const struct item_change_direction_bindings *bindings_arr, const int array_size) {
+bool check_bind (const int ch, const enum item_type type, const struct item_change_direction_bindings *bindings_arr, const int array_size, enum item_change_direction *direction) {
     int counter_array, counter_bindings;
 
     for (counter_array = 0; counter_array < array_size; ++counter_array) {
         for (counter_bindings = 0; counter_bindings < bindings_arr [counter_array].array_size; ++counter_bindings) {
             if (ch == bindings_arr [counter_array].binds_arr [counter_bindings].bind) {
+                *direction = bindings_arr [counter_array].direction;
                 switch (type) {
                     case button_type:
                         if (bindings_arr [counter_array].binds_arr [counter_bindings].is_for_buttons) {
@@ -64,5 +92,17 @@ bool check_bind (const int ch, const enum item_type type, const struct item_chan
     }
 
     return false;
+}
+
+const struct tui_button * get_button_by_id (const int id, const struct tui_button button_arr [], const int buttons_array_size) {
+    int counter;
+
+    for (counter = 0; counter < buttons_array_size; ++counter) {
+        if (button_arr [counter].element_id == id) {
+            return &button_arr [counter];
+        }
+    }
+
+    return NULL;
 }
 

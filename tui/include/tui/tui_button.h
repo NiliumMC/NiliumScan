@@ -5,6 +5,8 @@
  *  https://github.com/0Magenta0/TMCScan
  */
 
+#include <stdbool.h>
+
 struct tui_button {
     int y_pos;
     int x_pos;
@@ -17,5 +19,6 @@ struct tui_button {
     const int right_element_id;
 };
 
-void print_buttons (const int, const int, const struct tui_button [], const int);
+void print_buttons (const int, const int, const struct tui_button [], const int, const int);
+void print_button (const int, const int, const struct tui_button *, const bool);
 
