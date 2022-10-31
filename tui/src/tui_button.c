@@ -8,6 +8,7 @@
 #include <ncurses.h>
 
 #include "tui/tui_button.h"
+#include "tui/tui_colors.h"
 
 static void print_button (const int, const int, const struct tui_button *);
 

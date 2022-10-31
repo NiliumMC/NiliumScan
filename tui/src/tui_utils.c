@@ -35,3 +35,6 @@ void print_clear_win_at (const int y_pos, const int x_pos, const int height, con
     addch (ACS_ULCORNER);
 }
 
+void change_item (const enum item_change_direction direction, const struct tui_button button_arr [], const int button_array_size) {
+}
+

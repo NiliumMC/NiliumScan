@@ -8,7 +8,6 @@
 #include <ncurses.h>
 
 #include "tui/tui_window_quit.h"
-#include "tui/tui_button.h"
 #include "tui/tui_utils.h"
 
 #define WINDOW_HEIGHT 6
@@ -23,14 +22,15 @@ bool is_open = true;
 static int current_item_id = DEFAULT_ITEM_ID;
 
 static const struct tui_button buttons_arr [BUTTONS_COUNT] = {
-    { 3, 11, "Yes", 3, 0 },
-    { 3, 21, "No", 2, 1 }
+    { 3, 11, "Yes", 3, 0, 0, 0, 1, 1 },
+    { 3, 21, "No", 2, 1, 1, 1, 0, 0 }
 };
 
 bool window_quit (const int ch, const int screen_height, const int screen_width, const char *name) {
     static int window_y_pos, window_x_pos;
 
     if (ch == 'q') {
+        current_item_id = DEFAULT_ITEM_ID;
         return false;
     } if (ch == 'y') {
         is_open = false;

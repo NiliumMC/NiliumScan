@@ -11,6 +11,10 @@ struct tui_button {
     const char *name;
     const int name_str_len;
     const int element_id;
+    const int up_element_id;
+    const int down_element_id;
+    const int left_element_id;
+    const int right_element_id;
 };
 
 void print_buttons (const int, const int, const struct tui_button [], const int);
