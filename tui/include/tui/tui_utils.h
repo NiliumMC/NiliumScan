@@ -41,4 +41,6 @@ void print_clear_win_at (const int, const int, const int, const int, const char 
 int change_item (const int, const int, const int, const enum item_change_direction, const struct tui_button [], const int);
 bool check_bind (const int, const enum item_type, const struct item_change_direction_bindings [], const int, enum item_change_direction *);
 const struct tui_button * get_button_by_id (const int, const struct tui_button [], const int);
+enum item_type get_item_type_by_id (const int, const struct tui_button [], const int);
+bool is_enter_key (const int);
 

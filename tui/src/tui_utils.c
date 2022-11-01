@@ -134,3 +134,25 @@ const struct tui_button * get_button_by_id (const int id, const struct tui_butto
     return NULL;
 }
 
+enum item_type get_item_type_by_id (const int id, const struct tui_button button_arr [], const int buttons_array_size) {
+    int counter;
+
+    for (counter = 0; counter < buttons_array_size; ++counter) {
+        if (button_arr [counter].element_id == id) {
+            return button_type;
+        }
+    }
+
+    /* TODO: Textfields */
+
+    return button_type;
+}
+
+bool is_enter_key (const int ch) {
+    if (ch == 0x0A || ch == KEY_ENTER) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
