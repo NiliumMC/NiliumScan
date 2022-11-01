@@ -12,22 +12,22 @@
 
 const struct item_change_direction_bindings binds_arr [4] = {
     { icd_up, 2, {
-        { 'k', true, false },
+        { 'k',    true, false },
         { KEY_UP, true, true }
     } },
 
     { icd_down, 2, {
-        { 'j', true, false },
+        { 'j',      true, false },
         { KEY_DOWN, true, true }
     } },
 
     { icd_left, 2, {
-        { 'h', true, false },
+        { 'h',      true, false },
         { KEY_LEFT, true, true }
     } },
 
     { icd_right, 2, {
-        { 'l', true, false },
+        { 'l',       true, false },
         { KEY_RIGHT, true, true }
     } },
 };

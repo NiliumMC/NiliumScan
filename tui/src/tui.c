@@ -24,11 +24,11 @@
 static void print_main_box (const int);
 
 const struct serv_info_colon colons_arr [COLONS_COUNT] = {
-    { "ip", 2, 15, 'i' },
-    { "port", 4, 5, 'p' },
-    { "online", 6, 10, 'o' },
+    { "ip",      2, 15, 'i' },
+    { "port",    4, 5,  'p' },
+    { "online",  6, 10, 'o' },
     { "version", 7, 27, 'v' },
-    { "motd", 4, 20, 'm' }
+    { "motd",    4, 20, 'm' }
 };
 
 struct main_action actions_arr [ACTIONS_COUNT] = {

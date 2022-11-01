@@ -22,7 +22,7 @@ enum term_flags_bitset term_flags;
 
 struct option long_flags [] = {
     { "help", no_argument, 0, tfl_get_help },
-    { "cli", no_argument, 0, tfl_use_cli }
+    { "cli",  no_argument, 0, tfl_use_cli }
 };
 
 void handle_parameters (int argc, char **argv) {

@@ -29,7 +29,7 @@ static int current_item_id = DEFAULT_ITEM_ID;
 
 static const struct tui_button buttons_arr [BUTTONS_COUNT] = {
     { 3, 11, "Yes", 3, yes_button_action, 0, 0, 0, 1, 1 },
-    { 3, 21, "No", 2, no_button_action, 1, 1, 1, 0, 0 }
+    { 3, 21, "No",  2, no_button_action,  1, 1, 1, 0, 0 }
 };
 
 bool window_quit (const int ch, const int screen_height, const int screen_width, const char *name) {
