@@ -7,9 +7,6 @@
 
 #include <ncurses.h>
 
-#include <stdlib.h>
-#include <unistd.h>
-
 #include "tui/tui_window_quit.h"
 #include "tui/tui_utils.h"
 
