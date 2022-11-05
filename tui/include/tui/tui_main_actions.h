@@ -8,10 +8,10 @@
 #include <stdbool.h>
 
 struct main_action {
-    const char *name;
+    const char * const name;
     const int name_str_len;
     const char bind;
-    bool (*const func) (const int, const int, const int, const char *);
+    bool (* const func) (const int, const int, const int, const char * const);
     bool is_enabled;
 };
 

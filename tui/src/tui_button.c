@@ -22,7 +22,7 @@ void print_buttons (const int window_y_pos, const int window_x_pos, const struct
     }
 }
 
-void print_button (const int window_y_pos, const int window_x_pos, const struct tui_button *button, const bool is_highlighted) {
+void print_button (const int window_y_pos, const int window_x_pos, const struct tui_button * const button, const bool is_highlighted) {
     if (is_highlighted) {
         attron (A_REVERSE | A_BOLD);
     }

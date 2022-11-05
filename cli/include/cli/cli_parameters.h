@@ -11,5 +11,5 @@ enum term_flags_bitset {
 
 extern enum term_flags_bitset term_flags;
 
-void handle_parameters (int, char **);
+void handle_parameters (const int, char ** const);
 

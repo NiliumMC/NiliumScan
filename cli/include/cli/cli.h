@@ -7,5 +7,5 @@
 
 #include <stdbool.h>
 
-bool start_cli (int, char **);
+bool start_cli (const int, char ** const);
 

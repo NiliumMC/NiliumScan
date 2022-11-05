@@ -29,7 +29,7 @@ static const struct tui_button buttons_arr [BUTTONS_COUNT] = {
     { 3, 21, "No",  2, no_button_action,  1, 1, 1, 0, 0 }
 };
 
-bool window_quit (const int ch, const int screen_height, const int screen_width, const char *name) {
+bool window_quit (const int ch, const int screen_height, const int screen_width, const char * const name) {
     static int window_y_pos, window_x_pos;
     enum item_change_direction direction;
     enum item_type type;

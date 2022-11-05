@@ -32,7 +32,7 @@ const struct item_change_direction_bindings binds_arr [4] = {
     } },
 };
 
-void print_clear_win_at (const int y_pos, const int x_pos, const int height, const int width, const char *name) {
+void print_clear_win_at (const int y_pos, const int x_pos, const int height, const int width, const char * const name) {
     int counter_height, counter_width;
 
     for (counter_height = 0; counter_height < height; ++counter_height) {

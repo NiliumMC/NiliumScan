@@ -10,9 +10,9 @@
 struct tui_button {
     int y_pos;
     int x_pos;
-    const char *name;
+    const char * const name;
     const int name_str_len;
-    bool (*const func) (void);
+    bool (* const func) (void);
     const int element_id;
     const int up_element_id;
     const int down_element_id;
@@ -21,5 +21,5 @@ struct tui_button {
 };
 
 void print_buttons (const int, const int, const struct tui_button [], const int, const int);
-void print_button (const int, const int, const struct tui_button *, const bool);
+void print_button (const int, const int, const struct tui_button * const, const bool);
 

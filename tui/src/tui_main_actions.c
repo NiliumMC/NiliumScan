@@ -10,7 +10,7 @@
 #include "tui/tui_main_actions.h"
 #include "tui/tui_colors.h"
 
-static void print_main_action (const struct main_action *);
+static void print_main_action (const struct main_action * const);
 
 void print_main_actions (const int y_pos, const struct main_action actions_arr [], const int array_size) {
     int counter;
@@ -21,7 +21,7 @@ void print_main_actions (const int y_pos, const struct main_action actions_arr [
     }
 }
 
-static void print_main_action (const struct main_action *action) {
+static void print_main_action (const struct main_action * const action) {
     bool is_highlighted;
     int counter;
 

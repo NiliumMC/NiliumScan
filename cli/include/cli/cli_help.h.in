@@ -8,5 +8,5 @@
 #define TMCS_VERSION "@CMAKE_PROJECT_VERSION@"
 #define TMCS_DESCRIPTION "@CMAKE_PROJECT_DESCRIPTION@"
 
-void print_help (int);
+void print_help (const int);
 

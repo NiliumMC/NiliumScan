@@ -6,7 +6,7 @@
  */
 
 struct serv_info_colon {
-    const char *name;
+    const char * const name;
     const int  name_str_len;
     const int  field_len;
     const char bind;

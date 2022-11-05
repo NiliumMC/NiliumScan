@@ -11,7 +11,7 @@
 #include "cli/cli_parameters.h"
 #include "cli/cli.h"
 
-bool start_cli (int argc, char **argv) {
+bool start_cli (const int argc, char ** const argv) {
     handle_parameters (argc, argv);
 
     if (term_flags & tfb_use_cli) {

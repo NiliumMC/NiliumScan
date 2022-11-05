@@ -25,7 +25,7 @@ struct option long_flags [] = {
     { "cli",  no_argument, 0, tfl_use_cli }
 };
 
-void handle_parameters (int argc, char **argv) {
+void handle_parameters (const int argc, char ** const argv) {
     int arg, opt_index = 0;
 
     while ((arg = getopt_long (argc, argv, "h", long_flags, &opt_index)) != -1) {

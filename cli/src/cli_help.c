@@ -10,7 +10,7 @@
 
 #include "cli/cli_help.h"
 
-void print_help (int exit_code) {
+void print_help (const int exit_code) {
     puts ("TMCScan - " TMCS_DESCRIPTION "\n"
           "GitHub: https://github.com/0Magenta0/TMCScan\n"
           "Released Under GPLv3 | Copyright (C) 2022 _Magenta_\n\n"
