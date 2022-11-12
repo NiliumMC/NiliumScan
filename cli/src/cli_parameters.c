@@ -30,16 +30,17 @@ void handle_parameters (const int argc, char ** const argv) {
 
     while ((arg = getopt_long (argc, argv, "h", long_flags, &opt_index)) != -1) {
         switch ((enum term_flags_list) arg) {
-            case TFL_GET_HELP:
+            case TFL_GET_HELP: {
                 print_help (0);
                 break;
+            }
 
-            case TFL_USE_CLI:
+            case TFL_USE_CLI: {
                 term_flags |= TFB_USE_CLI;
                 break;
+            }
 
-            default:
-                print_help (1);
+            default: print_help (1);
         }
     }
 }

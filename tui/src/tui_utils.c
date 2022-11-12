@@ -11,22 +11,22 @@
 #include "tui/tui_utils.h"
 
 const struct item_change_direction_bindings binds_arr [4] = {
-    { icd_up, 2, {
+    { ICD_UP, 2, {
         { 'k',    true, false },
         { KEY_UP, true, true }
     } },
 
-    { icd_down, 2, {
+    { ICD_DOWN, 2, {
         { 'j',      true, false },
         { KEY_DOWN, true, true }
     } },
 
-    { icd_left, 2, {
+    { ICD_LEFT, 2, {
         { 'h',      true, false },
         { KEY_LEFT, true, true }
     } },
 
-    { icd_right, 2, {
+    { ICD_RIGHT, 2, {
         { 'l',       true, false },
         { KEY_RIGHT, true, true }
     } },
@@ -51,7 +51,7 @@ void print_clear_win_at (const int y_pos, const int x_pos, const int height, con
     mvvline (y_pos + 1, x_pos + width - 1, ACS_VLINE, height - 2);
 
     mvaddch (y_pos, x_pos + 1, ACS_URCORNER);
-    attron (COLOR_PAIR (pair_general) | A_ITALIC);
+    attron (COLOR_PAIR (PAIR_GENERAL) | A_ITALIC);
     addstr (name);
     standend ();
     addch (ACS_ULCORNER);
@@ -67,25 +67,33 @@ int change_item (const int window_y_pos, const int window_x_pos, const int curre
 
     for (counter = 0; counter < buttons_array_size; ++counter) {
         if (current_item_id == button_arr [counter].element_id) {
-            if (direction == ICD_UP) {
-                if ((tmp_button_p = get_button_by_id (button_arr [counter].up_element_id, button_arr, buttons_array_size)) != NULL) {
-                    print_button (window_y_pos, window_x_pos, tmp_button_p, true);
-                    return tmp_button_p->element_id;
+            switch (direction) {
+                case ICD_UP: {
+                    if ((tmp_button_p = get_button_by_id (button_arr [counter].up_element_id, button_arr, buttons_array_size)) != NULL) {
+                        print_button (window_y_pos, window_x_pos, tmp_button_p, true);
+                        return tmp_button_p->element_id;
+                    }
                 }
-            } else if (direction == ICD_DOWN) {
-                if ((tmp_button_p = get_button_by_id (button_arr [counter].down_element_id, button_arr, buttons_array_size)) != NULL) {
-                    print_button (window_y_pos, window_x_pos, tmp_button_p, true);
-                    return tmp_button_p->element_id;
+
+                case ICD_DOWN: {
+                    if ((tmp_button_p = get_button_by_id (button_arr [counter].down_element_id, button_arr, buttons_array_size)) != NULL) {
+                        print_button (window_y_pos, window_x_pos, tmp_button_p, true);
+                        return tmp_button_p->element_id;
+                    }
                 }
-            } else if (direction == ICD_LEFT) {
-                if ((tmp_button_p = get_button_by_id (button_arr [counter].left_element_id, button_arr, buttons_array_size)) != NULL) {
-                    print_button (window_y_pos, window_x_pos, tmp_button_p, true);
-                    return tmp_button_p->element_id;
+
+                case ICD_LEFT: {
+                    if ((tmp_button_p = get_button_by_id (button_arr [counter].left_element_id, button_arr, buttons_array_size)) != NULL) {
+                        print_button (window_y_pos, window_x_pos, tmp_button_p, true);
+                        return tmp_button_p->element_id;
+                    }
                 }
-            } else if (direction == ICD_RIGHT) {
-                if ((tmp_button_p = get_button_by_id (button_arr [counter].right_element_id, button_arr, buttons_array_size)) != NULL) {
-                    print_button (window_y_pos, window_x_pos, tmp_button_p, true);
-                    return tmp_button_p->element_id;
+
+                case ICD_RIGHT: {
+                    if ((tmp_button_p = get_button_by_id (button_arr [counter].right_element_id, button_arr, buttons_array_size)) != NULL) {
+                        print_button (window_y_pos, window_x_pos, tmp_button_p, true);
+                        return tmp_button_p->element_id;
+                    }
                 }
             }
         }
@@ -102,18 +110,19 @@ bool check_bind (const int ch, const enum item_type type, const struct item_chan
             if (ch == bindings_arr [counter_array].binds_arr [counter_bindings].bind) {
                 *direction = bindings_arr [counter_array].direction;
                 switch (type) {
-                    case BUTTON_TYPE:
+                    case BUTTON_TYPE: {
                         if (bindings_arr [counter_array].binds_arr [counter_bindings].is_for_buttons) {
                             return true;
                         } break;
+                    }
 
-                    case TEXTFIELD_TYPE:
+                    case TEXTFIELD_TYPE: {
                         if (bindings_arr [counter_array].binds_arr [counter_bindings].is_for_textfields) {
                             return true;
                         } break;
+                    }
 
-                    default:
-                        return false;
+                    default: return false;
                 }
             }
         }
