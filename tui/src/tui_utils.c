@@ -72,21 +72,21 @@ int change_item (const int window_y_pos, const int window_x_pos, const int curre
                     if ((tmp_button_p = get_button_by_id (button_arr [counter].up_element_id, button_arr, buttons_array_size)) != NULL) {
                         print_button (window_y_pos, window_x_pos, tmp_button_p, true);
                         return tmp_button_p->element_id;
-                    }
+                    } break;
                 }
 
                 case ICD_DOWN: {
                     if ((tmp_button_p = get_button_by_id (button_arr [counter].down_element_id, button_arr, buttons_array_size)) != NULL) {
                         print_button (window_y_pos, window_x_pos, tmp_button_p, true);
                         return tmp_button_p->element_id;
-                    }
+                    } break;
                 }
 
                 case ICD_LEFT: {
                     if ((tmp_button_p = get_button_by_id (button_arr [counter].left_element_id, button_arr, buttons_array_size)) != NULL) {
                         print_button (window_y_pos, window_x_pos, tmp_button_p, true);
                         return tmp_button_p->element_id;
-                    }
+                    } break;
                 }
 
                 case ICD_RIGHT: {
