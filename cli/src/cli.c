@@ -14,7 +14,7 @@
 bool start_cli (const int argc, char ** const argv) {
     handle_parameters (argc, argv);
 
-    if (term_flags & tfb_use_cli) {
+    if (term_flags & TFB_USE_CLI) {
 
         return true;
     }

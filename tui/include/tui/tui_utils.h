@@ -12,15 +12,15 @@
 #define MAX_TUI_KEY_BINDS 8
 
 enum item_change_direction {
-    icd_up,
-    icd_down,
-    icd_left,
-    icd_right
+    ICD_UP,
+    ICD_DOWN,
+    ICD_LEFT,
+    ICD_RIGHT
 };
 
 enum item_type {
-    button_type,
-    textfield_type /* TODO */
+    BUTTON_TYPE,
+    TEXTFIELD_TYPE /* TODO */
 };
 
 struct item_change_direction_binding {

@@ -41,7 +41,7 @@ bool window_quit (const int ch, const int screen_height, const int screen_width,
     }
 
     if (is_enter_key (ch)) {
-        if (type == button_type) {
+        if (type == BUTTON_TYPE) {
             if (get_button_by_id (current_item_id, buttons_arr, BUTTONS_COUNT)->func () == false) {
                 current_item_id = DEFAULT_ITEM_ID;
                 return false;

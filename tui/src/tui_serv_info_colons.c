@@ -28,7 +28,7 @@ static void print_serv_info_colon (const int x_pos, const struct serv_info_colon
     for (counter = 0, is_highlighted = 0; info_colon->name [counter]; ++counter) {
         if (is_highlighted == false && info_colon->name [counter] == info_colon->bind) {
             is_highlighted = true;
-            attron (A_BOLD | COLOR_PAIR (pair_general));
+            attron (A_BOLD | COLOR_PAIR (PAIR_GENERAL));
             addch ((unsigned int) info_colon->name [counter]);
             standend ();
         } else {

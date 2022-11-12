@@ -29,7 +29,7 @@ static void print_main_action (const struct main_action * const action) {
     for (counter = 0, is_highlighted = 0; action->name [counter]; ++counter) {
         if (is_highlighted == false && action->name [counter] == action->bind) {
             is_highlighted = true;
-            attron (A_BOLD | COLOR_PAIR (pair_general));
+            attron (A_BOLD | COLOR_PAIR (PAIR_GENERAL));
             addch ((unsigned int) action->name [counter]);
             standend ();
         } else {

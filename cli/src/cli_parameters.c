@@ -14,15 +14,15 @@
 #include "cli/cli_help.h"
 
 enum term_flags_list {
-    tfl_get_help = 0x68, /* h */
-    tfl_use_cli = 0x01
+    TFL_GET_HELP = 0x68, /* h */
+    TFL_USE_CLI = 0x01
 };
 
 enum term_flags_bitset term_flags;
 
 struct option long_flags [] = {
-    { "help", no_argument, 0, tfl_get_help },
-    { "cli",  no_argument, 0, tfl_use_cli }
+    { "help", no_argument, 0, TFL_GET_HELP },
+    { "cli",  no_argument, 0, TFL_USE_CLI }
 };
 
 void handle_parameters (const int argc, char ** const argv) {
@@ -30,12 +30,12 @@ void handle_parameters (const int argc, char ** const argv) {
 
     while ((arg = getopt_long (argc, argv, "h", long_flags, &opt_index)) != -1) {
         switch ((enum term_flags_list) arg) {
-            case tfl_get_help:
+            case TFL_GET_HELP:
                 print_help (0);
                 break;
 
-            case tfl_use_cli:
-                term_flags |= tfb_use_cli;
+            case TFL_USE_CLI:
+                term_flags |= TFB_USE_CLI;
                 break;
 
             default:

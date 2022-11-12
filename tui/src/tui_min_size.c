@@ -23,12 +23,12 @@ void print_min_size (const int y, const int x) {
     mvprintw (y_pos++, x_pos, "Your terminal is too small!");
 
     mvprintw (y_pos++, x_pos, "      Lines: %d/", MIN_SCR_LINES);
-    attron (COLOR_PAIR ((y >= MIN_SCR_LINES) ? pair_positive : pair_negative));
+    attron (COLOR_PAIR ((y >= MIN_SCR_LINES) ? PAIR_POSITIVE : PAIR_NEGATIVE));
     printw ("%d", y);
     standend ();
 
     mvprintw (y_pos, x_pos, "      Cols: %d/", MIN_SCR_COLS);
-    attron (COLOR_PAIR ((x >= MIN_SCR_COLS) ? pair_positive : pair_negative));
+    attron (COLOR_PAIR ((x >= MIN_SCR_COLS) ? PAIR_POSITIVE : PAIR_NEGATIVE));
     printw ("%d", x);
     standend ();
 

@@ -58,13 +58,13 @@ bool start_tui (void) {
 
     if (can_change_color ()) {
         assume_default_colors (231, 234);
-        init_pair (pair_general, 75, 234);
-        init_pair (pair_positive, 112, 234);
-        init_pair (pair_negative, 196, 234);
+        init_pair (PAIR_GENERAL, 75, 234);
+        init_pair (PAIR_POSITIVE, 112, 234);
+        init_pair (PAIR_NEGATIVE, 196, 234);
     } else {
-        init_pair (pair_general, COLOR_CYAN, COLOR_BLACK);
-        init_pair (pair_positive, COLOR_GREEN, COLOR_BLACK);
-        init_pair (pair_negative, COLOR_RED, COLOR_BLACK);
+        init_pair (PAIR_GENERAL, COLOR_CYAN, COLOR_BLACK);
+        init_pair (PAIR_POSITIVE, COLOR_GREEN, COLOR_BLACK);
+        init_pair (PAIR_NEGATIVE, COLOR_RED, COLOR_BLACK);
     }
 
     return true;

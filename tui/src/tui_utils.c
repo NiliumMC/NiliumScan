@@ -67,22 +67,22 @@ int change_item (const int window_y_pos, const int window_x_pos, const int curre
 
     for (counter = 0; counter < buttons_array_size; ++counter) {
         if (current_item_id == button_arr [counter].element_id) {
-            if (direction == icd_up) {
+            if (direction == ICD_UP) {
                 if ((tmp_button_p = get_button_by_id (button_arr [counter].up_element_id, button_arr, buttons_array_size)) != NULL) {
                     print_button (window_y_pos, window_x_pos, tmp_button_p, true);
                     return tmp_button_p->element_id;
                 }
-            } else if (direction == icd_down) {
+            } else if (direction == ICD_DOWN) {
                 if ((tmp_button_p = get_button_by_id (button_arr [counter].down_element_id, button_arr, buttons_array_size)) != NULL) {
                     print_button (window_y_pos, window_x_pos, tmp_button_p, true);
                     return tmp_button_p->element_id;
                 }
-            } else if (direction == icd_left) {
+            } else if (direction == ICD_LEFT) {
                 if ((tmp_button_p = get_button_by_id (button_arr [counter].left_element_id, button_arr, buttons_array_size)) != NULL) {
                     print_button (window_y_pos, window_x_pos, tmp_button_p, true);
                     return tmp_button_p->element_id;
                 }
-            } else if (direction == icd_right) {
+            } else if (direction == ICD_RIGHT) {
                 if ((tmp_button_p = get_button_by_id (button_arr [counter].right_element_id, button_arr, buttons_array_size)) != NULL) {
                     print_button (window_y_pos, window_x_pos, tmp_button_p, true);
                     return tmp_button_p->element_id;
@@ -102,12 +102,12 @@ bool check_bind (const int ch, const enum item_type type, const struct item_chan
             if (ch == bindings_arr [counter_array].binds_arr [counter_bindings].bind) {
                 *direction = bindings_arr [counter_array].direction;
                 switch (type) {
-                    case button_type:
+                    case BUTTON_TYPE:
                         if (bindings_arr [counter_array].binds_arr [counter_bindings].is_for_buttons) {
                             return true;
                         } break;
 
-                    case textfield_type:
+                    case TEXTFIELD_TYPE:
                         if (bindings_arr [counter_array].binds_arr [counter_bindings].is_for_textfields) {
                             return true;
                         } break;
@@ -139,13 +139,13 @@ enum item_type get_item_type_by_id (const int id, const struct tui_button button
 
     for (counter = 0; counter < buttons_array_size; ++counter) {
         if (button_arr [counter].element_id == id) {
-            return button_type;
+            return BUTTON_TYPE;
         }
     }
 
     /* TODO: Textfields */
 
-    return button_type;
+    return BUTTON_TYPE;
 }
 
 bool is_enter_key (const int ch) {

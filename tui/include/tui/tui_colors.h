@@ -6,9 +6,9 @@
  */
 
 enum tui_color_pairs {
-    pair_default,
-    pair_general,
-    pair_positive,
-    pair_negative
+    PAIR_DEFAULT,
+    PAIR_GENERAL,
+    PAIR_POSITIVE,
+    PAIR_NEGATIVE
 };
 
