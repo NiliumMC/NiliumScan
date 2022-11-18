@@ -5,16 +5,16 @@ Copyright (C) 2022 _Magenta_
 https://github.com/0Magenta0/TMCScan
 ]]
 
-project (tmcscan-tui)
+PROJECT (tmcscan-tui)
 
-set (CURSES_NEED_NCURSES ON)
-set (CURSES_NEED_WIDE ON)
-include (FindCurses)
+SET (CURSES_NEED_NCURSES ON)
+SET (CURSES_NEED_WIDE ON)
+INCLUDE (FindCurses)
 
-add_library (${PROJECT_NAME} OBJECT)
-add_library (tmc::tui ALIAS ${PROJECT_NAME})
+ADD_LIBRARY (${PROJECT_NAME} OBJECT)
+ADD_LIBRARY (tmc::tui ALIAS ${PROJECT_NAME})
 
-target_sources (
+TARGET_SOURCES (
   ${PROJECT_NAME} PRIVATE
     src/tui_serv_info_colons.c
     src/tui_main_actions.c
@@ -25,13 +25,13 @@ target_sources (
     src/tui.c
 )
 
-target_include_directories (
+TARGET_INCLUDE_DIRECTORIES (
   ${PROJECT_NAME}
     PUBLIC ${PROJECT_SOURCE_DIR}/include
     PRIVATE ${CURSES_INCLUDE_DIRS}
 )
 
-target_link_libraries (
+TARGET_LINK_LIBRARIES (
   ${PROJECT_NAME}
     PRIVATE ${CURSES_LIBRARIES}
 )

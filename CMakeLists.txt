@@ -5,25 +5,25 @@ Copyright (C) 2022 _Magenta_
 https://github.com/0Magenta0/TMCScan
 ]]
 
-cmake_minimum_required (VERSION 3.10)
+CMAKE_MINIMUM_REQUIRED (VERSION 3.10)
 
-project (
+PROJECT (
   tmcscan
     VERSION 3.0
     DESCRIPTION "Advanced TUI Minecraft Port Scanner"
     LANGUAGES C
 )
 
-set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set (CMAKE_C_STANDARD 99)
-set (CMAKE_C_EXTENSIONS ON)
-set (CMAKE_C_STANDARD_REQUIRED ON)
-set (CMAKE_BUILD_TYPE RELEASE)
+SET (CMAKE_C_STANDARD 99)
+SET (CMAKE_C_EXTENSIONS ON)
+SET (CMAKE_C_STANDARD_REQUIRED ON)
+SET (CMAKE_BUILD_TYPE RELEASE)
 
-if (ISDEBUG)
-  set (CMAKE_BUILD_TYPE DEBUG)
-  set (
+IF (ISDEBUG)
+  SET (CMAKE_BUILD_TYPE DEBUG)
+  SET (
     CMAKE_C_FLAGS
       "${CMAKE_C_FLAGS} \
         -fsanitize=address \
@@ -32,13 +32,13 @@ if (ISDEBUG)
         -Wredundant-decls -Wsign-conversion \
         -Waggregate-return -Wswitch-enum"
   )
-endif ()
+ENDIF ()
 
-add_subdirectory (cli)
-add_subdirectory (tui)
-add_executable (${CMAKE_PROJECT_NAME} main.c)
+ADD_SUBDIRECTORY (cli)
+ADD_SUBDIRECTORY (tui)
+ADD_EXECUTABLE (${CMAKE_PROJECT_NAME} main.c)
 
-target_link_libraries (
+TARGET_LINK_LIBRARIES (
   ${CMAKE_PROJECT_NAME}
     PRIVATE tmc::cli
     PRIVATE tmc::tui

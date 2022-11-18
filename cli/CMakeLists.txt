@@ -5,21 +5,21 @@ Copyright (C) 2022 _Magenta_
 https://github.com/0Magenta0/TMCScan
 ]]
 
-project (tmcscan-cli)
+PROJECT (tmcscan-cli)
 
-add_library (${PROJECT_NAME} OBJECT)
-add_library (tmc::cli ALIAS ${PROJECT_NAME})
+ADD_LIBRARY (${PROJECT_NAME} OBJECT)
+ADD_LIBRARY (tmc::cli ALIAS ${PROJECT_NAME})
 
-target_sources (
+TARGET_SOURCES (
   ${PROJECT_NAME} PRIVATE
     src/cli_parameters.c
     src/cli_help.c
     src/cli.c
 )
 
-configure_file (${PROJECT_SOURCE_DIR}/include/cli/cli_help.h.in ${PROJECT_SOURCE_DIR}/include/cli/cli_help.h NEWLINE_STYLE UNIX)
+CONFIGURE_FILE (${PROJECT_SOURCE_DIR}/include/cli/cli_help.h.in ${PROJECT_SOURCE_DIR}/include/cli/cli_help.h NEWLINE_STYLE UNIX)
 
-target_include_directories (
+TARGET_INCLUDE_DIRECTORIES (
   ${PROJECT_NAME}
     PUBLIC ${PROJECT_SOURCE_DIR}/include
 )
