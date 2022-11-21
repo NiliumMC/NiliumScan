@@ -7,11 +7,13 @@
 
 #include <stdbool.h>
 
+#include <ncurses.h>
+
 struct main_action {
     const char * const name;
     const int name_str_len;
     const char bind;
-    bool (* const func) (const int, const int, const int, const char * const);
+    bool (* const func) (const int, const int, const int, const char * const, const MEVENT * const);
     bool is_enabled;
 };
 

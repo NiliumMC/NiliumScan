@@ -5,8 +5,6 @@
  *  https://github.com/0Magenta0/TMCScan
  */
 
-#include <ncurses.h>
-
 #include "tui/tui_window_quit.h"
 #include "tui/tui_utils.h"
 
@@ -29,10 +27,14 @@ static const struct tui_button buttons_arr [BUTTONS_COUNT] = {
     { 3, 21, "No",  2, no_button_action,  1, 1, 1, 0, 0 }
 };
 
-bool window_quit (const int ch, const int screen_height, const int screen_width, const char * const name) {
+bool window_quit (const int ch, const int screen_height, const int screen_width, const char * const name, const MEVENT * const mouse_event) {
     static int window_y_pos, window_x_pos;
     enum item_change_direction direction;
     enum item_type type;
+
+    if (ch == KEY_MOUSE && is_mouse_click_out_window (mouse_event, window_y_pos, window_x_pos, WINDOW_HEIGHT, WINDOW_WIDTH)) {
+        return false;
+    }
 
     type = get_item_type_by_id (current_item_id, buttons_arr, BUTTONS_COUNT);
     if (check_bind (ch, type, binds_arr, 4, &direction) == true) {

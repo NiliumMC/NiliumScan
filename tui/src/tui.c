@@ -76,6 +76,7 @@ void end_tui (void) {
 
 void show_menu (void) {
     int ch, screen_height, screen_width, counter;
+    MEVENT mouse_event;
 
     getmaxyx (stdscr, screen_height, screen_width);
     if (screen_height < MIN_SCR_LINES || screen_width < MIN_SCR_COLS) {
@@ -86,7 +87,9 @@ void show_menu (void) {
     }
 
     while ((ch = getch ()) && is_open) {
-        if (ch == ERR || (is_quite_large == false && ch != KEY_RESIZE)) {
+        if (ch == ERR ||
+            (is_quite_large == false && ch != KEY_RESIZE) ||
+            (ch == KEY_MOUSE && getmouse (&mouse_event) == ERR)) {
             goto _key_loop_end;
         }
 
@@ -100,7 +103,7 @@ void show_menu (void) {
                 print_main_box (screen_height);
                 for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
                     if (actions_arr [counter].is_enabled == true) {
-                        if (actions_arr [counter].func (KEY_RESIZE, screen_height, screen_width, actions_arr [counter].name) == false) {
+                        if (actions_arr [counter].func (KEY_RESIZE, screen_height, screen_width, actions_arr [counter].name, NULL) == false) {
                             actions_arr [counter].is_enabled = false;
                             print_main_box (screen_height);
                         }
@@ -111,7 +114,7 @@ void show_menu (void) {
 
         for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
             if (actions_arr [counter].is_enabled == true) {
-                if (actions_arr [counter].func (ch, screen_height, screen_width, actions_arr [counter].name) == false) {
+                if (actions_arr [counter].func (ch, screen_height, screen_width, actions_arr [counter].name, &mouse_event) == false) {
                     actions_arr [counter].is_enabled = false;
                     print_main_box (screen_height);
                 } goto _key_loop_end;
@@ -121,7 +124,7 @@ void show_menu (void) {
         for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
             if (ch == actions_arr [counter].bind) {
                 actions_arr [counter].is_enabled = true;
-                actions_arr [counter].func (OK, screen_height, screen_width, actions_arr [counter].name);
+                actions_arr [counter].func (OK, screen_height, screen_width, actions_arr [counter].name, NULL);
             }
         }
 

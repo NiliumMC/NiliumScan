@@ -7,7 +7,9 @@
 
 #include <stdbool.h>
 
+#include <ncurses.h>
+
 extern bool is_open;
 
-bool window_quit (const int, const int, const int, const char *);
+bool window_quit (const int, const int, const int, const char *, const MEVENT * const);
 

@@ -165,3 +165,12 @@ bool is_enter_key (const int ch) {
     }
 }
 
+bool is_mouse_click_out_window (const MEVENT * const mouse_event, const int y_win_pos, const int x_win_pos, const int win_height, const int win_width) {
+    if ((mouse_event->y < y_win_pos || mouse_event->y >= y_win_pos + win_height ||
+        mouse_event->x < x_win_pos || mouse_event->x >= x_win_pos + win_width)) {
+        return true;
+    }
+
+    return false;
+}
+

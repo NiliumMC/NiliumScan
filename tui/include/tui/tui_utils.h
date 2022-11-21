@@ -5,6 +5,8 @@
  *  https://github.com/0Magenta0/TMCScan
  */
 
+#include <ncurses.h>
+
 #include <stdbool.h>
 
 #include "tui/tui_button.h"
@@ -43,4 +45,5 @@ bool check_bind (const int, const enum item_type, const struct item_change_direc
 const struct tui_button * get_button_by_id (const int, const struct tui_button [], const int);
 enum item_type get_item_type_by_id (const int, const struct tui_button [], const int);
 bool is_enter_key (const int);
+bool is_mouse_click_out_window (const MEVENT * const, const int, const int, const int, const int);
 
