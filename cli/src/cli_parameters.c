@@ -13,13 +13,16 @@
 #include "cli/cli_parameters.h"
 #include "cli/cli_help.h"
 
+/* List of the toggleable terminal flags. */
 enum term_flags_list {
     TFL_GET_HELP = 0x68, /* h */
     TFL_USE_CLI = 0x01
 };
 
+/* Bitset of the toggeled terminal flags. */
 enum term_flags_bitset term_flags;
 
+/* Initialize the terminal flags structure */
 struct option long_flags [] = {
     { "help", no_argument, 0, TFL_GET_HELP },
     { "cli",  no_argument, 0, TFL_USE_CLI }
@@ -40,7 +43,7 @@ void handle_parameters (const int argc, char ** const argv) {
                 break;
             }
 
-            default: print_help (1);
+            default: print_help (2);
         }
     }
 }

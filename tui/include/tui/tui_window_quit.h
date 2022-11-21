@@ -9,7 +9,10 @@
 
 #include <ncurses.h>
 
+/* If TUI Mode session continues true, otherwise false. */
 extern bool is_open;
 
-bool window_quit (const int, const int, const int, const char *, const MEVENT * const);
+/* TMCScan quit dialog window. */
+bool window_quit (const int ch, const int screen_height, const int screen_width,
+        const char * const name, const MEVENT * const);
 

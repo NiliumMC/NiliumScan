@@ -7,5 +7,10 @@
 
 #include <stdbool.h>
 
-bool start_cli (const int, char ** const);
+/* Pass term arguments to the handler.
+ * Start the CLI Mode if needed.
+ *
+ * Returns true if CLI Mode is used, otherwise false.
+ */
+bool start_cli (const int argc, char ** const argv);
 

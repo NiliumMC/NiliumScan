@@ -13,6 +13,7 @@
 
 #define BUTTONS_COUNT 2
 
+/* Window element that selected by default */
 #define DEFAULT_ITEM_ID 1
 
 static bool yes_button_action (void);
@@ -22,28 +23,38 @@ bool is_open = true;
 
 static int current_item_id = DEFAULT_ITEM_ID;
 
+/* Initialization of buttons array */
 static const struct tui_button buttons_arr [BUTTONS_COUNT] = {
     { 3, 11, "Yes", 3, yes_button_action, 0, 0, 0, 1, 1 },
     { 3, 21, "No",  2, no_button_action,  1, 1, 1, 0, 0 }
 };
 
-bool window_quit (const int ch, const int screen_height, const int screen_width, const char * const name, const MEVENT * const mouse_event) {
+bool window_quit (const int ch, const int screen_height, const int screen_width,
+        const char * const name, const MEVENT * const mouse_event) {
     static int window_y_pos, window_x_pos;
     enum item_change_direction direction;
     enum item_type type;
 
-    if (ch == KEY_MOUSE && is_mouse_click_out_window (mouse_event, window_y_pos, window_x_pos, WINDOW_HEIGHT, WINDOW_WIDTH)) {
+    /* If mouse button is pressed outside the window,
+     * then window will be closed.
+     */
+    if (ch == KEY_MOUSE && is_mouse_click_out_window (mouse_event, window_y_pos, window_x_pos,
+                WINDOW_HEIGHT, WINDOW_WIDTH)) {
         return false;
     }
 
     type = get_item_type_by_id (current_item_id, buttons_arr, BUTTONS_COUNT);
     if (check_bind (ch, type, binds_arr, 4, &direction) == true) {
-        current_item_id = change_item (window_y_pos, window_x_pos, current_item_id, direction, buttons_arr, BUTTONS_COUNT);
-        return true; /* Skip Other Key Checks When Item Is Changed */
+        current_item_id = change_item (window_y_pos, window_x_pos, current_item_id,
+                direction, buttons_arr, BUTTONS_COUNT);
+        return true; /* Skip other key checks when item is changed. */
     }
 
     if (is_enter_key (ch)) {
         if (type == BUTTON_TYPE) {
+            /* If the button is pressend and it's
+             * function returns false then window is closed.
+             */
             if (get_button_by_id (current_item_id, buttons_arr, BUTTONS_COUNT)->func () == false) {
                 current_item_id = DEFAULT_ITEM_ID;
                 return false;
@@ -51,6 +62,7 @@ bool window_quit (const int ch, const int screen_height, const int screen_width,
         }
     }
 
+    /* Redraw the window if it's have some updates */
     if (ch == KEY_RESIZE || ch == OK) {
         window_y_pos = (screen_height >> 1) - (WINDOW_HEIGHT >> 1);
         window_x_pos = (screen_width >> 1) - (WINDOW_WIDTH >> 1);

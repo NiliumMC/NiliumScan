@@ -10,6 +10,9 @@
 #include "tui/tui_colors.h"
 #include "tui/tui_utils.h"
 
+/* Initialization of array with bindings
+ * for 4 directions.
+ */
 const struct item_change_direction_bindings binds_arr [4] = {
     { ICD_UP, 2, {
         { 'k',    true, false },
@@ -32,15 +35,18 @@ const struct item_change_direction_bindings binds_arr [4] = {
     } },
 };
 
-void print_clear_win_at (const int y_pos, const int x_pos, const int height, const int width, const char * const name) {
+void print_clear_win_at (const int y_pos, const int x_pos,
+        const int height, const int width, const char * const name) {
     int counter_height, counter_width;
 
+    /* Clear the window area. */
     for (counter_height = 0; counter_height < height; ++counter_height) {
         for (counter_width = 0; counter_width < width; ++counter_width) {
             mvaddch (y_pos + counter_height, x_pos + counter_width, ' ');
         }
     }
 
+    /* Draw the window border. */
     mvaddch (y_pos, x_pos, ACS_ULCORNER);
     mvaddch (y_pos, x_pos + width - 1, ACS_URCORNER);
     mvaddch (y_pos + height - 1, x_pos, ACS_LLCORNER);
@@ -50,6 +56,7 @@ void print_clear_win_at (const int y_pos, const int x_pos, const int height, con
     mvhline (y_pos + height - 1, x_pos + 1, ACS_HLINE, width - 2);
     mvvline (y_pos + 1, x_pos + width - 1, ACS_VLINE, height - 2);
 
+    /* Add the window title. */
     mvaddch (y_pos, x_pos + 1, ACS_URCORNER);
     attron (COLOR_PAIR (PAIR_GENERAL) | A_ITALIC);
     addstr (name);
@@ -57,40 +64,48 @@ void print_clear_win_at (const int y_pos, const int x_pos, const int height, con
     addch (ACS_ULCORNER);
 }
 
-int change_item (const int window_y_pos, const int window_x_pos, const int current_item_id, const enum item_change_direction direction, const struct tui_button button_arr [], const int buttons_array_size) {
+int change_item (const int window_y_pos, const int window_x_pos,
+        const int current_item_id, const enum item_change_direction direction,
+        const struct tui_button button_arr [], const int buttons_array_size) {
     const struct tui_button *tmp_button_p;
     int counter;
 
+    /* Redraw the old button. */
     if ((tmp_button_p = get_button_by_id (current_item_id, button_arr, buttons_array_size)) != NULL) {
         print_button (window_y_pos, window_x_pos, tmp_button_p, false);
     }
 
+    /* Find and draw the new one. */
     for (counter = 0; counter < buttons_array_size; ++counter) {
         if (current_item_id == button_arr [counter].element_id) {
             switch (direction) {
                 case ICD_UP: {
-                    if ((tmp_button_p = get_button_by_id (button_arr [counter].up_element_id, button_arr, buttons_array_size)) != NULL) {
+                    if ((tmp_button_p = get_button_by_id (button_arr [counter].up_element_id,
+                                    button_arr, buttons_array_size)) != NULL) {
                         print_button (window_y_pos, window_x_pos, tmp_button_p, true);
                         return tmp_button_p->element_id;
                     } break;
                 }
 
                 case ICD_DOWN: {
-                    if ((tmp_button_p = get_button_by_id (button_arr [counter].down_element_id, button_arr, buttons_array_size)) != NULL) {
+                    if ((tmp_button_p = get_button_by_id (button_arr [counter].down_element_id,
+                                    button_arr, buttons_array_size)) != NULL) {
                         print_button (window_y_pos, window_x_pos, tmp_button_p, true);
                         return tmp_button_p->element_id;
                     } break;
                 }
 
                 case ICD_LEFT: {
-                    if ((tmp_button_p = get_button_by_id (button_arr [counter].left_element_id, button_arr, buttons_array_size)) != NULL) {
+                    if ((tmp_button_p = get_button_by_id (button_arr [counter].left_element_id,
+                                    button_arr, buttons_array_size)) != NULL) {
                         print_button (window_y_pos, window_x_pos, tmp_button_p, true);
                         return tmp_button_p->element_id;
                     } break;
                 }
 
                 case ICD_RIGHT: {
-                    if ((tmp_button_p = get_button_by_id (button_arr [counter].right_element_id, button_arr, buttons_array_size)) != NULL) {
+                    if ((tmp_button_p = get_button_by_id (button_arr [counter].right_element_id,
+                                    button_arr, buttons_array_size)) != NULL) {
                         print_button (window_y_pos, window_x_pos, tmp_button_p, true);
                         return tmp_button_p->element_id;
                     }
@@ -102,7 +117,9 @@ int change_item (const int window_y_pos, const int window_x_pos, const int curre
     return 0;
 }
 
-bool check_bind (const int ch, const enum item_type type, const struct item_change_direction_bindings bindings_arr [], const int array_size, enum item_change_direction *direction) {
+bool check_bind (const int ch, const enum item_type type,
+        const struct item_change_direction_bindings bindings_arr [],
+        const int array_size, enum item_change_direction *direction) {
     int counter_array, counter_bindings;
 
     for (counter_array = 0; counter_array < array_size; ++counter_array) {
@@ -131,7 +148,8 @@ bool check_bind (const int ch, const enum item_type type, const struct item_chan
     return false;
 }
 
-const struct tui_button * get_button_by_id (const int id, const struct tui_button button_arr [], const int buttons_array_size) {
+const struct tui_button * get_button_by_id (const int id,
+        const struct tui_button button_arr [], const int buttons_array_size) {
     int counter;
 
     for (counter = 0; counter < buttons_array_size; ++counter) {
@@ -143,7 +161,8 @@ const struct tui_button * get_button_by_id (const int id, const struct tui_butto
     return NULL;
 }
 
-enum item_type get_item_type_by_id (const int id, const struct tui_button button_arr [], const int buttons_array_size) {
+enum item_type get_item_type_by_id (const int id,
+        const struct tui_button button_arr [], const int buttons_array_size) {
     int counter;
 
     for (counter = 0; counter < buttons_array_size; ++counter) {
@@ -165,9 +184,11 @@ bool is_enter_key (const int ch) {
     }
 }
 
-bool is_mouse_click_out_window (const MEVENT * const mouse_event, const int y_win_pos, const int x_win_pos, const int win_height, const int win_width) {
-    if ((mouse_event->y < y_win_pos || mouse_event->y >= y_win_pos + win_height ||
-        mouse_event->x < x_win_pos || mouse_event->x >= x_win_pos + win_width)) {
+bool is_mouse_click_out_window (const MEVENT * const mouse_event,
+        const int window_y_pos, const int window_x_pos,
+        const int window_height, const int window_width) {
+    if ((mouse_event->y < window_y_pos || mouse_event->y >= window_y_pos + window_height ||
+        mouse_event->x < window_x_pos || mouse_event->x >= window_x_pos + window_width)) {
         return true;
     }
 

@@ -13,7 +13,7 @@
 int main (int argc, char **argv) {
     if (argc > 1) {
         if (start_cli (argc, argv)) {
-            return 0;
+            return 0; /* CLI Mode is enabled. Doesn't need to continue. */
         }
     }
 

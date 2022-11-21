@@ -7,6 +7,7 @@
 
 #include <stdbool.h>
 
+/* Window button element structure. */
 struct tui_button {
     int y_pos;
     int x_pos;
@@ -20,6 +21,13 @@ struct tui_button {
     const int right_element_id;
 };
 
-void print_buttons (const int, const int, const struct tui_button [], const int, const int);
-void print_button (const int, const int, const struct tui_button * const, const bool);
+/* Draw the all buttons in the window. */
+void print_buttons (const int window_y_pos, const int window_x_pos,
+        const struct tui_button button_arr [],
+        const int array_size, const int current_item_id);
+
+/* Draw some button in the window. */
+void print_button (const int window_y_pos, const int window_x_pos,
+        const struct tui_button * const button,
+        const bool is_highlighted);
 

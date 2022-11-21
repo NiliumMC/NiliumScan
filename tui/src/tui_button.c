@@ -10,7 +10,9 @@
 #include "tui/tui_button.h"
 #include "tui/tui_colors.h"
 
-void print_buttons (const int window_y_pos, const int window_x_pos, const struct tui_button button_arr [], const int array_size, const int current_item_id) {
+void print_buttons (const int window_y_pos, const int window_x_pos,
+        const struct tui_button button_arr [],
+        const int array_size, const int current_item_id) {
     int counter;
 
     for (counter = 0; counter < array_size; ++counter) {
@@ -22,7 +24,9 @@ void print_buttons (const int window_y_pos, const int window_x_pos, const struct
     }
 }
 
-void print_button (const int window_y_pos, const int window_x_pos, const struct tui_button * const button, const bool is_highlighted) {
+void print_button (const int window_y_pos, const int window_x_pos,
+        const struct tui_button * const button,
+        const bool is_highlighted) {
     if (is_highlighted) {
         attron (A_REVERSE | A_BOLD);
     }

@@ -21,8 +21,12 @@
 #define COLONS_COUNT 5
 #define ACTIONS_COUNT 2
 
-static void print_main_box (const int);
+/* Draw the main menu box.
+ * Adds the buttons and server colons
+ */
+static void print_main_box (const int screen_height);
 
+/* Initialize the server colons structure */
 const struct serv_info_colon colons_arr [COLONS_COUNT] = {
     { "ip",      2, 15, 'i' },
     { "port",    4, 5,  'p' },
@@ -31,6 +35,7 @@ const struct serv_info_colon colons_arr [COLONS_COUNT] = {
     { "motd",    4, 20, 'm' }
 };
 
+/* Initialize the main menu actions structure */
 struct main_action actions_arr [ACTIONS_COUNT] = {
     { "scan", 4, 's', /* window_scan */ NULL, false },
     { "quit", 4, 'q', window_quit, false }
@@ -78,6 +83,7 @@ void show_menu (void) {
     int ch, screen_height, screen_width, counter;
     MEVENT mouse_event;
 
+    /* Initial TUI state draw. */
     getmaxyx (stdscr, screen_height, screen_width);
     if (screen_height < MIN_SCR_LINES || screen_width < MIN_SCR_COLS) {
         is_quite_large = false;
@@ -86,13 +92,15 @@ void show_menu (void) {
         print_main_box (screen_height);
     }
 
+    /* Main loop */
     while ((ch = getch ()) && is_open) {
         if (ch == ERR ||
             (is_quite_large == false && ch != KEY_RESIZE) ||
             (ch == KEY_MOUSE && getmouse (&mouse_event) == ERR)) {
-            goto _key_loop_end;
+            goto _key_loop_end; /* Repeat the loop if some error is handled. */
         }
 
+        /* Terminal resize handle. */
         if (ch == KEY_RESIZE) {
             getmaxyx (stdscr, screen_height, screen_width);
             if (screen_height < MIN_SCR_LINES || screen_width < MIN_SCR_COLS) {
@@ -109,9 +117,10 @@ void show_menu (void) {
                         }
                     }
                 }
-            } goto _key_loop_end;
+            } goto _key_loop_end; /* Don't try any other handlers. */
         }
 
+        /* Handle keybinds that enable any window. */
         for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
             if (actions_arr [counter].is_enabled == true) {
                 if (actions_arr [counter].func (ch, screen_height, screen_width, actions_arr [counter].name, &mouse_event) == false) {
@@ -121,6 +130,7 @@ void show_menu (void) {
             }
         }
 
+        /* Check if the any window is enabled. */
         for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
             if (ch == actions_arr [counter].bind) {
                 actions_arr [counter].is_enabled = true;
@@ -130,7 +140,7 @@ void show_menu (void) {
 
 _key_loop_end:
         if (ch == ERR) {
-            usleep (60000);
+            usleep (60000); /* CPU Runtime optimization. */
         }
     }
 }

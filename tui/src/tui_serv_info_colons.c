@@ -10,7 +10,8 @@
 #include "tui/tui_serv_info_colons.h"
 #include "tui/tui_colors.h"
 
-static void print_serv_info_colon (const int, const struct serv_info_colon * const);
+/* Draw some server column header at the menu border */
+static void print_serv_info_colon (const int x_pos, const struct serv_info_colon * const info_colon);
 
 void print_serv_info_colons (const struct serv_info_colon colons_arr [], const int array_size) {
     register int counter, x_pos;

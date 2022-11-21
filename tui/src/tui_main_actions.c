@@ -10,7 +10,8 @@
 #include "tui/tui_main_actions.h"
 #include "tui/tui_colors.h"
 
-static void print_main_action (const struct main_action * const);
+/* Draw one main menu action an the menu border. */
+static void print_main_action (const struct main_action * const action);
 
 void print_main_actions (const int y_pos, const struct main_action actions_arr [], const int array_size) {
     int counter;

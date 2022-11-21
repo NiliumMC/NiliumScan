@@ -5,6 +5,7 @@
  *  https://github.com/0Magenta0/TMCScan
  */
 
+/* Main menu server column structure */
 struct serv_info_colon {
     const char * const name;
     const int  name_str_len;
@@ -12,5 +13,6 @@ struct serv_info_colon {
     const char bind;
 };
 
-void print_serv_info_colons (const struct serv_info_colon [], const int);
+/* Draw all available server columns headers */
+void print_serv_info_colons (const struct serv_info_colon colons_arr [], const int array_size);
 

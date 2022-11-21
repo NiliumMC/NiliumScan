@@ -5,11 +5,16 @@
  *  https://github.com/0Magenta0/TMCScan
  */
 
+/* List of switchable functions. */
 enum term_flags_bitset {
     TFB_USE_CLI = 0x01
 };
 
+/* Bitset of the toggeled functions. */
 extern enum term_flags_bitset term_flags;
 
-void handle_parameters (const int, char ** const);
+/* Handle the terminal parameters.
+ * Prints Help message if error.
+ */
+void handle_parameters (const int argc, char ** const argv);
 

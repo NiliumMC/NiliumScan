@@ -5,6 +5,7 @@
  *  https://github.com/0Magenta0/TMCScan
  */
 
+/* List of available colorpairs. */
 enum tui_color_pairs {
     PAIR_DEFAULT,
     PAIR_GENERAL,
