@@ -22,24 +22,27 @@ The Author assume no responsibility for errors/omissions/damages resulting from 
 * [Json-C](https://github.com/json-c/json-c)
 
 ## Manual Building
-Clone the repo and build TMCScan.
+Clone the repo go to the `build` directory.
 ```
 $ git clone https://github.com/0Magenta0/TMCScan
-$ cd TMCScan
-$ mkdir build && cd build
-$ cmake .. && make
+$ cd TMCScan/build
+```
+Now you can build it with `RELEASE` or `DEBUG` type.
+```
+$ ./builder.sh R
+$ ./builder.sh D
+```
+So you can combine this with `clean` flag.
+```
+$ ./builder.sh CR
+$ ./builder.sh CD
 ```
 And in the build folder you can see `tmcscan` binary.  
   
-If you want to build TMCScan with Debug run this command.
-```
-$ cmake .. -DISDEBUG=ON && make
-```
-  
-Note: If you are using Termux you need to install "json-c-static" package.
+Note: If you are using Termux you also need to install Json-C packages.
 ```
 $ apt update
-$ apt install json-c-static
+$ apt install json-c json-c-static
 ```
 
 ### TODO
