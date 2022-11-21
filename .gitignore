@@ -1,6 +1,7 @@
 /.git/
 /.gitignore
-/build/
+/build/**
+!/build/builder.sh
 /.cache/
 /tui/include/tui/tui_about.h
 /cli/include/cli/cli_help.h
