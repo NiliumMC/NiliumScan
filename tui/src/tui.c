@@ -120,7 +120,7 @@ void show_menu (void) {
             } goto _key_loop_end; /* Don't try any other handlers. */
         }
 
-        /* Handle keybinds that enable any window. */
+        /* Check if the any window is enabled. */
         for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
             if (actions_arr [counter].is_enabled == true) {
                 if (actions_arr [counter].func (ch, screen_height, screen_width, actions_arr [counter].name, &mouse_event) == false) {
@@ -130,7 +130,7 @@ void show_menu (void) {
             }
         }
 
-        /* Check if the any window is enabled. */
+        /* Handle keybinds that enable any window. */
         for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
             if (ch == actions_arr [counter].bind) {
                 actions_arr [counter].is_enabled = true;
