@@ -135,7 +135,15 @@ void show_menu (void) {
             if (ch == actions_arr [counter].bind) {
                 actions_arr [counter].is_enabled = true;
                 actions_arr [counter].func (OK, screen_height, screen_width, actions_arr [counter].name, NULL);
+                goto _key_loop_end;
             }
+        }
+
+        /* Handle mouse clicks on the action buttons */
+        if (ch == KEY_MOUSE && (counter = handle_mouse_on_main_actions (&mouse_event, screen_height, actions_arr, ACTIONS_COUNT)) < ACTIONS_COUNT) {
+            actions_arr [counter].is_enabled = true;
+            actions_arr [counter].func (OK, screen_height, screen_width, actions_arr [counter].name, NULL);
+            // goto _key_loop_end;
         }
 
 _key_loop_end:

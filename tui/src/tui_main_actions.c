@@ -22,6 +22,20 @@ void print_main_actions (const int y_pos, const struct main_action actions_arr [
     }
 }
 
+int handle_mouse_on_main_actions (const MEVENT * const mouse_event, const int y_pos, const struct main_action actions_arr [], const int array_size) {
+    register int counter, x_pos;
+
+    if (y_pos - 1 == mouse_event->y) {
+        for (counter = 0, x_pos = 1; counter < array_size; x_pos += actions_arr [counter].name_str_len + 2, ++counter) {
+            if (mouse_event->x >= x_pos && mouse_event->x <= x_pos + actions_arr [counter].name_str_len + 1) {
+                return counter;
+            }
+        }
+    }
+
+    return array_size + 1;
+}
+
 static void print_main_action (const struct main_action * const action) {
     bool is_highlighted;
     int counter;
