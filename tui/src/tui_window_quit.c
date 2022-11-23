@@ -60,9 +60,11 @@ bool window_quit (const int ch, const int screen_height, const int screen_width,
                 return false;
             }
         }
+
+        return true;
     }
 
-    /* Redraw the window if it's have some updates */
+    /* Redraw the window if it's have some updates. */
     if (ch == KEY_RESIZE || ch == OK) {
         window_y_pos = (screen_height >> 1) - (WINDOW_HEIGHT >> 1);
         window_x_pos = (screen_width >> 1) - (WINDOW_WIDTH >> 1);
