@@ -38,8 +38,9 @@ bool window_quit (const int ch, const int screen_height, const int screen_width,
     /* If mouse button is pressed outside the window,
      * then window will be closed.
      */
-    if (ch == KEY_MOUSE && is_mouse_click_out_window (mouse_event, window_y_pos, window_x_pos,
-                WINDOW_HEIGHT, WINDOW_WIDTH)) {
+    if (ch == 'q' || (ch == KEY_MOUSE &&
+            is_mouse_click_out_window (mouse_event, window_y_pos, window_x_pos,
+            WINDOW_HEIGHT, WINDOW_WIDTH))) {
         return false;
     }
 
