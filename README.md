@@ -3,12 +3,12 @@
 # TMCScan 3.0
 Only Linux Lightweight Minecraft Port Scanner Written In C/Ncurses
 
-[![](https://img.shields.io/badge/Language-C-blue)](https://en.wikipedia.org/wiki/C%20%28programming%20language%29)
-[![](https://img.shields.io/badge/C%20Standard%20-Gnu99-blue)](https://gcc.gnu.org/onlinedocs/gcc-3.3.6/gcc/Standards.html)
-[![](https://img.shields.io/badge/CMake%20-3.10-blue)](https://cmake.org/cmake/help/v3.10/index.html)
-[![](https://img.shields.io/badge/Latest%20Version-v3.0-green)](https://github.com/0Magenta0/TMCScan)
-[![](https://img.shields.io/github/v/release/0Magenta0/TMCScan?label=Latest%20Release&color=red)](https://github.com/0Magenta0/TMCScan/releases)
-[![](https://img.shields.io/badge/License-GPLv3-blue)](https://github.com/0Magenta0/TMCScan/blob/master/LICENSE)
+[![](https://img.shields.io/badge/Language-C-black?style=for-the-badge)](https://en.wikipedia.org/wiki/C%20%28programming%20language%29)
+[![](https://img.shields.io/badge/C%20Standard%20-Gnu99-blue?style=for-the-badge)](https://gcc.gnu.org/onlinedocs/gcc-3.3.6/gcc/Standards.html)
+[![](https://img.shields.io/badge/CMake%20-3.10-black?style=for-the-badge)](https://cmake.org/cmake/help/v3.10/index.html)
+[![](https://img.shields.io/badge/Latest%20Version-v3.0-black?style=for-the-badge)](https://github.com/0Magenta0/TMCScan)
+[![](https://img.shields.io/github/v/release/TuiMC/TMCScan?label=Latest%20Release&color=black&style=for-the-badge)](https://github.com/TuiMC/TMCScan/releases)
+[![](https://img.shields.io/badge/License-GPLv3-black?style=for-the-badge)](https://github.com/TuiMC/TMCScan/blob/master/LICENSE)
 
 The Author assume no responsibility for errors/omissions/damages resulting from the use of this program!
 
