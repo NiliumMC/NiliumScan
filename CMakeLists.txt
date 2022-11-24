@@ -26,11 +26,19 @@ IF (ISDEBUG)
   SET (
     CMAKE_C_FLAGS
       "${CMAKE_C_FLAGS} \
-        -fsanitize=address \
         -Wall -Wextra -Werror -Wpedantic \
         -Wcast-qual -Wconversion -Wcast-align \
         -Wredundant-decls -Wsign-conversion \
         -Waggregate-return -Wswitch-enum"
+  )
+ENDIF ()
+
+IF (USE_SANITIZE)
+  SET (
+    CMAKE_C_FLAGS
+      "${CMAKE_C_FLAGS} \
+        -fsanitize=address -fsanitize=leak \
+        -fsanitize=undefined"
   )
 ENDIF ()
 

@@ -7,7 +7,7 @@ fi
 
 # Build Debug
 if [[ $(echo "$1" | grep -Eq "^.*D.*$"; echo $?) -eq 0 ]]; then
-    cmake .. -DISDEBUG=ON && make
+    cmake .. -DISDEBUG=ON -DUSE_SANITIZE=ON && make
 fi
 
 # Build Release
