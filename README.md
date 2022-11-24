@@ -4,12 +4,12 @@
 Only Linux Lightweight Minecraft Port Scanner Written In C/Ncurses
 
 <p align='center'>
-[![](https://img.shields.io/badge/Language-C-black?style=for-the-badge)](https://en.wikipedia.org/wiki/C%20%28programming%20language%29)
-[![](https://img.shields.io/badge/C%20Standard%20-Gnu99-black?style=for-the-badge)](https://gcc.gnu.org/onlinedocs/gcc-3.3.6/gcc/Standards.html)
-[![](https://img.shields.io/badge/CMake%20-3.10-black?style=for-the-badge)](https://cmake.org/cmake/help/v3.10/index.html)
-[![](https://img.shields.io/badge/Latest%20Version-v3.0-black?style=for-the-badge)](https://github.com/0Magenta0/TMCScan)
-[![](https://img.shields.io/github/v/release/TuiMC/TMCScan?label=Latest%20Release&color=black&style=for-the-badge)](https://github.com/TuiMC/TMCScan/releases)
-[![](https://img.shields.io/badge/License-GPLv3-black?style=for-the-badge)](https://github.com/TuiMC/TMCScan/blob/master/LICENSE)
+  <a href='https://en.wikipedia.org/wiki/C%20%28programming%20language%29'><img src='https://img.shields.io/badge/Language-C-black?style=for-the-badge'></a>
+  <a href='https://gcc.gnu.org/onlinedocs/gcc-3.3.6/gcc/Standards.html'><img src='https://img.shields.io/badge/C%20Standard%20-Gnu99-black?style=for-the-badge'></a>
+  <a href='https://cmake.org/cmake/help/v3.10/index.html'><img src='https://img.shields.io/badge/CMake%20-3.10-black?style=for-the-badge'></a>
+  <a href='https://github.com/TuiMC/TMCScan'><img src='https://img.shields.io/badge/Latest%20Version-v3.0-black?style=for-the-badge'></a>
+  <a href='https://github.com/TuiMC/TMCScan/releases'><img src='https://img.shields.io/github/v/release/TuiMC/TMCScan?label=Latest%20Release&color=black&style=for-the-badge'></a>
+  <a href='https://github.com/TuiMC/TMCScan/blob/master/LICENSE'><img src='https://img.shields.io/badge/License-GPLv3-black?style=for-the-badge'></a>
 </p>
 
 The Author assume no responsibility for errors/omissions/damages resulting from the use of this program!
