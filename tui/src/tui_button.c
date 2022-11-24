@@ -38,3 +38,15 @@ void print_button (const int window_y_pos, const int window_x_pos,
     }
 }
 
+bool is_mouse_click_on_button (const MEVENT * const mouse_event,
+        const int window_y_pos, const int window_x_pos,
+        const struct tui_button * const button) {
+    if (mouse_event->y == window_y_pos + button->y_pos &&
+            mouse_event->x >= window_x_pos + button->x_pos &&
+            mouse_event->x <= window_x_pos + button->x_pos + button->name_str_len + 1) {
+        return true;
+    }
+
+    return false;
+}
+

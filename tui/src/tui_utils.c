@@ -64,7 +64,7 @@ void print_clear_win_at (const int y_pos, const int x_pos,
     addch (ACS_ULCORNER);
 }
 
-int change_item (const int window_y_pos, const int window_x_pos,
+int directional_change_item (const int window_y_pos, const int window_x_pos,
         const int current_item_id, const enum item_change_direction direction,
         const struct tui_button button_arr [], const int buttons_array_size) {
     const struct tui_button *tmp_button_p;
@@ -165,9 +165,11 @@ enum item_type get_item_type_by_id (const int id,
         const struct tui_button button_arr [], const int buttons_array_size) {
     int counter;
 
-    for (counter = 0; counter < buttons_array_size; ++counter) {
-        if (button_arr [counter].element_id == id) {
-            return BUTTON_TYPE;
+    if (button_arr != NULL) {
+        for (counter = 0; counter < buttons_array_size; ++counter) {
+            if (button_arr [counter].element_id == id) {
+                return BUTTON_TYPE;
+            }
         }
     }
 
@@ -188,10 +190,53 @@ bool is_mouse_click_out_window (const MEVENT * const mouse_event,
         const int window_y_pos, const int window_x_pos,
         const int window_height, const int window_width) {
     if ((mouse_event->y < window_y_pos || mouse_event->y >= window_y_pos + window_height ||
-        mouse_event->x < window_x_pos || mouse_event->x >= window_x_pos + window_width)) {
+                mouse_event->x < window_x_pos || mouse_event->x >= window_x_pos + window_width)) {
         return true;
     }
 
     return false;
+}
+
+bool is_mouse_click_on_item (const MEVENT * const mouse_event,
+        const int window_y_pos, const int window_x_pos, int * new_item_id,
+        const struct tui_button button_arr [], const int buttons_array_size) {
+    register int counter;
+
+    if (button_arr != NULL) {
+        for (counter = 0; counter < buttons_array_size; ++counter) {
+            if (is_mouse_click_on_button (mouse_event, window_y_pos, window_x_pos,
+                    &button_arr [counter])) {
+                *new_item_id = button_arr [counter].element_id;
+
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+void change_item (const int window_y_pos, const int window_x_pos,
+        const int old_item_id, const int new_item_id,
+        const struct tui_button buttons_arr [], const int buttons_array_size) {
+    register int counter;
+
+    if (buttons_arr) {
+        for (counter = 0; counter < buttons_array_size; ++counter) {
+            if (old_item_id == buttons_arr [counter].element_id) {
+                print_button (window_y_pos, window_x_pos, &buttons_arr [counter], false);
+            } else if (new_item_id == buttons_arr [counter].element_id) {
+                print_button (window_y_pos, window_x_pos, &buttons_arr [counter], true);
+            }
+        }
+    }
+}
+
+bool is_mouse_left_click (const MEVENT *mouse_event) {
+    return mouse_event->bstate & BUTTON1_CLICKED;
+}
+
+bool is_mouse_left_double_click (const MEVENT *mouse_event) {
+    return mouse_event->bstate & BUTTON1_DOUBLE_CLICKED;
 }
 

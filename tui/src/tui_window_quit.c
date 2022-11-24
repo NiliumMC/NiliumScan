@@ -33,21 +33,62 @@ bool window_quit (const int ch, const int screen_height, const int screen_width,
         const char * const name, const MEVENT * const mouse_event) {
     static int window_y_pos, window_x_pos;
     enum item_change_direction direction;
-    enum item_type type;
+    enum item_type type, tmp_item_type;
+    int tmp_item_id;
+
+    type = get_item_type_by_id (current_item_id, buttons_arr, BUTTONS_COUNT);
 
     /* If mouse button is pressed outside the window,
      * then window will be closed.
+     *
+     * Same behavior with q key.
      */
-    if (ch == 'q' || (ch == KEY_MOUSE &&
-            is_mouse_click_out_window (mouse_event, window_y_pos, window_x_pos,
-            WINDOW_HEIGHT, WINDOW_WIDTH))) {
+    if (ch == 'q') {
         return false;
+    } else if (ch == KEY_MOUSE) {
+        if (is_mouse_click_out_window (mouse_event, window_y_pos, window_x_pos,
+                WINDOW_HEIGHT, WINDOW_WIDTH)) {
+            return false;
+        } else if (is_mouse_left_click (mouse_event)) {
+            if (is_mouse_click_on_item (mouse_event, window_y_pos, window_x_pos,
+                        &tmp_item_id, buttons_arr, BUTTONS_COUNT)) {
+                if (current_item_id != tmp_item_id) {
+                    change_item (window_y_pos, window_x_pos, current_item_id, tmp_item_id, buttons_arr, BUTTONS_COUNT);
+                    current_item_id = tmp_item_id;
+                } else {
+                    tmp_item_type = type;
+                    if (tmp_item_type == BUTTON_TYPE) {
+                        if (get_button_by_id (tmp_item_id, buttons_arr, BUTTONS_COUNT)->func () == false) {
+                            return false;
+                        }
+                    }
+                }
+            }
+        } else if (is_mouse_left_double_click (mouse_event)) {
+            if (is_mouse_click_on_item (mouse_event, window_y_pos, window_x_pos,
+                        &tmp_item_id, buttons_arr, BUTTONS_COUNT)) {
+                if (current_item_id != tmp_item_id) {
+                    change_item (window_y_pos, window_x_pos, current_item_id, tmp_item_id, buttons_arr, BUTTONS_COUNT);
+                    current_item_id = tmp_item_id;
+                    tmp_item_type = get_item_type_by_id (tmp_item_id, buttons_arr, BUTTONS_COUNT);
+                } else {
+                    tmp_item_type = type;
+                }
+
+                if (tmp_item_type == BUTTON_TYPE) {
+                    if (get_button_by_id (tmp_item_id, buttons_arr, BUTTONS_COUNT)->func () == false) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
     }
 
-    type = get_item_type_by_id (current_item_id, buttons_arr, BUTTONS_COUNT);
     if (check_bind (ch, type, binds_arr, 4, &direction) == true) {
-        current_item_id = change_item (window_y_pos, window_x_pos, current_item_id,
-                direction, buttons_arr, BUTTONS_COUNT);
+        current_item_id = directional_change_item (window_y_pos, window_x_pos,
+                current_item_id, direction, buttons_arr, BUTTONS_COUNT);
         return true; /* Skip other key checks when item is changed. */
     }
 

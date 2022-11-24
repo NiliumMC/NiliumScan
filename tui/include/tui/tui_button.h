@@ -5,6 +5,8 @@
  *  https://github.com/0Magenta0/TMCScan
  */
 
+#include <ncurses.h>
+
 #include <stdbool.h>
 
 /* Window button element structure. */
@@ -30,4 +32,14 @@ void print_buttons (const int window_y_pos, const int window_x_pos,
 void print_button (const int window_y_pos, const int window_x_pos,
         const struct tui_button * const button,
         const bool is_highlighted);
+
+/* Checks if the mouse click
+ * was on the passed button element.
+ *
+ * Returns true if so,
+ * otherwise false.
+ */
+bool is_mouse_click_on_button (const MEVENT * const mouse_event,
+        const int window_y_pos, const int window_x_pos,
+        const struct tui_button * const button);
 

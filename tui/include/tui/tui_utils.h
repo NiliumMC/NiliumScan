@@ -64,7 +64,7 @@ void print_clear_win_at (const int y_pos, const int x_pos,
  * Redraw the elements.
  *
  * Returns the ID of the new element. */
-int change_item (const int window_y_pos, const int window_x_pos,
+int directional_change_item (const int window_y_pos, const int window_x_pos,
         const int current_item_id, const enum item_change_direction direction,
         const struct tui_button button_arr [], const int array_size);
 
@@ -99,7 +99,7 @@ enum item_type get_item_type_by_id (const int id,
  */
 bool is_enter_key (const int ch);
 
-/* Check if the mouse click
+/* Checks if the mouse click
  * was outside the window.
  *
  * Returns true if it's outside,
@@ -108,4 +108,36 @@ bool is_enter_key (const int ch);
 bool is_mouse_click_out_window (const MEVENT * const mouse_event,
         const int window_y_pos, const int window_x_pos,
         const int window_height, const int window_width);
+
+/* Checks if the mouse click
+ * was on the some TUI element.
+ *
+ * Writes new element id
+ * to the new_item_id.
+ *
+ * Returns true if it is,
+ * otherwise false.
+ */
+bool is_mouse_click_on_item (const MEVENT * const mouse_event,
+        const int window_y_pos, const int window_x_pos, int *new_item_id,
+        const struct tui_button button_arr [], const int buttons_array_size);
+
+/* Highlights new window element */
+void change_item (const int window_y_pos, const int window_x_pos,
+        const int old_item_id, const int new_item_id,
+        const struct tui_button buttons_arr [], const int buttons_array_size);
+
+/* Check if LMB is clicked.
+ *
+ * Returns true if so,
+ * otherwise false.
+ */
+bool is_mouse_left_click (const MEVENT *mouse_event);
+
+/* Check if LMB is double-clicked.
+ *
+ * Returns true if so,
+ * otherwise false.
+ */
+bool is_mouse_left_double_click (const MEVENT *mouse_event);
 
