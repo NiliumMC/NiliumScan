@@ -81,7 +81,7 @@ int directional_change_item (const int window_y_pos, const int window_x_pos,
             switch (direction) {
                 case ICD_UP: {
                     if ((tmp_button_p = get_button_by_id (button_arr [counter].up_element_id,
-                                    button_arr, buttons_array_size)) != NULL) {
+                                button_arr, buttons_array_size)) != NULL) {
                         print_button (window_y_pos, window_x_pos, tmp_button_p, true);
                         return tmp_button_p->element_id;
                     } break;
@@ -89,7 +89,7 @@ int directional_change_item (const int window_y_pos, const int window_x_pos,
 
                 case ICD_DOWN: {
                     if ((tmp_button_p = get_button_by_id (button_arr [counter].down_element_id,
-                                    button_arr, buttons_array_size)) != NULL) {
+                                button_arr, buttons_array_size)) != NULL) {
                         print_button (window_y_pos, window_x_pos, tmp_button_p, true);
                         return tmp_button_p->element_id;
                     } break;
@@ -97,7 +97,7 @@ int directional_change_item (const int window_y_pos, const int window_x_pos,
 
                 case ICD_LEFT: {
                     if ((tmp_button_p = get_button_by_id (button_arr [counter].left_element_id,
-                                    button_arr, buttons_array_size)) != NULL) {
+                                button_arr, buttons_array_size)) != NULL) {
                         print_button (window_y_pos, window_x_pos, tmp_button_p, true);
                         return tmp_button_p->element_id;
                     } break;
@@ -105,7 +105,7 @@ int directional_change_item (const int window_y_pos, const int window_x_pos,
 
                 case ICD_RIGHT: {
                     if ((tmp_button_p = get_button_by_id (button_arr [counter].right_element_id,
-                                    button_arr, buttons_array_size)) != NULL) {
+                                button_arr, buttons_array_size)) != NULL) {
                         print_button (window_y_pos, window_x_pos, tmp_button_p, true);
                         return tmp_button_p->element_id;
                     }
@@ -190,7 +190,7 @@ bool is_mouse_click_out_window (const MEVENT * const mouse_event,
         const int window_y_pos, const int window_x_pos,
         const int window_height, const int window_width) {
     if ((mouse_event->y < window_y_pos || mouse_event->y >= window_y_pos + window_height ||
-                mouse_event->x < window_x_pos || mouse_event->x >= window_x_pos + window_width)) {
+            mouse_event->x < window_x_pos || mouse_event->x >= window_x_pos + window_width)) {
         return true;
     }
 
