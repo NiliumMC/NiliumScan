@@ -111,7 +111,8 @@ void show_menu (void) {
                 print_main_box (screen_height);
                 for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
                     if (actions_arr [counter].is_enabled == true) {
-                        if (actions_arr [counter].func (KEY_RESIZE, screen_height, screen_width, actions_arr [counter].name, NULL) == false) {
+                        if (actions_arr [counter].func (KEY_RESIZE, screen_height, screen_width,
+                                    actions_arr [counter].name, NULL) == false) {
                             actions_arr [counter].is_enabled = false;
                             print_main_box (screen_height);
                         }
@@ -123,7 +124,8 @@ void show_menu (void) {
         /* Check if the any window is enabled. */
         for (counter = 0; counter < ACTIONS_COUNT; ++counter) {
             if (actions_arr [counter].is_enabled == true) {
-                if (actions_arr [counter].func (ch, screen_height, screen_width, actions_arr [counter].name, &mouse_event) == false) {
+                if (actions_arr [counter].func (ch, screen_height, screen_width,
+                        actions_arr [counter].name, &mouse_event) == false) {
                     actions_arr [counter].is_enabled = false;
                     print_main_box (screen_height);
                 } goto _key_loop_end;
@@ -140,7 +142,8 @@ void show_menu (void) {
         }
 
         /* Handle mouse clicks on the action buttons */
-        if (ch == KEY_MOUSE && (counter = handle_mouse_on_main_actions (&mouse_event, screen_height, actions_arr, ACTIONS_COUNT)) < ACTIONS_COUNT) {
+        if (ch == KEY_MOUSE && (counter = handle_mouse_on_main_actions
+                    (&mouse_event, screen_height, actions_arr, ACTIONS_COUNT)) < ACTIONS_COUNT) {
             actions_arr [counter].is_enabled = true;
             actions_arr [counter].func (OK, screen_height, screen_width, actions_arr [counter].name, NULL);
             // goto _key_loop_end;
