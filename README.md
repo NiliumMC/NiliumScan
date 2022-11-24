@@ -10,6 +10,7 @@ Only Linux Lightweight Minecraft Port Scanner Written In C/Ncurses
   <a href='https://github.com/TuiMC/TMCScan'><img src='https://img.shields.io/badge/Latest%20Version-v3.0-black?style=for-the-badge'></a>
   <a href='https://github.com/TuiMC/TMCScan/releases'><img src='https://img.shields.io/github/v/release/TuiMC/TMCScan?label=Latest%20Release&color=black&style=for-the-badge'></a>
   <a href='https://github.com/TuiMC/TMCScan/blob/master/LICENSE'><img src='https://img.shields.io/badge/License-GPLv3-black?style=for-the-badge'></a>
+  <a href='https://github.com/TuiMC/stargazers'><img src='https://img.shields.io/github/stars/TuiMC/TMCScan?style=for-the-badge'></a>
 </p>
 
 The Author assume no responsibility for errors/omissions/damages resulting from the use of this program!
