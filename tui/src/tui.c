@@ -13,6 +13,7 @@
 
 #include "tui/tui_serv_info_colons.h"
 #include "tui/tui_main_actions.h"
+#include "tui/tui_window_scan.h"
 #include "tui/tui_window_quit.h"
 #include "tui/tui_min_size.h"
 #include "tui/tui_colors.h"
@@ -37,7 +38,7 @@ const struct serv_info_colon colons_arr [COLONS_COUNT] = {
 
 /* Initialize the main menu actions structure */
 struct main_action actions_arr [ACTIONS_COUNT] = {
-    { "scan", 4, 's', /* window_scan */ NULL, false },
+    { "scan", 4, 's', window_scan, false },
     { "quit", 4, 'q', window_quit, false }
 };
 
