@@ -5,11 +5,11 @@
  *  https://github.com/TuiMC/TMCScan
  */
 
-#include <ncurses.h>
-
 #include <stdbool.h>
 #include <unistd.h>
 #include <locale.h>
+
+#include <ncurses.h>
 
 #include "tui/tui_serv_info_colons.h"
 #include "tui/tui_main_actions.h"

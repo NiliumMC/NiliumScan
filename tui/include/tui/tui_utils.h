@@ -5,9 +5,9 @@
  *  https://github.com/TuiMC/TMCScan
  */
 
-#include <ncurses.h>
-
 #include <stdbool.h>
+
+#include <ncurses.h>
 
 #include "tui/tui_button.h"
 

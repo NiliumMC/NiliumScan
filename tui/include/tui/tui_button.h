@@ -5,9 +5,9 @@
  *  https://github.com/TuiMC/TMCScan
  */
 
-#include <ncurses.h>
-
 #include <stdbool.h>
+
+#include <ncurses.h>
 
 /* Window button element structure. */
 struct tui_button {
