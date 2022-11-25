@@ -14,7 +14,7 @@ struct tui_button {
     int y_pos;
     int x_pos;
     const char * const name;
-    const int name_str_len;
+    const size_t name_str_len;
     bool (* const func) (void);
     const int element_id;
     const int up_element_id;
@@ -25,7 +25,7 @@ struct tui_button {
 
 /* Draw the all buttons in the window. */
 void print_buttons (const int window_y_pos, const int window_x_pos,
-        const struct tui_button button_arr [],
+        const struct tui_button buttons_arr [],
         const int array_size, const int current_item_id);
 
 /* Draw some button in the window. */

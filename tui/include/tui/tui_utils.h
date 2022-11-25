@@ -66,7 +66,7 @@ void print_clear_win_at (const int y_pos, const int x_pos,
  * Returns the ID of the new element. */
 int directional_change_item (const int window_y_pos, const int window_x_pos,
         const int current_item_id, const enum item_change_direction direction,
-        const struct tui_button button_arr [], const int array_size);
+        const struct tui_button buttons_arr [], const int array_size);
 
 /* Checks if the some pressed
  * character is the keybinding.
@@ -92,7 +92,7 @@ const struct tui_button * get_button_by_id (const int id,
  * provided element ID.
  */
 enum item_type get_item_type_by_id (const int id,
-        const struct tui_button button_arr [], const int buttons_array_size);
+        const struct tui_button buttons_arr [], const int buttons_array_size);
 
 /* Returns true if the provided
  * key is the ENTER.
@@ -120,7 +120,7 @@ bool is_mouse_click_out_window (const MEVENT * const mouse_event,
  */
 bool is_mouse_click_on_item (const MEVENT * const mouse_event,
         const int window_y_pos, const int window_x_pos, int *new_item_id,
-        const struct tui_button button_arr [], const int buttons_array_size);
+        const struct tui_button buttons_arr [], const int buttons_array_size);
 
 /* Highlights new window element */
 void change_item (const int window_y_pos, const int window_x_pos,
