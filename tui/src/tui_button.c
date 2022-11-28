@@ -50,3 +50,16 @@ bool is_mouse_click_on_button (const MEVENT * const mouse_event,
     return false;
 }
 
+const struct tui_button * get_button_by_id (const int id,
+        const struct tui_button buttons_arr [], const int array_size) {
+    int counter;
+
+    for (counter = 0; counter < array_size; ++counter) {
+        if (buttons_arr [counter].element_id == id) {
+            return &buttons_arr [counter];
+        }
+    }
+
+    return NULL;
+}
+

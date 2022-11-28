@@ -20,6 +20,7 @@ TARGET_SOURCES (
     src/tui_main_actions.c
     src/tui_window_scan.c
     src/tui_window_quit.c
+    src/tui_textfield.c
     src/tui_min_size.c
     src/tui_button.c
     src/tui_utils.c

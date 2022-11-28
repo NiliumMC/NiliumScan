@@ -36,7 +36,7 @@ bool window_quit (const int ch, const int screen_height, const int screen_width,
     enum item_type type, tmp_item_type;
     int tmp_item_id;
 
-    type = get_item_type_by_id (current_item_id, buttons_arr, BUTTONS_COUNT);
+    type = get_item_type_by_id (current_item_id, buttons_arr, BUTTONS_COUNT, NULL, 0);
 
     /* If mouse button is pressed outside the window,
      * then window will be closed.
@@ -53,7 +53,8 @@ bool window_quit (const int ch, const int screen_height, const int screen_width,
             if (is_mouse_click_on_item (mouse_event, window_y_pos, window_x_pos,
                         &tmp_item_id, buttons_arr, BUTTONS_COUNT)) {
                 if (current_item_id != tmp_item_id) {
-                    change_item (window_y_pos, window_x_pos, current_item_id, tmp_item_id, buttons_arr, BUTTONS_COUNT);
+                    change_item (window_y_pos, window_x_pos, current_item_id, tmp_item_id,
+                            buttons_arr, BUTTONS_COUNT, NULL, 0);
                     current_item_id = tmp_item_id;
                 } else {
                     tmp_item_type = type;
@@ -68,9 +69,10 @@ bool window_quit (const int ch, const int screen_height, const int screen_width,
             if (is_mouse_click_on_item (mouse_event, window_y_pos, window_x_pos,
                         &tmp_item_id, buttons_arr, BUTTONS_COUNT)) {
                 if (current_item_id != tmp_item_id) {
-                    change_item (window_y_pos, window_x_pos, current_item_id, tmp_item_id, buttons_arr, BUTTONS_COUNT);
+                    change_item (window_y_pos, window_x_pos, current_item_id, tmp_item_id,
+                            buttons_arr, BUTTONS_COUNT, NULL, 0);
                     current_item_id = tmp_item_id;
-                    tmp_item_type = get_item_type_by_id (tmp_item_id, buttons_arr, BUTTONS_COUNT);
+                    tmp_item_type = get_item_type_by_id (tmp_item_id, buttons_arr, BUTTONS_COUNT, NULL, 0);
                 } else {
                     tmp_item_type = type;
                 }
@@ -88,7 +90,7 @@ bool window_quit (const int ch, const int screen_height, const int screen_width,
 
     if (check_bind (ch, type, binds_arr, 4, &direction) == true) {
         current_item_id = directional_change_item (window_y_pos, window_x_pos,
-                current_item_id, direction, buttons_arr, BUTTONS_COUNT);
+                current_item_id, direction, buttons_arr, BUTTONS_COUNT, NULL, 0);
         return true; /* Skip other key checks when item is changed. */
     }
 

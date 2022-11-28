@@ -6,6 +6,7 @@
  */
 
 #include "tui/tui_window_scan.h"
+#include "tui/tui_textfield.h"
 #include "tui/tui_colors.h"
 #include "tui/tui_utils.h"
 
@@ -13,6 +14,7 @@
 #define WINDOW_WIDTH 36
 
 #define BUTTONS_COUNT 2
+#define TEXTFIELDS_COUNT 1
 
 /* Window element that selected by default */
 #define DEFAULT_ITEM_ID 1
@@ -24,8 +26,12 @@ static int current_item_id = DEFAULT_ITEM_ID;
 
 /* Initialization of buttons array */
 static const struct tui_button buttons_arr [BUTTONS_COUNT] = {
-    { 4, 8,  "Start",  5, start_button_action,  0, 0, 0, 1, 1 },
-    { 4, 20, "Cancel", 6, cancel_button_action, 1, 1, 1, 0, 0 }
+    { 4, 8,  "Start",  5, start_button_action,  0, 2, 2, 1, 1 },
+    { 4, 20, "Cancel", 6, cancel_button_action, 1, 2, 2, 0, 0 }
+};
+
+static const struct tui_textfield textfields_arr [TEXTFIELDS_COUNT] = {
+    { 2, 2, "IP", 2, 17, 25, 14, "127.0.0.1pumba", 2, 0, 0, 0, 0 }
 };
 
 bool window_scan (const int ch, const int screen_height, const int screen_width,
@@ -35,7 +41,8 @@ bool window_scan (const int ch, const int screen_height, const int screen_width,
     enum item_type type, tmp_item_type;
     int tmp_item_id;
 
-    type = get_item_type_by_id (current_item_id, buttons_arr, BUTTONS_COUNT);
+    type = get_item_type_by_id (current_item_id, buttons_arr, BUTTONS_COUNT,
+            textfields_arr, TEXTFIELDS_COUNT);
 
     /* If mouse button is pressed outside the window,
      * then window will be closed.
@@ -52,7 +59,8 @@ bool window_scan (const int ch, const int screen_height, const int screen_width,
             if (is_mouse_click_on_item (mouse_event, window_y_pos, window_x_pos,
                         &tmp_item_id, buttons_arr, BUTTONS_COUNT)) {
                 if (current_item_id != tmp_item_id) {
-                    change_item (window_y_pos, window_x_pos, current_item_id, tmp_item_id, buttons_arr, BUTTONS_COUNT);
+                    change_item (window_y_pos, window_x_pos, current_item_id, tmp_item_id,
+                            buttons_arr, BUTTONS_COUNT, textfields_arr, TEXTFIELDS_COUNT);
                     current_item_id = tmp_item_id;
                 } else {
                     tmp_item_type = type;
@@ -67,9 +75,11 @@ bool window_scan (const int ch, const int screen_height, const int screen_width,
             if (is_mouse_click_on_item (mouse_event, window_y_pos, window_x_pos,
                         &tmp_item_id, buttons_arr, BUTTONS_COUNT)) {
                 if (current_item_id != tmp_item_id) {
-                    change_item (window_y_pos, window_x_pos, current_item_id, tmp_item_id, buttons_arr, BUTTONS_COUNT);
+                    change_item (window_y_pos, window_x_pos, current_item_id, tmp_item_id,
+                            buttons_arr, BUTTONS_COUNT, textfields_arr, TEXTFIELDS_COUNT);
                     current_item_id = tmp_item_id;
-                    tmp_item_type = get_item_type_by_id (tmp_item_id, buttons_arr, BUTTONS_COUNT);
+                    tmp_item_type = get_item_type_by_id (tmp_item_id, buttons_arr, BUTTONS_COUNT,
+                            textfields_arr, TEXTFIELDS_COUNT);
                 } else {
                     tmp_item_type = type;
                 }
@@ -87,7 +97,8 @@ bool window_scan (const int ch, const int screen_height, const int screen_width,
 
     if (check_bind (ch, type, binds_arr, 4, &direction) == true) {
         current_item_id = directional_change_item (window_y_pos, window_x_pos,
-                current_item_id, direction, buttons_arr, BUTTONS_COUNT);
+                current_item_id, direction, buttons_arr, BUTTONS_COUNT,
+                textfields_arr, TEXTFIELDS_COUNT);
         return true; /* Skip other key checks when item is changed. */
     }
 
@@ -111,15 +122,8 @@ bool window_scan (const int ch, const int screen_height, const int screen_width,
         window_x_pos = (screen_width >> 1) - (WINDOW_WIDTH >> 1);
 
         print_clear_win_at (window_y_pos, window_x_pos, WINDOW_HEIGHT, WINDOW_WIDTH, name);
-        mvprintw (window_y_pos + 2, window_x_pos + 2, "IP ");
-        attron (COLOR_PAIR (PAIR_GENERAL) | A_REVERSE);
-        printw ("    127.0.0.1    ");
-        standend ();
-        printw ("  Port ");
-        attron (COLOR_PAIR (PAIR_GENERAL) | A_REVERSE);
-        printw ("25565");
-        standend ();
         print_buttons (window_y_pos, window_x_pos, buttons_arr, BUTTONS_COUNT, current_item_id);
+        print_textfields (window_y_pos, window_x_pos, textfields_arr, TEXTFIELDS_COUNT, current_item_id);
         refresh ();
     }
 

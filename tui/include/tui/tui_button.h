@@ -14,7 +14,7 @@ struct tui_button {
     int y_pos;
     int x_pos;
     const char * const name;
-    const size_t name_str_len;
+    const int name_str_len;
     bool (* const func) (void);
     const int element_id;
     const int up_element_id;
@@ -42,4 +42,12 @@ void print_button (const int window_y_pos, const int window_x_pos,
 bool is_mouse_click_on_button (const MEVENT * const mouse_event,
         const int window_y_pos, const int window_x_pos,
         const struct tui_button * const button);
+
+/* Searches the button element by ID.
+ *
+ * If found, returns the pointer
+ * to the element, otherwise NULL.
+ */
+const struct tui_button * get_button_by_id (const int id,
+        const struct tui_button buttons_arr [], const int array_size);
 

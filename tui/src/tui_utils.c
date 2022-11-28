@@ -66,50 +66,54 @@ void print_clear_win_at (const int y_pos, const int x_pos,
 
 int directional_change_item (const int window_y_pos, const int window_x_pos,
         const int current_item_id, const enum item_change_direction direction,
-        const struct tui_button buttons_arr [], const int buttons_array_size) {
+        const struct tui_button buttons_arr [], const int buttons_array_size,
+        const struct tui_textfield textfields_arr [], const int textfields_array_size) {
+    const struct tui_textfield *tmp_textfield_p;
     const struct tui_button *tmp_button_p;
     int counter;
 
-    /* Redraw the old button. */
+    /* Redraw the old item. */
     if ((tmp_button_p = get_button_by_id (current_item_id, buttons_arr, buttons_array_size)) != NULL) {
         print_button (window_y_pos, window_x_pos, tmp_button_p, false);
+    } else if ((tmp_textfield_p = get_textfield_by_id (current_item_id, textfields_arr, textfields_array_size)) != NULL) {
+        print_textfield (window_y_pos, window_x_pos, tmp_textfield_p, false);
     }
 
     /* Find and draw the new one. */
     for (counter = 0; counter < buttons_array_size; ++counter) {
         if (current_item_id == buttons_arr [counter].element_id) {
-            switch (direction) {
-                case ICD_UP: {
-                    if ((tmp_button_p = get_button_by_id (buttons_arr [counter].up_element_id,
-                                buttons_arr, buttons_array_size)) != NULL) {
-                        print_button (window_y_pos, window_x_pos, tmp_button_p, true);
-                        return tmp_button_p->element_id;
-                    } break;
-                }
-
-                case ICD_DOWN: {
-                    if ((tmp_button_p = get_button_by_id (buttons_arr [counter].down_element_id,
-                                buttons_arr, buttons_array_size)) != NULL) {
-                        print_button (window_y_pos, window_x_pos, tmp_button_p, true);
-                        return tmp_button_p->element_id;
-                    } break;
-                }
-
-                case ICD_LEFT: {
-                    if ((tmp_button_p = get_button_by_id (buttons_arr [counter].left_element_id,
-                                buttons_arr, buttons_array_size)) != NULL) {
-                        print_button (window_y_pos, window_x_pos, tmp_button_p, true);
-                        return tmp_button_p->element_id;
-                    } break;
-                }
-
-                case ICD_RIGHT: {
-                    if ((tmp_button_p = get_button_by_id (buttons_arr [counter].right_element_id,
-                                buttons_arr, buttons_array_size)) != NULL) {
-                        print_button (window_y_pos, window_x_pos, tmp_button_p, true);
-                        return tmp_button_p->element_id;
-                    }
-                }
+            if ((tmp_button_p = get_button_by_id (direction == ICD_UP ? buttons_arr [counter].up_element_id :
+                            direction == ICD_DOWN ? buttons_arr [counter].down_element_id :
+                            direction == ICD_LEFT ? buttons_arr [counter].left_element_id :
+                            buttons_arr [counter].right_element_id,
+                            buttons_arr, buttons_array_size)) != NULL) {
+                print_button (window_y_pos, window_x_pos, tmp_button_p, true);
+                return tmp_button_p->element_id;
+            } else if ((tmp_textfield_p = get_textfield_by_id (direction == ICD_UP ? buttons_arr [counter].up_element_id :
+                            direction == ICD_DOWN ? buttons_arr [counter].down_element_id :
+                            direction == ICD_LEFT ? buttons_arr [counter].left_element_id :
+                            buttons_arr [counter].right_element_id,
+                            textfields_arr, textfields_array_size)) != NULL) {
+                print_textfield (window_y_pos, window_x_pos, tmp_textfield_p, true);
+                return tmp_textfield_p->element_id;
+            }
+        }
+    } for (counter = 0; counter < textfields_array_size; ++counter) {
+        if (current_item_id == textfields_arr [counter].element_id) {
+            if ((tmp_button_p = get_button_by_id (direction == ICD_UP ? textfields_arr [counter].up_element_id :
+                            direction == ICD_DOWN ? textfields_arr [counter].down_element_id :
+                            direction == ICD_LEFT ? textfields_arr [counter].left_element_id :
+                            textfields_arr [counter].right_element_id,
+                            buttons_arr, buttons_array_size)) != NULL) {
+                print_button (window_y_pos, window_x_pos, tmp_button_p, true);
+                return tmp_button_p->element_id;
+            } else if ((tmp_textfield_p = get_textfield_by_id (direction == ICD_UP ? textfields_arr [counter].up_element_id :
+                            direction == ICD_DOWN ? textfields_arr [counter].down_element_id :
+                            direction == ICD_LEFT ? textfields_arr [counter].left_element_id :
+                            textfields_arr [counter].right_element_id,
+                            textfields_arr, textfields_array_size)) != NULL) {
+                print_textfield (window_y_pos, window_x_pos, tmp_textfield_p, true);
+                return tmp_textfield_p->element_id;
             }
         }
     }
@@ -148,32 +152,24 @@ bool check_bind (const int ch, const enum item_type type,
     return false;
 }
 
-const struct tui_button * get_button_by_id (const int id,
-        const struct tui_button buttons_arr [], const int buttons_array_size) {
-    int counter;
-
-    for (counter = 0; counter < buttons_array_size; ++counter) {
-        if (buttons_arr [counter].element_id == id) {
-            return &buttons_arr [counter];
-        }
-    }
-
-    return NULL;
-}
-
 enum item_type get_item_type_by_id (const int id,
-        const struct tui_button buttons_arr [], const int buttons_array_size) {
-    int counter;
+        const struct tui_button buttons_arr [], const int buttons_array_size,
+        const struct tui_textfield textfields_arr [], const int textfields_array_size) {
+    register int counter;
 
-    if (buttons_arr != NULL) {
+    if (buttons_arr) {
         for (counter = 0; counter < buttons_array_size; ++counter) {
             if (buttons_arr [counter].element_id == id) {
                 return BUTTON_TYPE;
             }
         }
+    } if (textfields_arr) {
+        for (counter = 0; counter < textfields_array_size; ++counter) {
+            if (textfields_arr [counter].element_id == id) {
+                return TEXTFIELD_TYPE;
+            }
+        }
     }
-
-    /* TODO: Textfields */
 
     return BUTTON_TYPE;
 }
@@ -190,7 +186,7 @@ bool is_mouse_click_out_window (const MEVENT * const mouse_event,
         const int window_y_pos, const int window_x_pos,
         const int window_height, const int window_width) {
     if ((mouse_event->y < window_y_pos || mouse_event->y >= window_y_pos + window_height ||
-            mouse_event->x < window_x_pos || mouse_event->x >= window_x_pos + window_width)) {
+                mouse_event->x < window_x_pos || mouse_event->x >= window_x_pos + window_width)) {
         return true;
     }
 
@@ -202,10 +198,10 @@ bool is_mouse_click_on_item (const MEVENT * const mouse_event,
         const struct tui_button buttons_arr [], const int buttons_array_size) {
     register int counter;
 
-    if (buttons_arr != NULL) {
+    if (buttons_arr) {
         for (counter = 0; counter < buttons_array_size; ++counter) {
             if (is_mouse_click_on_button (mouse_event, window_y_pos, window_x_pos,
-                    &buttons_arr [counter])) {
+                        &buttons_arr [counter])) {
                 *new_item_id = buttons_arr [counter].element_id;
 
                 return true;
@@ -218,7 +214,8 @@ bool is_mouse_click_on_item (const MEVENT * const mouse_event,
 
 void change_item (const int window_y_pos, const int window_x_pos,
         const int old_item_id, const int new_item_id,
-        const struct tui_button buttons_arr [], const int buttons_array_size) {
+        const struct tui_button buttons_arr [], const int buttons_array_size,
+        const struct tui_textfield textfields_arr [], const int textfields_array_size) {
     register int counter;
 
     if (buttons_arr) {
@@ -227,6 +224,14 @@ void change_item (const int window_y_pos, const int window_x_pos,
                 print_button (window_y_pos, window_x_pos, &buttons_arr [counter], false);
             } else if (new_item_id == buttons_arr [counter].element_id) {
                 print_button (window_y_pos, window_x_pos, &buttons_arr [counter], true);
+            }
+        }
+    } if (textfields_arr) {
+        for (counter = 0; counter < textfields_array_size; ++counter) {
+            if (old_item_id == textfields_arr [counter].element_id) {
+                print_textfield (window_y_pos, window_x_pos, &textfields_arr [counter], false);
+            } else if (new_item_id == textfields_arr [counter].element_id) {
+                print_textfield (window_y_pos, window_x_pos, &textfields_arr [counter], true);
             }
         }
     }

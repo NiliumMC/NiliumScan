@@ -9,6 +9,7 @@
 
 #include <ncurses.h>
 
+#include "tui/tui_textfield.h"
 #include "tui/tui_button.h"
 
 /* This number is the maximum
@@ -66,7 +67,8 @@ void print_clear_win_at (const int y_pos, const int x_pos,
  * Returns the ID of the new element. */
 int directional_change_item (const int window_y_pos, const int window_x_pos,
         const int current_item_id, const enum item_change_direction direction,
-        const struct tui_button buttons_arr [], const int array_size);
+        const struct tui_button buttons_arr [], const int array_size,
+        const struct tui_textfield textfields_arr [], const int textfields_array_size);
 
 /* Checks if the some pressed
  * character is the keybinding.
@@ -79,20 +81,13 @@ bool check_bind (const int ch, const enum item_type type,
         const struct item_change_direction_bindings bindings_arr [],
         const int array_size, enum item_change_direction *direction);
 
-/* Searches the button element by ID.
- *
- * If found, returns the pointer
- * to the element, otherwise NULL.
- */
-const struct tui_button * get_button_by_id (const int id,
-        const struct tui_button buttons_arr [], const int array_size);
-
 /* Iterate by all window elements
  * and returns the type of the
  * provided element ID.
  */
 enum item_type get_item_type_by_id (const int id,
-        const struct tui_button buttons_arr [], const int buttons_array_size);
+        const struct tui_button buttons_arr [], const int buttons_array_size,
+        const struct tui_textfield textfields_arr [], const int textfields_array_size);
 
 /* Returns true if the provided
  * key is the ENTER.
@@ -125,7 +120,8 @@ bool is_mouse_click_on_item (const MEVENT * const mouse_event,
 /* Highlights new window element */
 void change_item (const int window_y_pos, const int window_x_pos,
         const int old_item_id, const int new_item_id,
-        const struct tui_button buttons_arr [], const int buttons_array_size);
+        const struct tui_button buttons_arr [], const int buttons_array_size,
+        const struct tui_textfield textfields_arr [], const int textfields_array_size);
 
 /* Check if LMB is clicked.
  *
