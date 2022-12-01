@@ -62,8 +62,8 @@ bool is_mouse_click_on_textfield (const MEVENT * const mouse_event,
         const struct tui_textfield * const textfield) {
     if (mouse_event->y == window_y_pos + textfield->y_pos &&
             mouse_event->x >= window_x_pos + textfield->x_pos &&
-            mouse_event->x <= window_x_pos + textfield->x_pos + textfield->name_str_len
-            + 1 + textfield->textfield_len) {
+            mouse_event->x <= window_x_pos + textfield->x_pos +
+            textfield->name_str_len + textfield->textfield_len) {
         return true;
     }
 

@@ -195,14 +195,24 @@ bool is_mouse_click_out_window (const MEVENT * const mouse_event,
 
 bool is_mouse_click_on_item (const MEVENT * const mouse_event,
         const int window_y_pos, const int window_x_pos, int * new_item_id,
-        const struct tui_button buttons_arr [], const int buttons_array_size) {
+        const struct tui_button buttons_arr [], const int buttons_array_size,
+        const struct tui_textfield textfields_arr [], const int textfields_array_size) {
     register int counter;
 
     if (buttons_arr) {
         for (counter = 0; counter < buttons_array_size; ++counter) {
             if (is_mouse_click_on_button (mouse_event, window_y_pos, window_x_pos,
-                        &buttons_arr [counter])) {
+                    &buttons_arr [counter])) {
                 *new_item_id = buttons_arr [counter].element_id;
+
+                return true;
+            }
+        }
+    } if (textfields_arr) {
+        for (counter = 0; counter < textfields_array_size; ++counter) {
+            if (is_mouse_click_on_textfield (mouse_event, window_y_pos, window_x_pos,
+                    &textfields_arr [counter])) {
+                *new_item_id = textfields_arr [counter].element_id;
 
                 return true;
             }

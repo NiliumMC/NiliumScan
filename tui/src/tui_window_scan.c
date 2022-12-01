@@ -31,7 +31,7 @@ static const struct tui_button buttons_arr [BUTTONS_COUNT] = {
 };
 
 static const struct tui_textfield textfields_arr [TEXTFIELDS_COUNT] = {
-    { 2, 2, "IP", 2, 17, 25, 14, "127.0.0.1pumba", 2, 0, 0, 0, 0 }
+    { 2, 2, "IP", 2, 17, 25, 9, "127.0.0.1", 2, 0, 0, 0, 0 }
 };
 
 bool window_scan (const int ch, const int screen_height, const int screen_width,
@@ -56,8 +56,8 @@ bool window_scan (const int ch, const int screen_height, const int screen_width,
                 WINDOW_HEIGHT, WINDOW_WIDTH)) {
             return false;
         } else if (is_mouse_left_click (mouse_event)) {
-            if (is_mouse_click_on_item (mouse_event, window_y_pos, window_x_pos,
-                        &tmp_item_id, buttons_arr, BUTTONS_COUNT)) {
+            if (is_mouse_click_on_item (mouse_event, window_y_pos, window_x_pos, &tmp_item_id,
+                    buttons_arr, BUTTONS_COUNT, textfields_arr, TEXTFIELDS_COUNT)) {
                 if (current_item_id != tmp_item_id) {
                     change_item (window_y_pos, window_x_pos, current_item_id, tmp_item_id,
                             buttons_arr, BUTTONS_COUNT, textfields_arr, TEXTFIELDS_COUNT);
@@ -72,8 +72,8 @@ bool window_scan (const int ch, const int screen_height, const int screen_width,
                 }
             }
         } else if (is_mouse_left_double_click (mouse_event)) {
-            if (is_mouse_click_on_item (mouse_event, window_y_pos, window_x_pos,
-                        &tmp_item_id, buttons_arr, BUTTONS_COUNT)) {
+            if (is_mouse_click_on_item (mouse_event, window_y_pos, window_x_pos, &tmp_item_id,
+                    buttons_arr, BUTTONS_COUNT, textfields_arr, TEXTFIELDS_COUNT)) {
                 if (current_item_id != tmp_item_id) {
                     change_item (window_y_pos, window_x_pos, current_item_id, tmp_item_id,
                             buttons_arr, BUTTONS_COUNT, textfields_arr, TEXTFIELDS_COUNT);

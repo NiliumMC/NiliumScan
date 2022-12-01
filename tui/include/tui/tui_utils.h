@@ -115,7 +115,8 @@ bool is_mouse_click_out_window (const MEVENT * const mouse_event,
  */
 bool is_mouse_click_on_item (const MEVENT * const mouse_event,
         const int window_y_pos, const int window_x_pos, int *new_item_id,
-        const struct tui_button buttons_arr [], const int buttons_array_size);
+        const struct tui_button buttons_arr [], const int buttons_array_size,
+        const struct tui_textfield textfields_arr [], const int textfields_array_size);
 
 /* Highlights new window element */
 void change_item (const int window_y_pos, const int window_x_pos,
