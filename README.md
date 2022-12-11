@@ -27,7 +27,7 @@ The Author assume no responsibility for errors/omissions/damages resulting from 
 ## Manual Building
 Clone the repo go to the `build` directory.
 ```
-$ git clone https://github.com/0Magenta0/TMCScan
+$ git clone https://github.com/TuiMC/TMCScan
 $ cd TMCScan/build
 ```
 Now you can build it with `RELEASE` or `DEBUG` type.
