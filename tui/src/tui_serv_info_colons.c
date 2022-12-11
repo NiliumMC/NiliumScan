@@ -1,7 +1,7 @@
 /*
  *  tui/src/tui_serv_info_colons.c
  *  This file is a part of the TMCScan distribution released under GNU GPLv3
- *  Copyright (C) 2022 _Magenta_
+ *  Copyright (C) 2022 0Magenta0
  *  https://github.com/TuiMC/TMCScan
  */
 
