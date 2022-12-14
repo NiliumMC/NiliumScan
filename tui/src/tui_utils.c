@@ -131,17 +131,15 @@ bool check_bind (const int ch, const enum item_type type,
             if (ch == bindings_arr [counter_array].binds_arr [counter_bindings].bind) {
                 *direction = bindings_arr [counter_array].direction;
                 switch (type) {
-                    case BUTTON_TYPE: {
+                    case BUTTON_TYPE:
                         if (bindings_arr [counter_array].binds_arr [counter_bindings].is_for_buttons) {
                             return true;
                         } break;
-                    }
 
-                    case TEXTFIELD_TYPE: {
+                    case TEXTFIELD_TYPE:
                         if (bindings_arr [counter_array].binds_arr [counter_bindings].is_for_textfields) {
                             return true;
                         } break;
-                    }
 
                     default: return false;
                 }
