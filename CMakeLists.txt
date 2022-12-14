@@ -7,6 +7,10 @@ https://github.com/0Magenta0/TMCScan
 
 CMAKE_MINIMUM_REQUIRED (VERSION 3.10)
 
+IF (CMAKE_BINARY_DIR STREQUAL CMAKE_SOURCE_DIR)
+  MESSAGE (FATAL_ERROR "Please create the build directory and remove ${CMAKE_SOURCE_DIR}/CMakeCache.txt")
+ENDIF ()
+
 PROJECT (
   tmcscan
     VERSION 3.0
