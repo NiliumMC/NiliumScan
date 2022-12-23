@@ -11,6 +11,11 @@ IF (CMAKE_BINARY_DIR STREQUAL CMAKE_SOURCE_DIR)
   MESSAGE (FATAL_ERROR "Please create the build directory and remove ${CMAKE_SOURCE_DIR}/CMakeCache.txt")
 ENDIF ()
 
+
+#/////////////////////////////////////////////////////////#
+#              General Project Configuration              #
+#/////////////////////////////////////////////////////////#
+
 PROJECT (
   tmcscan
     VERSION 3.0
@@ -19,11 +24,15 @@ PROJECT (
 )
 
 SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
-
 SET (CMAKE_C_STANDARD 99)
 SET (CMAKE_C_EXTENSIONS ON)
 SET (CMAKE_C_STANDARD_REQUIRED ON)
 SET (CMAKE_BUILD_TYPE RELEASE)
+
+
+#/////////////////////////////////////////////////////////#
+#                   Debug Configuration                   #
+#/////////////////////////////////////////////////////////#
 
 IF (ISDEBUG)
   SET (CMAKE_BUILD_TYPE DEBUG)
@@ -45,6 +54,11 @@ IF (USE_SANITIZE)
         -fsanitize=undefined"
   )
 ENDIF ()
+
+
+#/////////////////////////////////////////////////////////#
+#                      Dependencies                       #
+#/////////////////////////////////////////////////////////#
 
 ADD_SUBDIRECTORY (cli)
 ADD_SUBDIRECTORY (tui)
