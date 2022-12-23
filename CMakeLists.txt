@@ -11,6 +11,7 @@ IF (CMAKE_BINARY_DIR STREQUAL CMAKE_SOURCE_DIR)
   MESSAGE (FATAL_ERROR "Please create the build directory and remove ${CMAKE_SOURCE_DIR}/CMakeCache.txt")
 ENDIF ()
 
+
 #--------=========================================--------#
 #              General Project Configuration              #
 #--------=========================================--------#
