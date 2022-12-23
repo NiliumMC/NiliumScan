@@ -1,9 +1,9 @@
-#[[
-CMakeLists.txt
-This file is a part of the TMCScan distribution released under GNU GPLv3
-Copyright (C) 2022 0Magenta0
-https://github.com/TuiMC/TMCScan
-]]
+#--------------==================================================--------------#
+#  CMakeLists.txt                                                              #
+#  This file is a part of the TMCScan distribution released under GNU GPLv3    #
+#  Copyright (C) 2022 0Magenta0                                                #
+#  https://github.com/TuiMC/TMCScan                                            #
+#--------------==================================================--------------#
 
 CMAKE_MINIMUM_REQUIRED (VERSION 3.10)
 
@@ -11,10 +11,9 @@ IF (CMAKE_BINARY_DIR STREQUAL CMAKE_SOURCE_DIR)
   MESSAGE (FATAL_ERROR "Please create the build directory and remove ${CMAKE_SOURCE_DIR}/CMakeCache.txt")
 ENDIF ()
 
-
-#/////////////////////////////////////////////////////////#
+#--------=========================================--------#
 #              General Project Configuration              #
-#/////////////////////////////////////////////////////////#
+#--------=========================================--------#
 
 PROJECT (
   tmcscan
@@ -30,9 +29,9 @@ SET (CMAKE_C_STANDARD_REQUIRED ON)
 SET (CMAKE_BUILD_TYPE RELEASE)
 
 
-#/////////////////////////////////////////////////////////#
+#--------=========================================--------#
 #                   Debug Configuration                   #
-#/////////////////////////////////////////////////////////#
+#--------=========================================--------#
 
 IF (ISDEBUG)
   SET (CMAKE_BUILD_TYPE DEBUG)
@@ -56,9 +55,9 @@ IF (USE_SANITIZE)
 ENDIF ()
 
 
-#/////////////////////////////////////////////////////////#
+#--------=========================================--------#
 #                      Dependencies                       #
-#/////////////////////////////////////////////////////////#
+#--------=========================================--------#
 
 ADD_SUBDIRECTORY (cli)
 ADD_SUBDIRECTORY (tui)
