@@ -15,7 +15,6 @@ ENDIF ()
 #--------=========================================--------#
 #              General Project Configuration              #
 #--------=========================================--------#
-
 PROJECT (
   tmcscan
     VERSION 3.0
@@ -33,7 +32,6 @@ SET (CMAKE_BUILD_TYPE RELEASE)
 #--------=========================================--------#
 #                   Debug Configuration                   #
 #--------=========================================--------#
-
 IF (ISDEBUG)
   SET (CMAKE_BUILD_TYPE DEBUG)
   SET (
@@ -59,7 +57,6 @@ ENDIF ()
 #--------=========================================--------#
 #                      Dependencies                       #
 #--------=========================================--------#
-
 ADD_SUBDIRECTORY (cli)
 ADD_SUBDIRECTORY (tui)
 ADD_SUBDIRECTORY (scan)
