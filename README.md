@@ -63,5 +63,5 @@ $ apt install json-c json-c-static
 
 ### LICENSE
 TMCScan uses GNU GPLv3 license.  
-Copyright (C) 2022 0Magenta0
+Copyright (C) 2022  0Magenta0
 
