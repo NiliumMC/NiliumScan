@@ -26,14 +26,18 @@ SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
 SET (CMAKE_C_STANDARD 99)
 SET (CMAKE_C_EXTENSIONS ON)
 SET (CMAKE_C_STANDARD_REQUIRED ON)
-SET (CMAKE_BUILD_TYPE RELEASE)
+
+IF (NOT CMAKE_BUILD_TYPE)
+  MESSAGE (STATUS "Build type is not specified! Setting up to Release.")
+  SET (CMAKE_BUILD_TYPE Release)
+ENDIF (NOT CMAKE_BUILD_TYPE)
 
 
 #--------=========================================--------#
 #                   Debug Configuration                   #
 #--------=========================================--------#
-IF (ISDEBUG)
-  SET (CMAKE_BUILD_TYPE DEBUG)
+IF (CMAKE_BUILD_TYPE MATCHES DEBUG)
+  MESSAGE (STATUS "CMAKE_BUILD_TYPE is Debug! Setting up the Warning flags...")
   SET (
     CMAKE_C_FLAGS
       "${CMAKE_C_FLAGS} \
@@ -42,30 +46,21 @@ IF (ISDEBUG)
         -Wredundant-decls -Wsign-conversion \
         -Waggregate-return -Wswitch-enum"
   )
-ENDIF ()
+ENDIF (CMAKE_BUILD_TYPE MATCHES DEBUG)
 
 IF (USE_SANITIZE)
+  MESSAGE (STATUS "USE_SANITIZE is ON! Setting up the Sanitize flags...")
   SET (
     CMAKE_C_FLAGS
       "${CMAKE_C_FLAGS} \
         -fsanitize=address -fsanitize=leak \
         -fsanitize=undefined"
   )
-ENDIF ()
+ENDIF (USE_SANITIZE)
 
 
 #--------=========================================--------#
 #                      Dependencies                       #
 #--------=========================================--------#
-ADD_SUBDIRECTORY (cli)
-ADD_SUBDIRECTORY (tui)
-ADD_SUBDIRECTORY (scan)
 ADD_EXECUTABLE (${CMAKE_PROJECT_NAME} main.c)
-
-TARGET_LINK_LIBRARIES (
-  ${CMAKE_PROJECT_NAME}
-    PRIVATE tmc::cli
-    PRIVATE tmc::tui
-    PRIVATE tmc::scan
-)
 

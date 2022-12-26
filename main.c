@@ -10,6 +10,9 @@
 int
 main(int argc, char **argv)
 {
+    if (argc) {
+        puts (argv [0]);
+    }
 
     return 0;
 }
