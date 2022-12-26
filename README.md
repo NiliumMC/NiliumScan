@@ -41,6 +41,10 @@ $ ./builder.sh CR
 $ ./builder.sh CD
 ```
 And in the build folder you can see `tmcscan` binary.  
+Also you can enable the Sanitize with Debug mode.
+```
+$ ./builder.sh CSD
+```
   
 Note: If you are using Termux you also need to install Json-C packages.
 ```
