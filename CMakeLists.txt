@@ -48,6 +48,7 @@ IF (CMAKE_BUILD_TYPE MATCHES DEBUG)
   )
 ENDIF (CMAKE_BUILD_TYPE MATCHES DEBUG)
 
+# TODO: Make it with option
 IF (USE_SANITIZE)
   MESSAGE (STATUS "USE_SANITIZE is ON! Setting up the Sanitize flags...")
   SET (
