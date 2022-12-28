@@ -5,7 +5,7 @@
 #  https://github.com/TuiMC/TMCScan                                            #
 #--------------==================================================--------------#
 
-CMAKE_MINIMUM_REQUIRED (VERSION 3.10 FATAL_ERROR)
+CMAKE_MINIMUM_REQUIRED (VERSION 3.25 FATAL_ERROR)
 
 IF (CMAKE_BINARY_DIR STREQUAL CMAKE_SOURCE_DIR)
   MESSAGE (FATAL_ERROR "Please create the build directory and remove ${CMAKE_SOURCE_DIR}/CMakeCache.txt")
@@ -23,7 +23,7 @@ PROJECT (
 )
 
 SET (CMAKE_EXPORT_COMPILE_COMMANDS ON)
-SET (CMAKE_C_STANDARD 11)
+SET (CMAKE_C_STANDARD 23)
 SET (CMAKE_C_EXTENSIONS OFF)
 SET (CMAKE_C_STANDARD_REQUIRED ON)
 
