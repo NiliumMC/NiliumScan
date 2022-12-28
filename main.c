@@ -8,7 +8,7 @@
 #include <stdio.h>
 
 int
-main(int argc, char **argv)
+main(int argc, char *argv[])
 {
     if (argc) {
         puts (argv [0]);
