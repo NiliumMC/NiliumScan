@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-#--------------==================================================--------------#
-#  license-check.sh                                                            #
-#  This file is a part of the TMCScan distribution released under GNU GPLv3    #
-#  Copyright (C) 2022  0Magenta0                                               #
-#  https://github.com/TuiMC/TMCScan                                            #
-#--------------==================================================--------------#
+#---------------==================================================---------------#
+#  license-check.sh                                                              #
+#  This file is a part of the NiliumScan distribution released under GNU GPLv3   #
+#  Copyright (C) 2022-2023  0Magenta0                                            #
+#  https://github.com/TuiMC/NiliumScan                                           #
+#---------------==================================================---------------#
 
 # File name shouldn't contains the whitespace or wildcards.
 for correct_path in $(find * -type f -name '*.c' -or -name '*.h'); do
@@ -18,7 +18,7 @@ for correct_path in $(find * -type f -name '*.c' -or -name '*.h'); do
         continue
     fi
 
-    if [ 'https://github.com/TuiMC/TMCScan' != "$(awk 'BEGIN{} {if(NR == 5){print substr($0,5)}}' $correct_path)" ]; then
+    if [ 'https://github.com/TuiMC/NiliumScan' != "$(awk 'BEGIN{} {if(NR == 5){print substr($0,5)}}' $correct_path)" ]; then
         echo -e "[\x1B[31mFAIL - LINK\x1B[0m] $correct_path"
         continue
     fi

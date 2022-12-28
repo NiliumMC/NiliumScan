@@ -1,9 +1,9 @@
-#--------------==================================================--------------#
-#  CMakeLists.txt                                                              #
-#  This file is a part of the TMCScan distribution released under GNU GPLv3    #
-#  Copyright (C) 2022  0Magenta0                                               #
-#  https://github.com/TuiMC/TMCScan                                            #
-#--------------==================================================--------------#
+#---------------==================================================---------------#
+#  CMakeLists.txt                                                                #
+#  This file is a part of the NiliumScan distribution released under GNU GPLv3   #
+#  Copyright (C) 2022-2023  0Magenta0                                            #
+#  https://github.com/TuiMC/NiliumScan                                           #
+#---------------==================================================---------------#
 
 CMAKE_MINIMUM_REQUIRED (VERSION 3.25 FATAL_ERROR)
 
@@ -16,7 +16,7 @@ ENDIF ()
 #              General Project Configuration              #
 #--------=========================================--------#
 PROJECT (
-  tmcscan
+  niliumscan
     VERSION 3.0
     DESCRIPTION "Advanced TUI Minecraft Port Scanner"
     LANGUAGES C
